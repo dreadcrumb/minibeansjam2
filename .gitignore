@@ -28,6 +28,9 @@ sysinfo.txt
 *.pidb
 .DS_Store
 
+# Rider
+.idea
+
 ###
 # OS generated
 ###
