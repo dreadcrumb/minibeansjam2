@@ -166,6 +166,10 @@ public class FieldOfView : MonoBehaviour
 			viewMesh.triangles = triangles;
 			viewMesh.RecalculateNormals();
 		}
+		else
+		{
+			viewMesh.Clear();
+		}
 	}
 
 

@@ -23,14 +23,14 @@ public class GameManager : MonoBehaviour
 		RaycastHit hit;
 		if (Input.GetMouseButtonDown(1))
 		{
-
+			ClearSelectedEnemies();
 			clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			if (Physics.Raycast(clickRay, out hit))
 			{
 				var colliderGameObject = hit.collider.gameObject;
 				if (colliderGameObject.CompareTag(ZOMBIE_TAG))
 				{
-					ClearSelectedEnemies();
+					
 					colliderGameObject.GetComponent<FieldOfView>().SetSelected(true);
 				}
 			}
