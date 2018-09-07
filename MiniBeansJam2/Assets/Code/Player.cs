@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     public GameObject SelectedItem;
     
     private NavMeshAgent _agent;
-    private bool _hasFinished = true;
+    private bool _pickedUpItem = false;
 
     public Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
 
@@ -46,14 +46,12 @@ public class Player : MonoBehaviour
                 {
                     CurrentTarget = hit.point;
                     _agent.SetDestination(CurrentTarget);
-                    _hasFinished = false;
                 }
             }
         }
 
-        if (!_hasFinished && !_agent.hasPath) // TODO there should be a better way!
+        if (_agent.remainingDistance < PickupRange && !_pickedUpItem)
         {
-            _hasFinished = true;
             OnPathFinish();
         }
     }
@@ -64,6 +62,7 @@ public class Player : MonoBehaviour
         {
             AddItem(SelectedItem);
             SelectedItem = null;
+            _pickedUpItem = true;
         }
     }
 
@@ -77,7 +76,7 @@ public class Player : MonoBehaviour
         {
             _agent.SetDestination(colliderGameObject.transform.position);
             SelectedItem = colliderGameObject;
-            _hasFinished = false;
+            _pickedUpItem = false;
         }
     }
 
