@@ -14,6 +14,9 @@ public class Zombie : MonoBehaviour
     private Vector3 _currentWaypoint;
     private NavMeshAgent _agent;
 
+    public GameObject Target;
+    private double _lastTargetUpdateTick = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -23,16 +26,28 @@ public class Zombie : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_agent.hasPath)
+        if (Target == null)
         {
-            WaitTime += Time.deltaTime;
-            if (NextWaypointStart <= WaitTime)
+            if (!_agent.hasPath)
             {
-                CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
-                _currentWaypoint = Waypoints[CurrentWaypointIndex];
-                _agent.SetDestination(_currentWaypoint);
-                WaitTime = 0;
-                NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
+                WaitTime += Time.deltaTime;
+                if (NextWaypointStart <= WaitTime)
+                {
+                    CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
+                    _currentWaypoint = Waypoints[CurrentWaypointIndex];
+                    _agent.SetDestination(_currentWaypoint);
+                    WaitTime = 0;
+                    NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
+                }
+            }
+        }
+        else
+        {
+            _lastTargetUpdateTick += Time.deltaTime;
+            if (_lastTargetUpdateTick > 1)
+            {
+                _agent.SetDestination(Target.transform.position);
+                _lastTargetUpdateTick = 0;
             }
         }
     }
