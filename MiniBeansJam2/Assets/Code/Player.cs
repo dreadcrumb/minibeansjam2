@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
                 {
                     CurrentTarget = hit.point;
                     _agent.SetDestination(CurrentTarget);
+                    _pickedUpItem = false;
                 }
             }
         }
