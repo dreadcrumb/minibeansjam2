@@ -2,4 +2,4 @@
 {
     AREA,
     WAYPOINTS
-}
+}		

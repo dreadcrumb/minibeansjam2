@@ -20,13 +20,19 @@ public class FieldOfView : MonoBehaviour
 	public float edgeDstThreshold;
 
 	public MeshFilter viewMeshFilter;
-	Mesh viewMesh;
+
+
+	private Mesh viewMesh;
+	private ZombieStates zombieState;
+	private GameObject enemyTarget;
 
 	void Start()
 	{
 		viewMesh = new Mesh();
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
+
+		zombieState = ZombieStates.IDLE;
 
 		StartCoroutine("FindTargetsWithDelay", .2f);
 	}
@@ -46,6 +52,25 @@ public class FieldOfView : MonoBehaviour
 		DrawFieldOfView();
 	}
 
+	void Update()
+	{
+		switch (zombieState)
+		{
+			case ZombieStates.IDLE:
+				break;
+			case ZombieStates.FOLLOWING:
+				if (enemyTarget != null)
+				{
+					var zombieComponent = GetComponentInParent<Zombie>();
+					zombieComponent.Target = enemyTarget;
+				}
+				
+				break;
+			case ZombieStates.ALARMED:
+				break;
+		}
+	}
+
 	void FindVisibleTargets()
 	{
 		visibleTargets.Clear();
@@ -60,8 +85,13 @@ public class FieldOfView : MonoBehaviour
 				float dstToTarget = Vector3.Distance(transform.position, target.position);
 				if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 				{
-					visibleTargets.Add(target);
+					//visibleTargets.Add(target);
+
+					zombieState = ZombieStates.FOLLOWING;
+					enemyTarget = target.gameObject;
+					Debug.DrawLine(transform.position, target.position, Color.black);
 				}
+
 			}
 		}
 	}
