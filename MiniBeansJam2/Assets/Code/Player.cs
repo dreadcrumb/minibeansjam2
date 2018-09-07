@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
     public Vector3 CurrentTarget;
     public Camera Camera;
     public double PickupRange = 1;
+    public int ZombificationLevel = 0;
+    public int Health = 100;
+    
     private NavMeshAgent _agent;
 
     public Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
