@@ -41,4 +41,4 @@ ehthumbs.db
 Thumbs.db
 
 # Ignore Rider
-Testing/Assets/Plugins/Editor/JetBrains*
+MiniBeansJam2/Assets/Plugins/Editor/JetBrains*
