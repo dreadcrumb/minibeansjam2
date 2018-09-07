@@ -82,17 +82,25 @@ public class Zombie : MonoBehaviour
         CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
         _currentWaypoint = Waypoints[CurrentWaypointIndex];
         _agent.SetDestination(_currentWaypoint);
-        WaitTime = 0;
-        NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
+        ResetWaitTime();
     }
 
     private void MoveToNextPositionInArea()
     {
-        var result = new Vector3(Random.Range(-AreaRange, AreaRange), 0, Random.Range(-AreaRange, AreaRange));
-        result += AreaCenter;
+        Vector3 result;
         NavMeshHit hit;
-        NavMesh.SamplePosition(result, out hit, AreaRange, 1);
+        do
+        {
+            result = AreaCenter + Random.insideUnitSphere * AreaRange;
+        } while(!NavMesh.SamplePosition(result, out hit, 1, NavMesh.AllAreas));
         _agent.SetDestination(hit.position);
+        ResetWaitTime();
+    }
+
+    private void ResetWaitTime()
+    {
+        WaitTime = 0;
+        NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
     }
 
     private void OnTriggerEnter(Collider other)
