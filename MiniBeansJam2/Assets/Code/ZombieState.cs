@@ -1,4 +1,4 @@
-﻿public enum ZombieStates
+﻿public enum ZombieState
 {
 	IDLE,
 	FOLLOWING,

@@ -23,7 +23,7 @@ public class FieldOfView : MonoBehaviour
 
 
 	private Mesh viewMesh;
-	private ZombieStates zombieState;
+	private ZombieState zombieState;
 	private GameObject enemyTarget;
 
 	void Start()
@@ -32,7 +32,7 @@ public class FieldOfView : MonoBehaviour
 		viewMesh.name = "View Mesh";
 		viewMeshFilter.mesh = viewMesh;
 
-		zombieState = ZombieStates.IDLE;
+		zombieState = ZombieState.IDLE;
 
 		StartCoroutine("FindTargetsWithDelay", .2f);
 	}
@@ -56,17 +56,17 @@ public class FieldOfView : MonoBehaviour
 	{
 		switch (zombieState)
 		{
-			case ZombieStates.IDLE:
+			case ZombieState.IDLE:
 				break;
-			case ZombieStates.FOLLOWING:
+			case ZombieState.FOLLOWING:
 				if (enemyTarget != null)
 				{
 					var zombieComponent = GetComponentInParent<Zombie>();
 					zombieComponent.Target = enemyTarget;
 				}
-				
+
 				break;
-			case ZombieStates.ALARMED:
+			case ZombieState.ALARMED:
 				break;
 		}
 	}
@@ -87,11 +87,20 @@ public class FieldOfView : MonoBehaviour
 				{
 					//visibleTargets.Add(target);
 
-					zombieState = ZombieStates.FOLLOWING;
+					zombieState = ZombieState.FOLLOWING;
 					enemyTarget = target.gameObject;
+					GetComponentInParent<Zombie>().zombieState = zombieState;
 					Debug.DrawLine(transform.position, target.position, Color.black);
 				}
-
+				else
+				{
+					if (zombieState == ZombieState.FOLLOWING)
+					{
+						zombieState = ZombieState.ALARMED;
+						GetComponentInParent<Zombie>().zombieState = zombieState;
+						enemyTarget = null;
+					}
+				}
 			}
 		}
 	}
