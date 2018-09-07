@@ -24,8 +24,8 @@ public class Zombie : MonoBehaviour
 	public GameObject Target;
 	public double AttackSpeed = 1;
 	public int ZombificationFactor = 5;
-	public int Damage = 10;	
-	
+	public int Damage = 10;
+
 	public ZombieState zombieState;
 
 	private double _lastTargetUpdateTick = 0;
@@ -58,91 +58,112 @@ public class Zombie : MonoBehaviour
 		else if (zombieState == ZombieState.FOLLOWING)
 		{
 			_lastTargetUpdateTick += Time.deltaTime;
-			if (_lastTargetUpdateTick > 0.3)
+			if (_lastTargetUpdateTick > 1.0)
 			{
 				_agent.SetDestination(Target.transform.position);
 				_lastTargetUpdateTick = 0;
 			}
-		} else if (zombieState == ZombieState.ALARMED)
-		{
-			// TODO: make zombie look around
-			_agent.SetDestination(null);
 		}
+		else if (zombieState == ZombieState.ALARMED)
+		{
+			_lastTargetUpdateTick += Time.deltaTime;
+			// TODO: timer for when zombies stop looking
+			if (_lastTargetUpdateTick > 1.0)
+			{
+				LookAround();
+			}
 
-		_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
+			_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
+		}
 	}
 
 	private void MoveToNextPosition()
-	{
-		switch (WanderMode)
 		{
-			case WanderMode.AREA:
-				MoveToNextPositionInArea();
-				break;
-			case WanderMode.WAYPOINTS:
-				MoveToNextWayPoint();
-				break;
+			switch (WanderMode)
+			{
+				case WanderMode.AREA:
+					MoveToNextPositionInArea();
+					break;
+				case WanderMode.WAYPOINTS:
+					MoveToNextWayPoint();
+					break;
+			}
+		}
+
+		private void LookAround()
+		{
+			// TODO: make this good
+			int rnd = Random.Range(0, 100);
+			int rotation = Random.Range(0, 100);
+			if (rnd > 50)
+			{
+				_agent.SetDestination(Vector3.left);
+			}
+			else
+			{
+				_agent.SetDestination(Vector3.right);
+			}
+
+		}
+
+		private void MoveToNextWayPoint()
+		{
+			CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
+			_currentWaypoint = Waypoints[CurrentWaypointIndex];
+			_agent.SetDestination(_currentWaypoint);
+			ResetWaitTime();
+		}
+
+		private void MoveToNextPositionInArea()
+		{
+			Vector3 result;
+			NavMeshHit hit;
+			do
+			{
+				result = AreaCenter + Random.insideUnitSphere * AreaRange;
+			} while (!NavMesh.SamplePosition(result, out hit, 1, NavMesh.AllAreas));
+			_agent.SetDestination(hit.position);
+			ResetWaitTime();
+		}
+
+		private void ResetWaitTime()
+		{
+			WaitTime = 0;
+			NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
+		}
+
+		private void OnTriggerEnter(Collider other)
+		{
+			if (CanAttack(other.gameObject))
+			{
+				Attack(other.gameObject);
+			}
+		}
+
+		private void Attack(GameObject otherGameObject)
+		{
+			// TODO play attack animation
+			_attackCooldown = AttackSpeed;
+			var player = otherGameObject.GetComponent<Player>();
+			player.ZombificationLevel += ZombificationFactor;
+			player.Health -= Damage;
+		}
+
+		private bool CanAttack()
+		{
+			return _attackCooldown <= 0;
+		}
+
+		private bool CanAttack(GameObject other)
+		{
+			return CanAttack() && other.gameObject.CompareTag(PLAYER_TAG);
+		}
+
+		private void OnTriggerStay(Collider other)
+		{
+			if (CanAttack(other.gameObject))
+			{
+				Attack(other.gameObject);
+			}
 		}
 	}
-
-	private void MoveToNextWayPoint()
-	{
-		CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
-		_currentWaypoint = Waypoints[CurrentWaypointIndex];
-		_agent.SetDestination(_currentWaypoint);
-		ResetWaitTime();
-	}
-
-	private void MoveToNextPositionInArea()
-	{
-		Vector3 result;
-		NavMeshHit hit;
-		do
-		{
-			result = AreaCenter + Random.insideUnitSphere * AreaRange;
-		} while (!NavMesh.SamplePosition(result, out hit, 1, NavMesh.AllAreas));
-		_agent.SetDestination(hit.position);
-		ResetWaitTime();
-	}
-
-	private void ResetWaitTime()
-	{
-		WaitTime = 0;
-		NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (CanAttack(other.gameObject))
-		{
-			Attack(other.gameObject);
-		}
-	}
-
-	private void Attack(GameObject otherGameObject)
-	{
-		// TODO play attack animation
-		_attackCooldown = AttackSpeed;
-		var player = otherGameObject.GetComponent<Player>();
-		player.ZombificationLevel += ZombificationFactor;
-		player.Health -= Damage;
-	}
-
-	private bool CanAttack()
-	{
-		return _attackCooldown <= 0;
-	}
-
-	private bool CanAttack(GameObject other)
-	{
-		return CanAttack() && other.gameObject.CompareTag(PLAYER_TAG);
-	}
-
-	private void OnTriggerStay(Collider other)
-	{
-		if (CanAttack(other.gameObject))
-		{
-			Attack(other.gameObject);
-		}
-	}
-}

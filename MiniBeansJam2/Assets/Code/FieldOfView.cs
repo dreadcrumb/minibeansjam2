@@ -25,6 +25,7 @@ public class FieldOfView : MonoBehaviour
 	private Mesh viewMesh;
 	private ZombieState zombieState;
 	private GameObject enemyTarget;
+	private bool showFOV;
 
 	void Start()
 	{
@@ -107,60 +108,64 @@ public class FieldOfView : MonoBehaviour
 
 	void DrawFieldOfView()
 	{
-		int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
-		float stepAngleSize = viewAngle / stepCount;
-		List<Vector3> viewPoints = new List<Vector3>();
-		ViewCastInfo oldViewCast = new ViewCastInfo();
-		for (int i = 0; i <= stepCount; i++)
+		if (showFOV)
 		{
-			float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
-			ViewCastInfo newViewCast = ViewCast(angle);
-
-			if (i > 0)
+			int stepCount = Mathf.RoundToInt(viewAngle * meshResolution);
+			float stepAngleSize = viewAngle / stepCount;
+			List<Vector3> viewPoints = new List<Vector3>();
+			ViewCastInfo oldViewCast = new ViewCastInfo();
+			for (int i = 0; i <= stepCount; i++)
 			{
-				bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
-				if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThresholdExceeded))
+				float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
+				ViewCastInfo newViewCast = ViewCast(angle);
+
+				if (i > 0)
 				{
-					EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
-					if (edge.pointA != Vector3.zero)
+					bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
+					if (oldViewCast.hit != newViewCast.hit || (oldViewCast.hit && newViewCast.hit && edgeDstThresholdExceeded))
 					{
-						viewPoints.Add(edge.pointA);
+						EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+						if (edge.pointA != Vector3.zero)
+						{
+							viewPoints.Add(edge.pointA);
+						}
+
+						if (edge.pointB != Vector3.zero)
+						{
+							viewPoints.Add(edge.pointB);
+						}
 					}
-					if (edge.pointB != Vector3.zero)
-					{
-						viewPoints.Add(edge.pointB);
-					}
+
 				}
 
+
+				viewPoints.Add(newViewCast.point);
+				oldViewCast = newViewCast;
 			}
 
+			int vertexCount = viewPoints.Count + 1;
+			Vector3[] vertices = new Vector3[vertexCount];
+			int[] triangles = new int[(vertexCount - 2) * 3];
 
-			viewPoints.Add(newViewCast.point);
-			oldViewCast = newViewCast;
-		}
-
-		int vertexCount = viewPoints.Count + 1;
-		Vector3[] vertices = new Vector3[vertexCount];
-		int[] triangles = new int[(vertexCount - 2) * 3];
-
-		vertices[0] = Vector3.zero;
-		for (int i = 0; i < vertexCount - 1; i++)
-		{
-			vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
-
-			if (i < vertexCount - 2)
+			vertices[0] = Vector3.zero;
+			for (int i = 0; i < vertexCount - 1; i++)
 			{
-				triangles[i * 3] = 0;
-				triangles[i * 3 + 1] = i + 1;
-				triangles[i * 3 + 2] = i + 2;
+				vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+
+				if (i < vertexCount - 2)
+				{
+					triangles[i * 3] = 0;
+					triangles[i * 3 + 1] = i + 1;
+					triangles[i * 3 + 2] = i + 2;
+				}
 			}
+
+			viewMesh.Clear();
+
+			viewMesh.vertices = vertices;
+			viewMesh.triangles = triangles;
+			viewMesh.RecalculateNormals();
 		}
-
-		viewMesh.Clear();
-
-		viewMesh.vertices = vertices;
-		viewMesh.triangles = triangles;
-		viewMesh.RecalculateNormals();
 	}
 
 
@@ -245,4 +250,8 @@ public class FieldOfView : MonoBehaviour
 		}
 	}
 
+	public void SetSelected(bool _selected)
+	{
+		showFOV = _selected;
+	}
 }
