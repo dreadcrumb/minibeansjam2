@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
                 {
                     PickUpItem(colliderGameObject);
                 }
-                else if (colliderGameObject.CompareTag(GROUND_TAG) && !_agent.hasPath)
+                else if (colliderGameObject.CompareTag(GROUND_TAG))
                 {
                     CurrentTarget = hit.point;
                     _agent.SetDestination(CurrentTarget);
