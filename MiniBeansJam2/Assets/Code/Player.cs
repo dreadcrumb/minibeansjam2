@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
 	public double ZombificationPassiveIncrement;
 	public double ZombificationDamageThreshold = 50;
 	public double ZombificationDamage = 0.1;
+	public GameObject ZombiePrefab;
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
@@ -77,10 +78,25 @@ public class Player : MonoBehaviour
 		    }
 	    }
 
-	    ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
-	    if (ZombificationLevel > ZombificationDamageThreshold)
+	    if (Health > 0)
 	    {
-		    Health = Math.Max(Health - ZombificationDamage, 0);
+		    ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
+		    if (ZombificationLevel > ZombificationDamageThreshold)
+		    {
+			    Health = Math.Max(Health - ZombificationDamage, 0);
+		    }
+	    }
+
+	    if (ZombificationLevel >= 100)
+	    {
+		    var position = transform.position;
+		    var rotation = transform.rotation;
+		    var createdZombie = Instantiate(ZombiePrefab, position, rotation);
+		    var zombie = createdZombie.GetComponent<Zombie>();
+		    zombie.WanderMode = WanderMode.AREA;
+		    zombie.AreaCenter = transform.position;
+		    zombie.AreaRange = 5;
+		    Destroy(gameObject);
 	    }
     }
 
