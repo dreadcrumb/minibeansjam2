@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Zombie : MonoBehaviour
@@ -25,9 +26,15 @@ public class Zombie : MonoBehaviour
 	public double AttackSpeed = 1;
 	public int ZombificationFactor = 5;
 	public int Damage = 10;
+	public int searchTime;
+
+	public Image QuestionMarkOutline;
+	public Image QuestionMarkFill;
+	public Image ExclamationMOutline;
+	public Image ExclamationMFill;
 
 	private ZombieState zombieState;
-	public int searchTime;
+
 
 	private SearchTimer searchTimer;
 	private double _lastTargetUpdateTick = 0;
@@ -41,57 +48,83 @@ public class Zombie : MonoBehaviour
 		_agent = GetComponent<NavMeshAgent>();
 		zombieState = ZombieState.IDLE;
 		searchTimer = new SearchTimer();
+		SetMarkVisibilityAndPosition(false, false);
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (zombieState == ZombieState.IDLE)
+		switch (zombieState)
 		{
-			if (!_agent.hasPath)
-			{
-				WaitTime += Time.deltaTime;
-				if (NextWaypointStart <= WaitTime)
+			case (ZombieState.IDLE):
+				if (!_agent.hasPath)
 				{
-					MoveToNextPosition();
+					WaitTime += Time.deltaTime;
+					if (NextWaypointStart <= WaitTime)
+					{
+						MoveToNextPosition();
+					}
 				}
-			}
-		}
-		else if (zombieState == ZombieState.FOLLOWING)
-		{
-			_lastTargetUpdateTick += Time.deltaTime;
-			if (_lastTargetUpdateTick > 1.0)
-			{
-				_agent.SetDestination(Target.transform.position);
-				_lastTargetUpdateTick = 0;
-			}
-		}
-		else if (zombieState == ZombieState.ALARMED)
-		{
-			_lastTargetUpdateTick += Time.deltaTime;
-			// TODO: timer for when zombies stop looking
-			if (!searchTimer.IsTimerRunning())
-			{
-				searchTimer.StartTimer();
-			}
-			else if (searchTimer.GetElapsed() > searchTime)
-			{
-				var x = searchTimer.GetElapsed();
-				searchTimer.StopTimer();
-				searchTimer.ResetTimer();
-				zombieState = ZombieState.IDLE;
-				GetComponentInParent<FieldOfView>().ViewSpeed = 9;
-				//MoveToNextPosition();
-			}
 
-			if (_lastTargetUpdateTick > 1.0)
-			{
-				LookAround();
-			}
+				// hide question and exclamation mark
+				SetMarkVisibilityAndPosition(false, false);
 
+				break;
+			case ZombieState.FOLLOWING:
+				_lastTargetUpdateTick += Time.deltaTime;
+				if (_lastTargetUpdateTick > 1.0)
+				{
+					_agent.SetDestination(Target.transform.position);
+					_lastTargetUpdateTick = 0;
+				}
+
+				// hide question mark and show exclamation mark
+				SetMarkVisibilityAndPosition(true, false);
+
+				break;
+			case ZombieState.ALARMED:
+				_lastTargetUpdateTick += Time.deltaTime;
+				// TODO: timer for when zombies stop looking
+				if (!searchTimer.IsTimerRunning())
+				{
+					searchTimer.StartTimer();
+				}
+				else if (searchTimer.GetElapsed() > searchTime)
+				{
+					var x = searchTimer.GetElapsed();
+					searchTimer.StopTimer();
+					searchTimer.ResetTimer();
+					zombieState = ZombieState.IDLE;
+					GetComponentInParent<FieldOfView>().ViewSpeed = 9;
+				}
+
+				if (_lastTargetUpdateTick > 1.0)
+				{
+					LookAround();
+				}
+
+				// hide exclamation mark and show question mark
+				SetMarkVisibilityAndPosition(false, true);
+				break;
 		}
+
 		_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
 		GetComponent<Animator>().SetBool("Walking", _agent.remainingDistance > _agent.radius);
+	}
+
+	private void SetMarkVisibilityAndPosition(bool questionMarkVisibility, bool exclamationMarkVisibility)
+	{
+		QuestionMarkFill.enabled = questionMarkVisibility;
+		QuestionMarkOutline.enabled = questionMarkVisibility;
+
+		ExclamationMFill.enabled = exclamationMarkVisibility;
+		ExclamationMOutline.enabled = exclamationMarkVisibility;
+
+		Vector3 namePos = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 0, 1.5f));
+		QuestionMarkFill.transform.position = namePos;
+		QuestionMarkOutline.transform.position = namePos;
+		ExclamationMFill.transform.position = namePos;
+		ExclamationMOutline.transform.position = namePos;
 	}
 
 	private void MoveToNextPosition()
