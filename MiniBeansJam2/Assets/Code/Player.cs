@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		Items[ItemType.PILLS] = 0;
+		Items[ItemType.PILLS] = 1;
 		Items[ItemType.TRAPS] = 0;
 		Items[ItemType.STONES] = 3;
 		_agent = GetComponent<NavMeshAgent>();
@@ -163,6 +163,11 @@ public class Player : MonoBehaviour
 
 	public void TakePill()
 	{
+		if (Items[ItemType.PILLS] <= 0)
+		{
+			return;
+		}
+		
 		Items[ItemType.PILLS] -= 1;
 		ZombificationLevel = Math.Max(ZombificationLevel - 20, 0);
 	}
@@ -182,8 +187,14 @@ public class Player : MonoBehaviour
 
 	public void ThrowStone(Vector3 location)
 	{
+		if (Items[ItemType.STONES] <= 0)
+		{
+			return;
+		}
+		
 		var targetVector = location - transform.position;
 		var stone = Instantiate(Stone, transform.position + new Vector3(0, 1, 0), transform.rotation);
 		stone.GetComponent<Rigidbody>().AddForce(targetVector);
+		Items[ItemType.STONES] -= 1;
 	}
 }
