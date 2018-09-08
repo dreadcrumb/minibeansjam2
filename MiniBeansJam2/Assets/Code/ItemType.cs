@@ -2,5 +2,7 @@ public enum ItemType
 {
     PILLS,
     TRAPS,
-    STONES
+    STONES,
+    EXPLOSIVE,
+    ARROW
 }
