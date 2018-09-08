@@ -9,46 +9,46 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1443562025997850}
+  m_RootGameObject: {fileID: 1732513951937304}
   m_IsPrefabAsset: 1
---- !u!1 &1443562025997850
+--- !u!1 &1732513951937304
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4164487116000214}
-  - component: {fileID: 33757453095326836}
-  - component: {fileID: 23387137157599666}
-  - component: {fileID: 95941684933737282}
-  - component: {fileID: 54527370934920168}
+  - component: {fileID: 4039419736237892}
+  - component: {fileID: 33011231547588878}
+  - component: {fileID: 23318652184715340}
+  - component: {fileID: 95031683011233718}
+  - component: {fileID: 54267844011636436}
   m_Layer: 0
-  m_Name: Heiltrank
+  m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4164487116000214
+--- !u!4 &4039419736237892
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1443562025997850}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 15.799711, y: 4.2015066, z: 39.234276}
-  m_LocalScale: {x: 0.14646891, y: 0.14646891, z: 0.14646891}
+  m_GameObject: {fileID: 1732513951937304}
+  m_LocalRotation: {x: -0.50000006, y: -0.49999997, z: 0.49999997, w: 0.5}
+  m_LocalPosition: {x: 17.03, y: 4.78, z: 39.872456}
+  m_LocalScale: {x: 0.005897941, y: 0.005897941, z: 0.16963688}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23387137157599666
+--- !u!23 &23318652184715340
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1443562025997850}
+  m_GameObject: {fileID: 1732513951937304}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -58,9 +58,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 667a51099ee65b44a93a9b4f79b42c30, type: 3}
-  - {fileID: 2100002, guid: 667a51099ee65b44a93a9b4f79b42c30, type: 3}
-  - {fileID: 2100004, guid: 667a51099ee65b44a93a9b4f79b42c30, type: 3}
+  - {fileID: 2100000, guid: 36ef50f44e9119b48a2a4726bdc435dc, type: 3}
+  - {fileID: 2100002, guid: 36ef50f44e9119b48a2a4726bdc435dc, type: 3}
+  - {fileID: 2100004, guid: 36ef50f44e9119b48a2a4726bdc435dc, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,19 +80,19 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33757453095326836
+--- !u!33 &33011231547588878
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1443562025997850}
-  m_Mesh: {fileID: 4300000, guid: 667a51099ee65b44a93a9b4f79b42c30, type: 3}
---- !u!54 &54527370934920168
+  m_GameObject: {fileID: 1732513951937304}
+  m_Mesh: {fileID: 4300000, guid: 36ef50f44e9119b48a2a4726bdc435dc, type: 3}
+--- !u!54 &54267844011636436
 Rigidbody:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1443562025997850}
+  m_GameObject: {fileID: 1732513951937304}
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
@@ -102,15 +102,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &95941684933737282
+--- !u!95 &95031683011233718
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1443562025997850}
+  m_GameObject: {fileID: 1732513951937304}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 667a51099ee65b44a93a9b4f79b42c30, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 36ef50f44e9119b48a2a4726bdc435dc, type: 3}
   m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
