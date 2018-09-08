@@ -52,7 +52,6 @@ public class InteractionMenu : MonoBehaviour
         Player selected = GetSelectedPlayer();
         if (selected.Items[ItemType.STONES] > 0)
         {
-            Debug.Log(gameObject.transform.position.y);
             selected.ThrowStoneIfInRange(gameObject.transform.position);
             gameObject.SetActive(false);
         }

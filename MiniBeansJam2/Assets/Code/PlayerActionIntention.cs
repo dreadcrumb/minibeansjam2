@@ -92,7 +92,6 @@ public class PlayerThrowStoneActionIntention : PlayerActionIntention
 
     public override bool Update()
     {
-        Debug.Log("Remaining: " + _agent.remainingDistance);
         if (_agent.remainingDistance <= _throwRange && CanSeeTargetSpot())
         {
             // TODO rotate!
