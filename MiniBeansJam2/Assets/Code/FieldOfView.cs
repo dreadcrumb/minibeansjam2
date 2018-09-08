@@ -24,15 +24,12 @@ public class FieldOfView : MonoBehaviour
 	public float edgeDstThreshold;
 
 	public MeshFilter viewMeshFilter;
-
-
-
 	private Mesh viewMesh;
+
 	private ZombieState zombieState;
 	private GameObject enemyTarget;
 	private bool showFOV;
-
-	private float curViewAngle;
+	
 	private float rotationStep;
 	private bool increasing;
 
@@ -95,8 +92,8 @@ public class FieldOfView : MonoBehaviour
 			{
 				if (rotationStep < maxViewRotation)
 				{
-					rotationStep += 4;
-					lookDir = Quaternion.AngleAxis(1, Vector3.up) * transform.forward;
+					rotationStep += 9;
+					lookDir = DirFromAngle(viewAngle, true);
 				}
 				else
 				{
@@ -107,18 +104,14 @@ public class FieldOfView : MonoBehaviour
 			{
 				if (rotationStep > -maxViewRotation)
 				{
-					rotationStep -= 4;
-					lookDir = Quaternion.AngleAxis(-1, Vector3.up) * transform.forward;
+					rotationStep -= 9;
+					lookDir = DirFromAngle(viewAngle, true);
 				}
 				else
 				{
 					increasing = true;
 				}
 			}
-		}
-		else
-		{
-			lookDir = transform.forward;
 		}
 
 		if (targetsInViewRadius.Length > 0)
@@ -140,6 +133,8 @@ public class FieldOfView : MonoBehaviour
 					{
 						//visibleTargets.Add(target);
 						lookDir = dirToTarget;
+						rotationStep = 0;
+
 						zombieState = ZombieState.FOLLOWING;
 						enemyTarget = target.gameObject;
 						GetComponentInParent<Zombie>().zombieState = zombieState;
@@ -164,6 +159,8 @@ public class FieldOfView : MonoBehaviour
 				zombieState = ZombieState.ALARMED;
 				GetComponentInParent<Zombie>().zombieState = zombieState;
 				enemyTarget = null;
+				lookDir = transform.forward;
+				rotationStep = 0;
 			}
 		}
 	}
@@ -222,7 +219,8 @@ public class FieldOfView : MonoBehaviour
 
 			viewMesh.Clear();
 
-			Renderer rend = fovMeshRenderer.GetComponent<Renderer>();
+			Renderer rend = viewMeshFilter.GetComponent<Renderer>();
+			
 			if (rend != null)
 			{
 				switch (zombieState)
