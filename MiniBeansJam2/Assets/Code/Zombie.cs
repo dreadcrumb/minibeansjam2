@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -241,7 +241,7 @@ public class Zombie : MonoBehaviour
 		// TODO play attack animation
 		_attackCooldown = AttackSpeed;
 		var player = otherGameObject.GetComponent<Player>();
-		player.ZombificationLevel += ZombificationFactor;
+		player.TakeInfection(ZombificationFactor);
 		player.TakeDamage(Damage);
 	}
 

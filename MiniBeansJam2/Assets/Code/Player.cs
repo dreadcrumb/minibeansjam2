@@ -118,6 +118,11 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	public void TakeInfection(int amount)
+	{
+		ZombificationLevel += amount - amount * Armor;
+	}
+
 	public void PickUpItemIfInRange(GameObject colliderGameObject)
 	{
 		if (IsInRange(colliderGameObject.transform.position, InteractionRange))
