@@ -73,8 +73,8 @@ public class Zombie : MonoBehaviour
 				LookAround();
 			}
 
-			_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
 		}
+		_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
 	}
 
 	private void MoveToNextPosition()
