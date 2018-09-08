@@ -20,11 +20,8 @@ public class UI_INGAME : MonoBehaviour
 	public CanvasGroup subSettingsCG;
 
 	public Dropdown settingDropDown;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+	
+	private List<GameObject> objectsToReactivate = new List<GameObject>();
 	
 	// Update is called once per frame
 	void Update () {
@@ -110,6 +107,7 @@ public class UI_INGAME : MonoBehaviour
 	{
 		if (!startInGameMenu) {
 			startInGameMenu = true;
+			haltGame();
 		}
 	}
 
@@ -134,9 +132,36 @@ public class UI_INGAME : MonoBehaviour
 	{
 		if (!closeInGameMenu)
 			closeInGameMenu = true;
+		
+		resumeGame();
 	}
 	public void LoadMenu (int levelNumber)
 	{
 		UnityEngine.SceneManagement.SceneManager.LoadScene (levelNumber);
+	}
+
+	private void haltGame()
+	{
+		foreach (var player in GameObject.FindGameObjectsWithTag("Player"))
+		{
+			player.SetActive(false);
+			objectsToReactivate.Add(player);
+		}
+		
+		foreach (var zombie in GameObject.FindGameObjectsWithTag("Target"))
+		{
+			zombie.SetActive(false);
+			objectsToReactivate.Add(zombie);
+		}
+	}
+	
+	private void resumeGame()
+	{
+		foreach (var playerOrZombie in objectsToReactivate)
+		{
+			playerOrZombie.SetActive(true);
+		}
+		
+		objectsToReactivate.Clear();
 	}
 }
