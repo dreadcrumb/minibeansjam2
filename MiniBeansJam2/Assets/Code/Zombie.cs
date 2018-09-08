@@ -26,7 +26,7 @@ public class Zombie : MonoBehaviour
 	public int ZombificationFactor = 5;
 	public int Damage = 10;
 
-	public ZombieState zombieState;
+	private ZombieState zombieState;
 	public int searchTime;
 
 	private SearchTimer searchTimer;
@@ -80,6 +80,8 @@ public class Zombie : MonoBehaviour
 				searchTimer.StopTimer();
 				searchTimer.ResetTimer();
 				zombieState = ZombieState.IDLE;
+				GetComponentInParent<FieldOfView>().ViewSpeed = 9;
+				//MoveToNextPosition();
 			}
 
 			if (_lastTargetUpdateTick > 1.0)
@@ -185,5 +187,15 @@ public class Zombie : MonoBehaviour
 	public void SetAgentDestination(Vector3 dest)
 	{
 		_agent.SetDestination(dest);
+	}
+
+	public void SetZombieState(ZombieState zS)
+	{
+		zombieState = zS;
+	}
+
+	public ZombieState GetZombieState()
+	{
+		return zombieState;
 	}
 }
