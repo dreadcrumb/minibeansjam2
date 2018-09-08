@@ -139,7 +139,7 @@ public class FieldOfView : MonoBehaviour
 					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 					{
 						//visibleTargets.Add(target);
-
+						lookDir = dirToTarget;
 						zombieState = ZombieState.FOLLOWING;
 						enemyTarget = target.gameObject;
 						GetComponentInParent<Zombie>().zombieState = zombieState;
