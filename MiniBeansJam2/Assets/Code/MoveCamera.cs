@@ -1,9 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class MoveCamera : MonoBehaviour
 {
     public float Speed = 0.25f;
     public int EdgeSize = 10;
+    public int MaxZoom = 10;
+    public int MinZoom = 20;
     
     void FixedUpdate()
     {
@@ -31,5 +34,15 @@ public class MoveCamera : MonoBehaviour
         }
 
         transform.position += movement * Speed;
+
+        var scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll < 0)
+        {
+            transform.position = new Vector3(transform.position.x, Math.Min(MinZoom, transform.position.y + 1), transform.position.z);
+        }
+        else if (scroll > 0)
+        {
+            transform.position = new Vector3(transform.position.x, Math.Max(MaxZoom, transform.position.y - 1), transform.position.z);
+        }
     }
 }
