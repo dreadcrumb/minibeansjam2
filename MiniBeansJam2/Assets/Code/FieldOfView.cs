@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.AccessControl;
+using UnityEditor;
 
 public class FieldOfView : MonoBehaviour
 {
@@ -99,13 +100,14 @@ public class FieldOfView : MonoBehaviour
 				Vector3 dirToTarget = (target.position - transform.position).normalized;
 
 				//_lookDir = DirFromAngle(ViewAngle, true);	
-				if (Vector3.Angle(_lookDir, dirToTarget) < ViewAngle / 2)
+				if (Vector3.Angle(DirFromAngle(ViewAngle, true), dirToTarget) < ViewAngle / 2)
 				{
 					float dstToTarget = Vector3.Distance(transform.position, target.position);
 					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, ObstacleMask))
 					{
 						//_lookDir = dirToTarget;	
 						//_rotationStep = 0;
+
 						GetComponentInParent<Zombie>().SetAgentDestination(target.transform.position); // Does not work properly
 
 						GetComponentInParent<Zombie>().SetZombieState(ZombieState.FOLLOWING);
@@ -155,7 +157,7 @@ public class FieldOfView : MonoBehaviour
 				if (_rotationStep < MaxViewRotation)
 				{
 					_rotationStep += ViewSpeed;
-					_lookDir = DirFromAngle(ViewAngle, false);
+					_lookDir = DirFromAngle(ViewAngle, true);
 				}
 				else
 				{
@@ -167,7 +169,7 @@ public class FieldOfView : MonoBehaviour
 				if (_rotationStep > -MaxViewRotation)
 				{
 					_rotationStep -= ViewSpeed;
-					_lookDir = DirFromAngle(ViewAngle, false);
+					_lookDir = DirFromAngle(ViewAngle, true);
 				}
 				else
 				{
@@ -248,15 +250,12 @@ public class FieldOfView : MonoBehaviour
 				{
 					case ZombieState.IDLE:
 						rend.material.SetColor("_Color", Color.green);
-						//fovMaterial.color = Color.green;
 						break;
 					case ZombieState.ALARMED:
 						rend.material.SetColor("_Color", Color.yellow);
-						//fovMaterial.color = Color.yellow;
 						break;
 					case ZombieState.FOLLOWING:
 						rend.material.SetColor("_Color", Color.red);
-						//fovMaterial.color = Color.red;
 						break;
 				}
 			}
@@ -303,9 +302,7 @@ public class FieldOfView : MonoBehaviour
 
 	ViewCastInfo ViewCast(float globalAngle)
 	{
-		Vector3 a = DirFromAngle(globalAngle, true);
-		Vector3 dir = _lookDir; //DirFromAngle(globalAngle, true);
-		
+		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
 
 		if (Physics.Raycast(transform.position, dir, out hit, ViewRadius, ObstacleMask))
