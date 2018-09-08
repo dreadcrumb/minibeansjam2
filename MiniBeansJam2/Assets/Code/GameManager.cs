@@ -6,14 +6,25 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
 	private GameObject selectedZombie;
+	private GameObject currentPlayer;
 	public const string ZOMBIE_TAG = "Target";
+	public const string PLAYER_TAG = "Player";
 
 	private List<GameObject> enemyList;
+	private List<GameObject> players;
+
+	private KeyCode[] playerKeys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5 };
 
 	// Use this for initialization
 	void Start()
 	{
 		enemyList = GameObject.FindGameObjectsWithTag(ZOMBIE_TAG).ToList();
+		players = GameObject.FindGameObjectsWithTag(PLAYER_TAG).ToList();
+		if (players.Count > 0)
+		{
+			currentPlayer = players[0];
+			currentPlayer.GetComponent<Player>().SetSelected(true);
+		}
 	}
 
 	// Update is called once per frame
@@ -30,7 +41,6 @@ public class GameManager : MonoBehaviour
 				var colliderGameObject = hit.collider.gameObject;
 				if (colliderGameObject.CompareTag(ZOMBIE_TAG))
 				{
-					
 					colliderGameObject.GetComponent<FieldOfView>().SetSelected(true);
 				}
 			}
@@ -39,6 +49,16 @@ public class GameManager : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.T))
 		{
 			ClearSelectedEnemies();
+		}
+
+		for (int i = 0; i < Math.Min(players.Count, playerKeys.Length); i++)
+		{
+			if (Input.GetKeyDown(playerKeys[i]))
+			{
+				currentPlayer.GetComponent<Player>().SetSelected(false);
+				currentPlayer = players[i];
+				currentPlayer.GetComponent<Player>().SetSelected(true);
+			}
 		}
 	}
 

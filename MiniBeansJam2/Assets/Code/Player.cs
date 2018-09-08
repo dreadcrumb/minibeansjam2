@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
+	private bool _selected;
 
 	public Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
 
@@ -39,47 +40,50 @@ public class Player : MonoBehaviour
 			    _intention = null;
 		    }
 	    }
-	    
-        Ray clickRay;
-        RaycastHit hit;
-        if (Input.GetMouseButtonDown(0))
-        {
-            clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(clickRay, out hit))
-            {
-                var colliderGameObject = hit.collider.gameObject;
-                if (colliderGameObject.CompareTag(ITEM_TAG))
-                {
-                    PickUpItemIfInRange(colliderGameObject);
-                }
-                else if (colliderGameObject.CompareTag(GROUND_TAG))
-                {
-                    CurrentTarget = hit.point;
-                    _agent.SetDestination(CurrentTarget);
-	                _intention = null;
-                }
-            }
-        }
-        else if (Input.GetMouseButton(1))
-        {
-	        if (Items[ItemType.TRAPS] > 0)
-	        {
-		        clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		        if (Physics.Raycast(clickRay, out hit))
-		        {
-			        var colliderGameObject = hit.collider.gameObject;
-			        if (colliderGameObject.CompareTag(GROUND_TAG))
-			        {
-				        PlaceTrapAtIfInRange(hit.point);
-			        }
-		        }
-	        }
-	        else
-	        {
-		        Debug.Log("Not enough traps!"); // TODO maybe some UI indication?
-	        }
-        }
-	}
+
+	    if (_selected)
+	    {
+		    Ray clickRay;
+		    RaycastHit hit;
+		    if (Input.GetMouseButtonDown(0))
+		    {
+			    clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+			    if (Physics.Raycast(clickRay, out hit))
+			    {
+				    var colliderGameObject = hit.collider.gameObject;
+				    if (colliderGameObject.CompareTag(ITEM_TAG))
+				    {
+					    PickUpItemIfInRange(colliderGameObject);
+				    }
+				    else if (colliderGameObject.CompareTag(GROUND_TAG))
+				    {
+					    CurrentTarget = hit.point;
+					    _agent.SetDestination(CurrentTarget);
+					    _intention = null;
+				    }
+			    }
+		    }
+		    else if (Input.GetMouseButton(1))
+		    {
+			    if (Items[ItemType.TRAPS] > 0)
+			    {
+				    clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+				    if (Physics.Raycast(clickRay, out hit))
+				    {
+					    var colliderGameObject = hit.collider.gameObject;
+					    if (colliderGameObject.CompareTag(GROUND_TAG))
+					    {
+						    PlaceTrapAtIfInRange(hit.point);
+					    }
+				    }
+			    }
+			    else
+			    {
+				    Debug.Log("Not enough traps!"); // TODO maybe some UI indication?
+			    }
+		    }
+	    }
+    }
 
 	private void PickUpItemIfInRange(GameObject colliderGameObject)
 	{
@@ -133,4 +137,9 @@ public class Player : MonoBehaviour
 	    Instantiate(Trap, location, transform.rotation);
 	    Items[ItemType.TRAPS] -= 1;
     }
+
+	public void SetSelected(bool selected)
+	{
+		_selected = selected;
+	}
 }
