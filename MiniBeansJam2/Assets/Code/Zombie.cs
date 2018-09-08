@@ -27,16 +27,16 @@ public class Zombie : MonoBehaviour
 	public int ZombificationFactor = 5;
 	public int Damage = 10;
 	public int searchTime;
+	public int FollowBuffer;
 
 	public Image QuestionMarkOutline;
 	public Image QuestionMarkFill;
 	public Image ExclamationMOutline;
 	public Image ExclamationMFill;
 
+	public SearchTimer questionMarkTimer;
+	public SearchTimer exclamationMarkTimer;
 	private ZombieState zombieState;
-
-
-	private SearchTimer searchTimer;
 	private double _lastTargetUpdateTick = 0;
 	private Vector3 _currentWaypoint;
 	private NavMeshAgent _agent;
@@ -47,7 +47,8 @@ public class Zombie : MonoBehaviour
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		zombieState = ZombieState.IDLE;
-		searchTimer = new SearchTimer();
+		//questionMarkTimer = new SearchTimer();
+		//exclamationMarkTimer = new SearchTimer();
 		SetMarkVisibilityAndPosition(false, false);
 	}
 
@@ -68,9 +69,25 @@ public class Zombie : MonoBehaviour
 
 				// hide question and exclamation mark
 				SetMarkVisibilityAndPosition(false, false);
+				QuestionMarkFill.fillAmount = 1;
 
 				break;
 			case ZombieState.FOLLOWING:
+				if (!exclamationMarkTimer.IsTimerRunning())
+				{
+					ExclamationMFill.fillAmount = 1;
+					exclamationMarkTimer.StartTimer();
+				}
+				else if (exclamationMarkTimer.GetElapsed() > FollowBuffer)
+				{
+					var x = exclamationMarkTimer.GetElapsed();
+					exclamationMarkTimer.StopTimer();
+					exclamationMarkTimer.ResetTimer();
+					zombieState = ZombieState.ALARMED;
+					GetComponentInParent<FieldOfView>().ViewSpeed = 15;
+				}
+				SetExclamationMarkFillLevel();
+
 				_lastTargetUpdateTick += Time.deltaTime;
 				if (_lastTargetUpdateTick > 1.0)
 				{
@@ -79,24 +96,26 @@ public class Zombie : MonoBehaviour
 				}
 
 				// hide question mark and show exclamation mark
-				SetMarkVisibilityAndPosition(true, false);
+				SetMarkVisibilityAndPosition(false, true);
 
 				break;
 			case ZombieState.ALARMED:
 				_lastTargetUpdateTick += Time.deltaTime;
 				// TODO: timer for when zombies stop looking
-				if (!searchTimer.IsTimerRunning())
+				if (!questionMarkTimer.IsTimerRunning())
 				{
-					searchTimer.StartTimer();
+					questionMarkTimer.StartTimer();
 				}
-				else if (searchTimer.GetElapsed() > searchTime)
+				else if (questionMarkTimer.GetElapsed() > searchTime)
 				{
-					var x = searchTimer.GetElapsed();
-					searchTimer.StopTimer();
-					searchTimer.ResetTimer();
+					var x = questionMarkTimer.GetElapsed();
+					questionMarkTimer.StopTimer();
+					questionMarkTimer.ResetTimer();
 					zombieState = ZombieState.IDLE;
 					GetComponentInParent<FieldOfView>().ViewSpeed = 9;
 				}
+				SetQestionMarkFillLevel();
+
 
 				if (_lastTargetUpdateTick > 1.0)
 				{
@@ -104,7 +123,7 @@ public class Zombie : MonoBehaviour
 				}
 
 				// hide exclamation mark and show question mark
-				SetMarkVisibilityAndPosition(false, true);
+				SetMarkVisibilityAndPosition(true, false);
 				break;
 		}
 
@@ -125,6 +144,20 @@ public class Zombie : MonoBehaviour
 		QuestionMarkOutline.transform.position = namePos;
 		ExclamationMFill.transform.position = namePos;
 		ExclamationMOutline.transform.position = namePos;
+	}
+
+	public void SetQestionMarkFillLevel()
+	{
+		var elapsed = questionMarkTimer.GetElapsed();
+		var fillLevel = searchTime / elapsed;
+		QuestionMarkFill.fillAmount = fillLevel;
+	}
+
+	public void SetExclamationMarkFillLevel()
+	{
+		var elapsed = questionMarkTimer.GetElapsed();
+		var fillLevel = FollowBuffer / elapsed;
+		ExclamationMFill.fillAmount = fillLevel;
 	}
 
 	private void MoveToNextPosition()

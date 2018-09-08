@@ -178,9 +178,9 @@ public class FieldOfView : MonoBehaviour
 	private void LostSight()
 	{
 		GetComponentInParent<Zombie>().SetZombieState(ZombieState.ALARMED);
-		_enemyTarget = null;
 		GetComponentInParent<Zombie>().SetAgentDestination(_lastPointPlayerSeen);
 		_lookDir = transform.forward;
+		_enemyTarget = null;
 		_rotationStep = 0;
 	}
 
