@@ -89,6 +89,7 @@ public class Zombie : MonoBehaviour
 
 		}
 		_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
+		GetComponent<Animator>().SetBool("Walking", _agent.remainingDistance > _agent.radius);
 	}
 
 	private void MoveToNextPosition()

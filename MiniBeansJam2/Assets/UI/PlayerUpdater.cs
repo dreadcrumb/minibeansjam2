@@ -7,6 +7,9 @@ public class PlayerUpdater : MonoBehaviour
 {
     public GameObject HealthCanvas;
     public GameObject ZombificationCanvas;
+    public GameObject StonesTextfield;
+    public GameObject TrapsTextfield;
+    public GameObject PillsTextfield;
 
     void Update()
     {
@@ -20,6 +23,10 @@ public class PlayerUpdater : MonoBehaviour
         {
             ZombificationCanvas.GetComponent<Image>().fillAmount = 0;
         }
+
+        StonesTextfield.GetComponent<Text>().text = player.Items[ItemType.STONES].ToString();
+        TrapsTextfield.GetComponent<Text>().text = player.Items[ItemType.TRAPS].ToString();
+        PillsTextfield.GetComponent<Text>().text = player.Items[ItemType.PILLS].ToString();
     }
 
     private Player GetSelectedPlayer()
