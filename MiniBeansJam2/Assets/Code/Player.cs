@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
 	public double InteractionRange = 1;
 	public int ZombificationLevel = 0;
 	public int Health = 100;
-	public GameObject SelectedItem;
 	public GameObject Trap;
 
 	private NavMeshAgent _agent;
@@ -33,6 +32,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+	    if (!IsAlive())
+	    {
+		    return;
+		    // TODO on animation finish delete?
+	    }
+	    
 	    if (_intention != null)
 	    {
 		    if (!_intention.Update())
@@ -84,6 +89,15 @@ public class Player : MonoBehaviour
 		    }
 	    }
     }
+
+	public void TakeDamage(int amount)
+	{
+		Health -= amount;
+		if (!IsAlive())
+		{
+			// TODO death animation
+		}
+	}
 
 	private void PickUpItemIfInRange(GameObject colliderGameObject)
 	{
@@ -141,5 +155,10 @@ public class Player : MonoBehaviour
 	public void SetSelected(bool selected)
 	{
 		_selected = selected;
+	}
+
+	public bool IsAlive()
+	{
+		return Health > 0;
 	}
 }

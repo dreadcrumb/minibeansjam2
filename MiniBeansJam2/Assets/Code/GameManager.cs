@@ -60,6 +60,11 @@ public class GameManager : MonoBehaviour
 				currentPlayer.GetComponent<Player>().SetSelected(true);
 			}
 		}
+
+		if (!ArePlayersAlive())
+		{
+			// TODO switch scene?
+		}
 	}
 
 	private void ClearSelectedEnemies()
@@ -68,5 +73,18 @@ public class GameManager : MonoBehaviour
 		{
 			enemy.GetComponent<FieldOfView>().SetSelected(false);
 		}
+	}
+
+	private bool ArePlayersAlive()
+	{
+		foreach (var player in players)
+		{
+			if (player.GetComponent<Player>().IsAlive())
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

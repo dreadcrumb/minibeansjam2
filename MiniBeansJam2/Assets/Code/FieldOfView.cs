@@ -79,7 +79,12 @@ public class FieldOfView : MonoBehaviour
 
 		for (int i = 0; i < targetsInViewRadius.Length; i++)
 		{
-			Transform target = targetsInViewRadius[i].transform;
+			var current = targetsInViewRadius[i];
+			if (!current.GetComponent<Player>().IsAlive())
+			{
+				continue;
+			}
+			Transform target = current.transform;
 			Vector3 dirToTarget = (target.position - transform.position).normalized;
 			if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
 			{

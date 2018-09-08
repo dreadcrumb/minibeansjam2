@@ -146,7 +146,7 @@ public class Zombie : MonoBehaviour
 			_attackCooldown = AttackSpeed;
 			var player = otherGameObject.GetComponent<Player>();
 			player.ZombificationLevel += ZombificationFactor;
-			player.Health -= Damage;
+			player.TakeDamage(Damage);
 		}
 
 		private bool CanAttack()
@@ -156,7 +156,7 @@ public class Zombie : MonoBehaviour
 
 		private bool CanAttack(GameObject other)
 		{
-			return CanAttack() && other.gameObject.CompareTag(PLAYER_TAG);
+			return CanAttack() && other.CompareTag(PLAYER_TAG) && other.GetComponent<Player>().IsAlive();
 		}
 
 		private void OnTriggerStay(Collider other)
