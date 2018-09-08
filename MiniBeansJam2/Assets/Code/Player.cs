@@ -13,10 +13,13 @@ public class Player : MonoBehaviour
 	public Vector3 CurrentTarget;
 	public double InteractionRange = 1;
 	public double ThrowRange = 4;
-	public int ZombificationLevel = 0;
+	[Range(0, 100)]
+	public double ZombificationLevel = 0;
+	[Range(0, 100)]
 	public int Health = 100;
 	public GameObject Trap;
 	public GameObject Stone;
+	public double ZombificationPassiveIncrement;
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
@@ -71,6 +74,8 @@ public class Player : MonoBehaviour
 			    }
 		    }
 	    }
+
+	    ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
     }
 
 	public void MoveTo(Vector3 location)
