@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
 	public double ZombificationDamageThreshold = 50;
 	public double ZombificationDamage = 0.1;
 	public GameObject ZombiePrefab;
+	[Range(0,1)]
+	public double Armor = 0;
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
@@ -109,7 +111,7 @@ public class Player : MonoBehaviour
 
 	public void TakeDamage(int amount)
 	{
-		Health -= amount;
+		Health -= amount - amount * Armor;
 		if (!IsAlive())
 		{
 			// TODO death animation
