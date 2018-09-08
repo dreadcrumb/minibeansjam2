@@ -14,7 +14,7 @@ public class PlayerUpdater : MonoBehaviour
     void Update()
     {
         var player = GetSelectedPlayer();
-        HealthCanvas.GetComponent<Image>().fillAmount = player.Health / 100f;
+        HealthCanvas.GetComponent<Image>().fillAmount = (float) (player.Health / 100);
         if (player.ZombificationLevel > 0)
         {
             ZombificationCanvas.GetComponent<Image>().fillAmount = (float)(player.ZombificationLevel / 100);

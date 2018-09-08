@@ -16,10 +16,12 @@ public class Player : MonoBehaviour
 	[Range(0, 100)]
 	public double ZombificationLevel = 0;
 	[Range(0, 100)]
-	public int Health = 100;
+	public double Health = 100;
 	public GameObject Trap;
 	public GameObject Stone;
 	public double ZombificationPassiveIncrement;
+	public double ZombificationDamageThreshold = 50;
+	public double ZombificationDamage = 0.1;
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
@@ -76,6 +78,10 @@ public class Player : MonoBehaviour
 	    }
 
 	    ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
+	    if (ZombificationLevel > ZombificationDamageThreshold)
+	    {
+		    Health = Math.Max(Health - ZombificationDamage, 0);
+	    }
     }
 
 	public void MoveTo(Vector3 location)
