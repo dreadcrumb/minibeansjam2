@@ -41,8 +41,7 @@ public class FieldOfView : MonoBehaviour
 
 	void Start()
 	{
-		_viewMesh = new Mesh();
-		_viewMesh.name = "View Mesh";
+		_viewMesh = new Mesh { name = "View Mesh" };
 		ViewMeshFilter.mesh = _viewMesh;
 
 		_lookDir = transform.forward;
@@ -90,9 +89,8 @@ public class FieldOfView : MonoBehaviour
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, ViewRadius, TargetMask);
 		if (targetsInViewRadius.Length > 0)
 		{
-			for (int i = 0; i < targetsInViewRadius.Length; i++)
+			foreach (var current in targetsInViewRadius)
 			{
-				var current = targetsInViewRadius[i];
 				//if (!current.GetComponent<Player>().IsAlive())
 				//{
 				//	continue;
@@ -100,25 +98,26 @@ public class FieldOfView : MonoBehaviour
 				Transform target = current.transform;
 				Vector3 dirToTarget = (target.position - transform.position).normalized;
 
+				//_lookDir = DirFromAngle(ViewAngle, true);	
 				if (Vector3.Angle(_lookDir, dirToTarget) < ViewAngle / 2)
 				{
 					float dstToTarget = Vector3.Distance(transform.position, target.position);
 					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, ObstacleMask))
 					{
-						//visibleTargets.Add(target);
-						_lookDir = dirToTarget;
+						//_lookDir = dirToTarget;	
+						//_rotationStep = 0;
 						GetComponentInParent<Zombie>().SetAgentDestination(target.transform.position); // Does not work properly
-						_rotationStep = 0;
 
 						GetComponentInParent<Zombie>().SetZombieState(ZombieState.FOLLOWING);
 						_enemyTarget = target.gameObject;
-						ViewSpeed = 15;
+
 						Debug.DrawLine(transform.position, target.position, Color.black);
 
 						_lastPointPlayerSeen = target.transform.position;
 					}
 					else
 					{
+						//	Player blocked by object
 						if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
 						{
 							LostSight();
@@ -127,21 +126,24 @@ public class FieldOfView : MonoBehaviour
 				}
 				else
 				{
-					if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
-					{
-						LostSight();
-					}
+					//// Player not in View
+					//if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
+					//{
+					//	LostSight();
+					//}
 				}
 			}
 		}
 		else
 		{
+			//Player out of radius
 			if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
 			{
 				LostSight();
 			}
 		}
 	}
+
 
 	private void PingPongViewAngle()
 	{
@@ -153,7 +155,7 @@ public class FieldOfView : MonoBehaviour
 				if (_rotationStep < MaxViewRotation)
 				{
 					_rotationStep += ViewSpeed;
-					_lookDir = DirFromAngle(ViewAngle, true);
+					_lookDir = DirFromAngle(ViewAngle, false);
 				}
 				else
 				{
@@ -165,7 +167,7 @@ public class FieldOfView : MonoBehaviour
 				if (_rotationStep > -MaxViewRotation)
 				{
 					_rotationStep -= ViewSpeed;
-					_lookDir = DirFromAngle(ViewAngle, true);
+					_lookDir = DirFromAngle(ViewAngle, false);
 				}
 				else
 				{
@@ -179,9 +181,9 @@ public class FieldOfView : MonoBehaviour
 	{
 		GetComponentInParent<Zombie>().SetZombieState(ZombieState.ALARMED);
 		GetComponentInParent<Zombie>().SetAgentDestination(_lastPointPlayerSeen);
-		_lookDir = transform.forward;
+		//_lookDir = transform.forward;
 		_enemyTarget = null;
-		_rotationStep = 0;
+		//_rotationStep = 0;
 	}
 
 	void DrawFieldOfView()
@@ -301,7 +303,9 @@ public class FieldOfView : MonoBehaviour
 
 	ViewCastInfo ViewCast(float globalAngle)
 	{
-		Vector3 dir = DirFromAngle(globalAngle, true);
+		Vector3 a = DirFromAngle(globalAngle, true);
+		Vector3 dir = _lookDir; //DirFromAngle(globalAngle, true);
+		
 		RaycastHit hit;
 
 		if (Physics.Raycast(transform.position, dir, out hit, ViewRadius, ObstacleMask))

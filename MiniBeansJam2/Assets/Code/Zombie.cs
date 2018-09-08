@@ -84,7 +84,7 @@ public class Zombie : MonoBehaviour
 					zombieState = ZombieState.ALARMED;
 					GetComponentInParent<FieldOfView>().ViewSpeed = 15;
 				}
-				SetExclamationMarkFillLevel();
+				//SetExclamationMarkFillLevel();
 
 				_lastTargetUpdateTick += Time.deltaTime;
 				if (_lastTargetUpdateTick > 1.0)
@@ -99,20 +99,21 @@ public class Zombie : MonoBehaviour
 				break;
 			case ZombieState.ALARMED:
 				_lastTargetUpdateTick += Time.deltaTime;
-				// TODO: timer for when zombies stop looking
 				if (!questionMarkTimer.IsTimerRunning())
 				{
 					questionMarkTimer.StartTimer();
 				}
-				else if (questionMarkTimer.GetElapsed() > searchTime)
+				SetQestionMarkFillLevel();
+				if (questionMarkTimer.GetElapsed() > searchTime)
 				{
 					var x = questionMarkTimer.GetElapsed();
 					questionMarkTimer.StopTimer();
 					questionMarkTimer.ResetTimer();
 					zombieState = ZombieState.IDLE;
 					GetComponentInParent<FieldOfView>().ViewSpeed = 9;
+					QuestionMarkFill.fillAmount = 1;
 				}
-				SetQestionMarkFillLevel();
+				
 
 
 				if (_lastTargetUpdateTick > 1.0)
@@ -155,22 +156,6 @@ public class Zombie : MonoBehaviour
 		{
 			QuestionMarkFill.fillAmount = 1;
 		}
-	}
-
-	public void SetExclamationMarkFillLevel()
-	{
-		var elapsed = questionMarkTimer.GetElapsed();
-		if (elapsed > 0)
-		{
-			ExclamationMFill.fillAmount = 1 - elapsed / FollowBuffer;
-		}
-		else
-		{
-			ExclamationMFill.fillAmount = 1;
-		}
-
-		
-		
 	}
 
 	private void MoveToNextPosition()
@@ -270,6 +255,10 @@ public class Zombie : MonoBehaviour
 
 	public void SetZombieState(ZombieState zS)
 	{
+		if (zS == ZombieState.FOLLOWING)
+		{
+			questionMarkTimer.ResetTimer();
+		}
 		zombieState = zS;
 	}
 
