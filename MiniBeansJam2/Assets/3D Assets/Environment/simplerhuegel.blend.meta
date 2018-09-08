@@ -1,31 +1,16 @@
 fileFormatVersion: 2
-guid: 2d81d33ae8ed027489293c0bb805d39e
+guid: de332540b4b7bef4894d3a879bafcb8e
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Cube_002
-    100002: Cylinder
-    100004: //RootNode
-    400000: Cube_002
-    400002: Cylinder
-    400004: //RootNode
-    2100000: Material_013
-    2100002: Material_015
-    2100004: Material_018
-    2100006: Material_016
-    2100008: Material_014
-    2100010: Material_020
-    2300000: Cube_002
-    2300002: Cylinder
-    2300004: //RootNode
-    3300000: Cube_002
-    3300002: Cylinder
-    3300004: //RootNode
-    4300000: Cylinder
-    4300002: Cube_002
+    100000: //RootNode
+    400000: //RootNode
+    2100000: Material
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cube
     7400000: Default Take
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
