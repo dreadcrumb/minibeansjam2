@@ -69,13 +69,11 @@ public class Zombie : MonoBehaviour
 
 				// hide question and exclamation mark
 				SetMarkVisibilityAndPosition(false, false);
-				QuestionMarkFill.fillAmount = 1;
 
 				break;
 			case ZombieState.FOLLOWING:
 				if (!exclamationMarkTimer.IsTimerRunning())
 				{
-					ExclamationMFill.fillAmount = 1;
 					exclamationMarkTimer.StartTimer();
 				}
 				else if (exclamationMarkTimer.GetElapsed() > FollowBuffer)
@@ -149,15 +147,30 @@ public class Zombie : MonoBehaviour
 	public void SetQestionMarkFillLevel()
 	{
 		var elapsed = questionMarkTimer.GetElapsed();
-		var fillLevel = searchTime / elapsed;
-		QuestionMarkFill.fillAmount = fillLevel;
+		if (elapsed > 0)
+		{
+			QuestionMarkFill.fillAmount = 1 - elapsed / searchTime;
+		}
+		else
+		{
+			QuestionMarkFill.fillAmount = 1;
+		}
 	}
 
 	public void SetExclamationMarkFillLevel()
 	{
 		var elapsed = questionMarkTimer.GetElapsed();
-		var fillLevel = FollowBuffer / elapsed;
-		ExclamationMFill.fillAmount = fillLevel;
+		if (elapsed > 0)
+		{
+			ExclamationMFill.fillAmount = 1 - elapsed / FollowBuffer;
+		}
+		else
+		{
+			ExclamationMFill.fillAmount = 1;
+		}
+
+		
+		
 	}
 
 	private void MoveToNextPosition()
