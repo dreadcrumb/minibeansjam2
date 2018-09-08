@@ -12,9 +12,11 @@ public class Player : MonoBehaviour
 
 	public Vector3 CurrentTarget;
 	public double InteractionRange = 1;
+	public double ThrowRange = 4;
 	public int ZombificationLevel = 0;
 	public int Health = 100;
 	public GameObject Trap;
+	public GameObject Stone;
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
@@ -27,6 +29,7 @@ public class Player : MonoBehaviour
 	{
 		Items[ItemType.PILLS] = 0;
 		Items[ItemType.TRAPS] = 0;
+		Items[ItemType.STONES] = 3;
 		_agent = GetComponent<NavMeshAgent>();
 	}
 
@@ -88,7 +91,7 @@ public class Player : MonoBehaviour
 
 	public void PickUpItemIfInRange(GameObject colliderGameObject)
 	{
-		if (IsInRange(colliderGameObject.transform.position))
+		if (IsInRange(colliderGameObject.transform.position, InteractionRange))
 		{
 			PickUpItem(colliderGameObject);
 			_intention = null;
@@ -108,14 +111,14 @@ public class Player : MonoBehaviour
 		Destroy(colliderGameObject);
 	}
 
-	private bool IsInRange(Vector3 location)
+	private bool IsInRange(Vector3 location, double range)
 	{
-		return Vector3.Distance(transform.position, location) < InteractionRange;
+		return Vector3.Distance(transform.position, location) < range;
 	}
 
     public void PlaceTrapAtIfInRange(Vector3 location)
     {
-	    if (IsInRange(location))
+	    if (IsInRange(location, InteractionRange))
 	    {
 		    PlaceTrapAt(location);
 	    }
@@ -157,5 +160,25 @@ public class Player : MonoBehaviour
 	{
 		Items[ItemType.PILLS] -= 1;
 		ZombificationLevel = Math.Max(ZombificationLevel - 20, 0);
+	}
+
+	public void ThrowStoneIfInRange(Vector3 location)
+	{
+		if (IsInRange(location, ThrowRange))
+		{
+			ThrowStone(location);
+		}
+		else
+		{
+			_intention = new PlayerThrowStoneActionIntention(this, location, ThrowRange);
+			_intention.Start();
+		}
+	}
+
+	public void ThrowStone(Vector3 location)
+	{
+		var targetVector = location - transform.position;
+		var stone = Instantiate(Stone, transform.position + new Vector3(0, 1, 0), transform.rotation);
+		stone.GetComponent<Rigidbody>().AddForce(targetVector);
 	}
 }

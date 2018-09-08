@@ -73,3 +73,45 @@ public class PlayerPlaceTrapActionIntention : PlayerActionIntention
         return true;
     }
 }
+
+public class PlayerThrowStoneActionIntention : PlayerActionIntention
+{
+    private Vector3 _location;
+    private double _throwRange;
+
+    public PlayerThrowStoneActionIntention(Player player, Vector3 location, double throwRange) : base(player)
+    {
+        _location = location;
+        _throwRange = throwRange;
+    }
+
+    public override void Start()
+    {
+        _agent.SetDestination(_location); // Not right!
+    }
+
+    public override bool Update()
+    {
+        Debug.Log("Remaining: " + _agent.remainingDistance);
+        if (_agent.remainingDistance <= _throwRange && CanSeeTargetSpot())
+        {
+            // TODO rotate!
+            _player.ThrowStone(_location);
+            _agent.ResetPath();
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool CanSeeTargetSpot()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_player.transform.position, _location - _player.transform.position, out hit))
+        {
+            return hit.collider.CompareTag("Ground");
+        }
+
+        return true;
+    }
+}

@@ -1,5 +1,6 @@
 public enum ItemType
 {
     PILLS,
-    TRAPS
+    TRAPS,
+    STONES
 }
