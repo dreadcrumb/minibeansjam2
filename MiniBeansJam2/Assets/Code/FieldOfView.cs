@@ -8,9 +8,13 @@ public class FieldOfView : MonoBehaviour
 	public float viewRadius;
 	[Range(0, 360)]
 	public float viewAngle;
+	[Range(0, 360)]
+	public float maxViewRotation;
 
 	public LayerMask targetMask;
 	public LayerMask obstacleMask;
+
+	public MeshRenderer fovMeshRenderer;
 
 	[HideInInspector]
 	public List<Transform> visibleTargets = new List<Transform>();
@@ -20,12 +24,16 @@ public class FieldOfView : MonoBehaviour
 	public float edgeDstThreshold;
 
 	public MeshFilter viewMeshFilter;
-
-
 	private Mesh viewMesh;
+
 	private ZombieState zombieState;
 	private GameObject enemyTarget;
 	private bool showFOV;
+	
+	private float rotationStep;
+	private bool increasing;
+
+	private Vector3 lookDir;
 
 	void Start()
 	{
@@ -34,7 +42,7 @@ public class FieldOfView : MonoBehaviour
 		viewMeshFilter.mesh = viewMesh;
 
 		zombieState = ZombieState.IDLE;
-
+		lookDir = transform.forward;
 		StartCoroutine("FindTargetsWithDelay", .2f);
 	}
 
@@ -77,36 +85,82 @@ public class FieldOfView : MonoBehaviour
 		visibleTargets.Clear();
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
-		for (int i = 0; i < targetsInViewRadius.Length; i++)
+		// Rotate FOV if not following
+		if (zombieState != ZombieState.FOLLOWING)
 		{
-			var current = targetsInViewRadius[i];
-			if (!current.GetComponent<Player>().IsAlive())
+			if (increasing)
 			{
-				continue;
-			}
-			Transform target = current.transform;
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
-			if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-			{
-				float dstToTarget = Vector3.Distance(transform.position, target.position);
-				if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+				if (rotationStep < maxViewRotation)
 				{
-					//visibleTargets.Add(target);
-
-					zombieState = ZombieState.FOLLOWING;
-					enemyTarget = target.gameObject;
-					GetComponentInParent<Zombie>().zombieState = zombieState;
-					Debug.DrawLine(transform.position, target.position, Color.black);
+					rotationStep += 9;
+					lookDir = DirFromAngle(viewAngle, true);
 				}
 				else
 				{
-					if (zombieState == ZombieState.FOLLOWING)
+					increasing = false;
+				}
+			}
+			else
+			{
+				if (rotationStep > -maxViewRotation)
+				{
+					rotationStep -= 9;
+					lookDir = DirFromAngle(viewAngle, true);
+				}
+				else
+				{
+					increasing = true;
+				}
+			}
+		}
+
+		if (targetsInViewRadius.Length > 0)
+		{
+			for (int i = 0; i < targetsInViewRadius.Length; i++)
+			{
+				var current = targetsInViewRadius[i];
+				//if (!current.GetComponent<Player>().IsAlive())
+				//{
+				//	continue;
+				//}
+				Transform target = current.transform;
+				Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+				if (Vector3.Angle(lookDir, dirToTarget) < viewAngle / 2)
+				{
+					float dstToTarget = Vector3.Distance(transform.position, target.position);
+					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 					{
-						zombieState = ZombieState.ALARMED;
+						//visibleTargets.Add(target);
+						lookDir = dirToTarget;
+						rotationStep = 0;
+
+						zombieState = ZombieState.FOLLOWING;
+						enemyTarget = target.gameObject;
 						GetComponentInParent<Zombie>().zombieState = zombieState;
-						enemyTarget = null;
+						Debug.DrawLine(transform.position, target.position, Color.black);
+					}
+					else
+					{
+						if (zombieState == ZombieState.FOLLOWING)
+						{
+							zombieState = ZombieState.ALARMED;
+							GetComponentInParent<Zombie>().zombieState = zombieState;
+							enemyTarget = null;
+						}
 					}
 				}
+			}
+		}
+		else
+		{
+			if (zombieState == ZombieState.FOLLOWING)
+			{
+				zombieState = ZombieState.ALARMED;
+				GetComponentInParent<Zombie>().zombieState = zombieState;
+				enemyTarget = null;
+				lookDir = transform.forward;
+				rotationStep = 0;
 			}
 		}
 	}
@@ -142,8 +196,6 @@ public class FieldOfView : MonoBehaviour
 					}
 
 				}
-
-
 				viewPoints.Add(newViewCast.point);
 				oldViewCast = newViewCast;
 			}
@@ -166,6 +218,27 @@ public class FieldOfView : MonoBehaviour
 			}
 
 			viewMesh.Clear();
+
+			Renderer rend = viewMeshFilter.GetComponent<Renderer>();
+			
+			if (rend != null)
+			{
+				switch (zombieState)
+				{
+					case ZombieState.IDLE:
+						rend.material.SetColor("_Color", Color.green);
+						//fovMaterial.color = Color.green;
+						break;
+					case ZombieState.ALARMED:
+						rend.material.SetColor("_Color", Color.yellow);
+						//fovMaterial.color = Color.yellow;
+						break;
+					case ZombieState.FOLLOWING:
+						rend.material.SetColor("_Color", Color.red);
+						//fovMaterial.color = Color.red;
+						break;
+				}
+			}
 
 			viewMesh.vertices = vertices;
 			viewMesh.triangles = triangles;
@@ -212,6 +285,8 @@ public class FieldOfView : MonoBehaviour
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
 
+
+
 		if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
 		{
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
@@ -228,7 +303,8 @@ public class FieldOfView : MonoBehaviour
 		{
 			angleInDegrees += transform.eulerAngles.y;
 		}
-		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+		var vec = new Vector3(Mathf.Sin((rotationStep + angleInDegrees) * Mathf.Deg2Rad), 0, Mathf.Cos((rotationStep + angleInDegrees) * Mathf.Deg2Rad));
+		return vec;
 	}
 
 	public struct ViewCastInfo

@@ -13,10 +13,15 @@ public class Player : MonoBehaviour
 	public Vector3 CurrentTarget;
 	public double InteractionRange = 1;
 	public double ThrowRange = 4;
-	public int ZombificationLevel = 0;
-	public int Health = 100;
+	[Range(0, 100)]
+	public double ZombificationLevel = 0;
+	[Range(0, 100)]
+	public double Health = 100;
 	public GameObject Trap;
 	public GameObject Stone;
+	public double ZombificationPassiveIncrement;
+	public double ZombificationDamageThreshold = 50;
+	public double ZombificationDamage = 0.1;
 
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
@@ -27,7 +32,7 @@ public class Player : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		Items[ItemType.PILLS] = 0;
+		Items[ItemType.PILLS] = 1;
 		Items[ItemType.TRAPS] = 0;
 		Items[ItemType.STONES] = 3;
 		_agent = GetComponent<NavMeshAgent>();
@@ -70,6 +75,12 @@ public class Player : MonoBehaviour
 				    }
 			    }
 		    }
+	    }
+
+	    ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
+	    if (ZombificationLevel > ZombificationDamageThreshold)
+	    {
+		    Health = Math.Max(Health - ZombificationDamage, 0);
 	    }
     }
 
@@ -158,6 +169,11 @@ public class Player : MonoBehaviour
 
 	public void TakePill()
 	{
+		if (Items[ItemType.PILLS] <= 0)
+		{
+			return;
+		}
+		
 		Items[ItemType.PILLS] -= 1;
 		ZombificationLevel = Math.Max(ZombificationLevel - 20, 0);
 	}
@@ -177,8 +193,14 @@ public class Player : MonoBehaviour
 
 	public void ThrowStone(Vector3 location)
 	{
+		if (Items[ItemType.STONES] <= 0)
+		{
+			return;
+		}
+		
 		var targetVector = location - transform.position;
 		var stone = Instantiate(Stone, transform.position + new Vector3(0, 1, 0), transform.rotation);
 		stone.GetComponent<Rigidbody>().AddForce(targetVector);
+		Items[ItemType.STONES] -= 1;
 	}
 }
