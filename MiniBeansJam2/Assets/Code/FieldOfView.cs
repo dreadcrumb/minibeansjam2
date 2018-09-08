@@ -8,6 +8,8 @@ public class FieldOfView : MonoBehaviour
 	public float viewRadius;
 	[Range(0, 360)]
 	public float viewAngle;
+	[Range(0, 360)]
+	public float maxViewRotation;
 
 	public LayerMask targetMask;
 	public LayerMask obstacleMask;
@@ -24,10 +26,17 @@ public class FieldOfView : MonoBehaviour
 	public MeshFilter viewMeshFilter;
 
 
+
 	private Mesh viewMesh;
 	private ZombieState zombieState;
 	private GameObject enemyTarget;
 	private bool showFOV;
+
+	private float curViewAngle;
+	private float rotationStep;
+	private bool increasing;
+
+	private Vector3 lookDir;
 
 	void Start()
 	{
@@ -36,7 +45,7 @@ public class FieldOfView : MonoBehaviour
 		viewMeshFilter.mesh = viewMesh;
 
 		zombieState = ZombieState.IDLE;
-
+		lookDir = transform.forward;
 		StartCoroutine("FindTargetsWithDelay", .2f);
 	}
 
@@ -79,6 +88,39 @@ public class FieldOfView : MonoBehaviour
 		visibleTargets.Clear();
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
+		// Rotate FOV if not following
+		if (zombieState != ZombieState.FOLLOWING)
+		{
+			if (increasing)
+			{
+				if (rotationStep < maxViewRotation)
+				{
+					rotationStep += 4;
+					lookDir = Quaternion.AngleAxis(1, Vector3.up) * transform.forward;
+				}
+				else
+				{
+					increasing = false;
+				}
+			}
+			else
+			{
+				if (rotationStep > -maxViewRotation)
+				{
+					rotationStep -= 4;
+					lookDir = Quaternion.AngleAxis(-1, Vector3.up) * transform.forward;
+				}
+				else
+				{
+					increasing = true;
+				}
+			}
+		}
+		else
+		{
+			lookDir = transform.forward;
+		}
+
 		if (targetsInViewRadius.Length > 0)
 		{
 			for (int i = 0; i < targetsInViewRadius.Length; i++)
@@ -90,7 +132,8 @@ public class FieldOfView : MonoBehaviour
 				//}
 				Transform target = current.transform;
 				Vector3 dirToTarget = (target.position - transform.position).normalized;
-				if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
+
+				if (Vector3.Angle(lookDir, dirToTarget) < viewAngle / 2)
 				{
 					float dstToTarget = Vector3.Distance(transform.position, target.position);
 					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
@@ -137,7 +180,7 @@ public class FieldOfView : MonoBehaviour
 			{
 				float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
 				ViewCastInfo newViewCast = ViewCast(angle);
-				
+
 				if (i > 0)
 				{
 					bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
@@ -180,8 +223,6 @@ public class FieldOfView : MonoBehaviour
 			viewMesh.Clear();
 
 			Renderer rend = fovMeshRenderer.GetComponent<Renderer>();
-			//rend.material.shader = Shader.Find("_Color");GameObject.MA
-			//Material fovMaterial = (Material)Resources.Load("fov", typeof(Material));
 			if (rend != null)
 			{
 				switch (zombieState)
@@ -264,7 +305,8 @@ public class FieldOfView : MonoBehaviour
 		{
 			angleInDegrees += transform.eulerAngles.y;
 		}
-		return new Vector3(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), 0, Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+		var vec = new Vector3(Mathf.Sin((rotationStep + angleInDegrees) * Mathf.Deg2Rad), 0, Mathf.Cos((rotationStep + angleInDegrees) * Mathf.Deg2Rad));
+		return vec;
 	}
 
 	public struct ViewCastInfo
