@@ -181,4 +181,9 @@ public class Zombie : MonoBehaviour
 			Attack(other.gameObject);
 		}
 	}
+
+	public void SetAgentDestination(Vector3 dest)
+	{
+		_agent.SetDestination(dest);
+	}
 }
