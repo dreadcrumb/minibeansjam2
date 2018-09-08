@@ -27,18 +27,20 @@ public class Zombie : MonoBehaviour
 	public int Damage = 10;
 
 	public ZombieState zombieState;
+	public int searchTime;
 
+	private SearchTimer searchTimer;
 	private double _lastTargetUpdateTick = 0;
 	private Vector3 _currentWaypoint;
 	private NavMeshAgent _agent;
 	private double _attackCooldown;
-
 
 	// Use this for initialization
 	void Start()
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		zombieState = ZombieState.IDLE;
+		searchTimer = new SearchTimer();
 	}
 
 	// Update is called once per frame
@@ -68,6 +70,18 @@ public class Zombie : MonoBehaviour
 		{
 			_lastTargetUpdateTick += Time.deltaTime;
 			// TODO: timer for when zombies stop looking
+			if (!searchTimer.IsTimerRunning())
+			{
+				searchTimer.StartTimer();
+			}
+			else if (searchTimer.GetElapsed() > searchTime)
+			{
+				var x = searchTimer.GetElapsed();
+				searchTimer.StopTimer();
+				searchTimer.ResetTimer();
+				zombieState = ZombieState.IDLE;
+			}
+
 			if (_lastTargetUpdateTick > 1.0)
 			{
 				LookAround();
@@ -78,92 +92,92 @@ public class Zombie : MonoBehaviour
 	}
 
 	private void MoveToNextPosition()
+	{
+		switch (WanderMode)
 		{
-			switch (WanderMode)
-			{
-				case WanderMode.AREA:
-					MoveToNextPositionInArea();
-					break;
-				case WanderMode.WAYPOINTS:
-					MoveToNextWayPoint();
-					break;
-			}
-		}
-
-		private void LookAround()
-		{
-			// TODO: make this good
-			int rnd = Random.Range(0, 100);
-			int rotation = Random.Range(0, 100);
-			if (rnd > 50)
-			{
-				_agent.SetDestination(Vector3.left);
-			}
-			else
-			{
-				_agent.SetDestination(Vector3.right);
-			}
-
-		}
-
-		private void MoveToNextWayPoint()
-		{
-			CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
-			_currentWaypoint = Waypoints[CurrentWaypointIndex];
-			_agent.SetDestination(_currentWaypoint);
-			ResetWaitTime();
-		}
-
-		private void MoveToNextPositionInArea()
-		{
-			Vector3 result;
-			NavMeshHit hit;
-			do
-			{
-				result = AreaCenter + Random.insideUnitSphere * AreaRange;
-			} while (!NavMesh.SamplePosition(result, out hit, 1, NavMesh.AllAreas));
-			_agent.SetDestination(hit.position);
-			ResetWaitTime();
-		}
-
-		private void ResetWaitTime()
-		{
-			WaitTime = 0;
-			NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
-		}
-
-		private void OnTriggerEnter(Collider other)
-		{
-			if (CanAttack(other.gameObject))
-			{
-				Attack(other.gameObject);
-			}
-		}
-
-		private void Attack(GameObject otherGameObject)
-		{
-			// TODO play attack animation
-			_attackCooldown = AttackSpeed;
-			var player = otherGameObject.GetComponent<Player>();
-			player.ZombificationLevel += ZombificationFactor;
-			player.TakeDamage(Damage);
-		}
-
-		private bool CanAttack()
-		{
-			return _attackCooldown <= 0;
-		}
-
-		private bool CanAttack(GameObject other)
-		{
-			return CanAttack() && other.CompareTag(PLAYER_TAG) && other.GetComponent<Player>().IsAlive();
-		}
-
-		private void OnTriggerStay(Collider other)
-		{
-			if (CanAttack(other.gameObject))
-			{
-				Attack(other.gameObject);
-			}
+			case WanderMode.AREA:
+				MoveToNextPositionInArea();
+				break;
+			case WanderMode.WAYPOINTS:
+				MoveToNextWayPoint();
+				break;
 		}
 	}
+
+	private void LookAround()
+	{
+		// TODO: make this good
+		//int rnd = Random.Range(0, 100);
+		//int rotation = Random.Range(0, 100);
+		//if (rnd > 50)
+		//{
+		//	_agent.SetDestination(Vector3.left);
+		//}
+		//else
+		//{
+		//	_agent.SetDestination(Vector3.right);
+		//}
+
+	}
+
+	private void MoveToNextWayPoint()
+	{
+		CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
+		_currentWaypoint = Waypoints[CurrentWaypointIndex];
+		_agent.SetDestination(_currentWaypoint);
+		ResetWaitTime();
+	}
+
+	private void MoveToNextPositionInArea()
+	{
+		Vector3 result;
+		NavMeshHit hit;
+		do
+		{
+			result = AreaCenter + Random.insideUnitSphere * AreaRange;
+		} while (!NavMesh.SamplePosition(result, out hit, 1, NavMesh.AllAreas));
+		_agent.SetDestination(hit.position);
+		ResetWaitTime();
+	}
+
+	private void ResetWaitTime()
+	{
+		WaitTime = 0;
+		NextWaypointStart = Random.Range(MinWaitTime, MaxWaitTime);
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (CanAttack(other.gameObject))
+		{
+			Attack(other.gameObject);
+		}
+	}
+
+	private void Attack(GameObject otherGameObject)
+	{
+		// TODO play attack animation
+		_attackCooldown = AttackSpeed;
+		var player = otherGameObject.GetComponent<Player>();
+		player.ZombificationLevel += ZombificationFactor;
+		player.TakeDamage(Damage);
+	}
+
+	private bool CanAttack()
+	{
+		return _attackCooldown <= 0;
+	}
+
+	private bool CanAttack(GameObject other)
+	{
+		return CanAttack() && other.CompareTag(PLAYER_TAG) && other.GetComponent<Player>().IsAlive();
+	}
+
+	private void OnTriggerStay(Collider other)
+	{
+		if (CanAttack(other.gameObject))
+		{
+			Attack(other.gameObject);
+		}
+	}
+}

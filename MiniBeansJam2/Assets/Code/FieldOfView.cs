@@ -12,6 +12,8 @@ public class FieldOfView : MonoBehaviour
 	public LayerMask targetMask;
 	public LayerMask obstacleMask;
 
+	public MeshRenderer fovMeshRenderer;
+
 	[HideInInspector]
 	public List<Transform> visibleTargets = new List<Transform>();
 
@@ -77,36 +79,48 @@ public class FieldOfView : MonoBehaviour
 		visibleTargets.Clear();
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, viewRadius, targetMask);
 
-		for (int i = 0; i < targetsInViewRadius.Length; i++)
+		if (targetsInViewRadius.Length > 0)
 		{
-			var current = targetsInViewRadius[i];
-			if (!current.GetComponent<Player>().IsAlive())
+			for (int i = 0; i < targetsInViewRadius.Length; i++)
 			{
-				continue;
-			}
-			Transform target = current.transform;
-			Vector3 dirToTarget = (target.position - transform.position).normalized;
-			if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
-			{
-				float dstToTarget = Vector3.Distance(transform.position, target.position);
-				if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
+				var current = targetsInViewRadius[i];
+				//if (!current.GetComponent<Player>().IsAlive())
+				//{
+				//	continue;
+				//}
+				Transform target = current.transform;
+				Vector3 dirToTarget = (target.position - transform.position).normalized;
+				if (Vector3.Angle(transform.forward, dirToTarget) < viewAngle / 2)
 				{
-					//visibleTargets.Add(target);
-
-					zombieState = ZombieState.FOLLOWING;
-					enemyTarget = target.gameObject;
-					GetComponentInParent<Zombie>().zombieState = zombieState;
-					Debug.DrawLine(transform.position, target.position, Color.black);
-				}
-				else
-				{
-					if (zombieState == ZombieState.FOLLOWING)
+					float dstToTarget = Vector3.Distance(transform.position, target.position);
+					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, obstacleMask))
 					{
-						zombieState = ZombieState.ALARMED;
+						//visibleTargets.Add(target);
+
+						zombieState = ZombieState.FOLLOWING;
+						enemyTarget = target.gameObject;
 						GetComponentInParent<Zombie>().zombieState = zombieState;
-						enemyTarget = null;
+						Debug.DrawLine(transform.position, target.position, Color.black);
+					}
+					else
+					{
+						if (zombieState == ZombieState.FOLLOWING)
+						{
+							zombieState = ZombieState.ALARMED;
+							GetComponentInParent<Zombie>().zombieState = zombieState;
+							enemyTarget = null;
+						}
 					}
 				}
+			}
+		}
+		else
+		{
+			if (zombieState == ZombieState.FOLLOWING)
+			{
+				zombieState = ZombieState.ALARMED;
+				GetComponentInParent<Zombie>().zombieState = zombieState;
+				enemyTarget = null;
 			}
 		}
 	}
@@ -123,7 +137,7 @@ public class FieldOfView : MonoBehaviour
 			{
 				float angle = transform.eulerAngles.y - viewAngle / 2 + stepAngleSize * i;
 				ViewCastInfo newViewCast = ViewCast(angle);
-
+				
 				if (i > 0)
 				{
 					bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.dst - newViewCast.dst) > edgeDstThreshold;
@@ -142,8 +156,6 @@ public class FieldOfView : MonoBehaviour
 					}
 
 				}
-
-
 				viewPoints.Add(newViewCast.point);
 				oldViewCast = newViewCast;
 			}
@@ -166,6 +178,28 @@ public class FieldOfView : MonoBehaviour
 			}
 
 			viewMesh.Clear();
+
+			Renderer rend = fovMeshRenderer.GetComponent<Renderer>();
+			//rend.material.shader = Shader.Find("_Color");GameObject.MA
+			//Material fovMaterial = (Material)Resources.Load("fov", typeof(Material));
+			if (rend != null)
+			{
+				switch (zombieState)
+				{
+					case ZombieState.IDLE:
+						rend.material.SetColor("_Color", Color.green);
+						//fovMaterial.color = Color.green;
+						break;
+					case ZombieState.ALARMED:
+						rend.material.SetColor("_Color", Color.yellow);
+						//fovMaterial.color = Color.yellow;
+						break;
+					case ZombieState.FOLLOWING:
+						rend.material.SetColor("_Color", Color.red);
+						//fovMaterial.color = Color.red;
+						break;
+				}
+			}
 
 			viewMesh.vertices = vertices;
 			viewMesh.triangles = triangles;
@@ -211,6 +245,8 @@ public class FieldOfView : MonoBehaviour
 	{
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
+
+
 
 		if (Physics.Raycast(transform.position, dir, out hit, viewRadius, obstacleMask))
 		{
