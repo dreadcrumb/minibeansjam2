@@ -9,15 +9,15 @@ public class Player : MonoBehaviour
 	public const String ITEM_TAG = "Item";
 	public const String GROUND_TAG = "Ground";
 
-
 	public Vector3 CurrentTarget;
-	public double PickupRange = 1;
+	public double InteractionRange = 1;
 	public int ZombificationLevel = 0;
 	public int Health = 100;
 	public GameObject SelectedItem;
+	public GameObject Trap;
 
 	private NavMeshAgent _agent;
-	private bool _pickedUpItem = false;
+    private PlayerActionIntention _intention;
 
 	public Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
 
@@ -29,61 +29,66 @@ public class Player : MonoBehaviour
 		_agent = GetComponent<NavMeshAgent>();
 	}
 
-	// Update is called once per frame
-	void Update()
-	{
-		Ray clickRay;
-		RaycastHit hit;
-		if (Input.GetMouseButtonDown(0))
-		{
-			clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-			if (Physics.Raycast(clickRay, out hit))
-			{
-				var colliderGameObject = hit.collider.gameObject;
-				if (colliderGameObject.CompareTag(ITEM_TAG))
-				{
-					PickUpItem(colliderGameObject);
-				}
-				else if (colliderGameObject.CompareTag(GROUND_TAG))
-				{
-					CurrentTarget = hit.point;
-					_agent.SetDestination(CurrentTarget);
-					_pickedUpItem = false;
-				}
-			}
-		}
-
-		if (_agent.remainingDistance < PickupRange && !_pickedUpItem)
-		{
-			OnPathFinish();
-		}
+    // Update is called once per frame
+    void Update()
+    {
+	    if (_intention != null)
+	    {
+		    if (!_intention.Update())
+		    {
+			    _intention = null;
+		    }
+	    }
+	    
+        Ray clickRay;
+        RaycastHit hit;
+        if (Input.GetMouseButtonDown(0))
+        {
+            clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(clickRay, out hit))
+            {
+                var colliderGameObject = hit.collider.gameObject;
+                if (colliderGameObject.CompareTag(ITEM_TAG))
+                {
+                    PickUpItemIfInRange(colliderGameObject);
+                }
+                else if (colliderGameObject.CompareTag(GROUND_TAG))
+                {
+                    CurrentTarget = hit.point;
+                    _agent.SetDestination(CurrentTarget);
+	                _intention = null;
+                }
+            }
+        }
+        else if (Input.GetMouseButton(1) && Items[ItemType.TRAPS] > 0)
+        {
+            clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(clickRay, out hit))
+            {
+                var colliderGameObject = hit.collider.gameObject;
+                if (colliderGameObject.CompareTag(GROUND_TAG))
+                {
+                    PlaceTrapAtIfInRange(hit.point);
+                }
+            }
+        }
 	}
 
-	private void OnPathFinish()
+	private void PickUpItemIfInRange(GameObject colliderGameObject)
 	{
-		if (SelectedItem != null && IsInRange(SelectedItem))
+		if (IsInRange(colliderGameObject.transform.position))
 		{
-			AddItem(SelectedItem);
-			SelectedItem = null;
-			_pickedUpItem = true;
-		}
-	}
-
-	private void PickUpItem(GameObject colliderGameObject)
-	{
-		if (IsInRange(colliderGameObject))
-		{
-			AddItem(colliderGameObject);
+			PickUpItem(colliderGameObject);
+			_intention = null;
 		}
 		else
 		{
-			_agent.SetDestination(colliderGameObject.transform.position);
-			SelectedItem = colliderGameObject;
-			_pickedUpItem = false;
+			_intention = new PlayerPickupActionIntention(this, colliderGameObject);
+			_intention.Start();
 		}
 	}
 
-	private void AddItem(GameObject colliderGameObject)
+	public void PickUpItem(GameObject colliderGameObject)
 	{
 		// TODO pickup animation
 		var itemObject = colliderGameObject.GetComponent<ItemObject>();
@@ -91,8 +96,28 @@ public class Player : MonoBehaviour
 		Destroy(colliderGameObject);
 	}
 
-	private bool IsInRange(GameObject otherObject)
+	private bool IsInRange(Vector3 location)
 	{
-		return Vector3.Distance(transform.position, otherObject.transform.position) < PickupRange;
+		return Vector3.Distance(transform.position, location) < InteractionRange;
 	}
+
+    private void PlaceTrapAtIfInRange(Vector3 location)
+    {
+	    if (IsInRange(location))
+	    {
+		    PlaceTrapAt(location);
+	    }
+	    else
+	    {
+		    _agent.SetDestination(location);
+		    _intention = new PlayerPlaceTrapActionIntention(this, location);
+		    _intention.Start();
+	    }
+    }
+
+    public void PlaceTrapAt(Vector3 location)
+    {
+	    // TODO place animation
+	    Instantiate(Trap, location, transform.rotation);
+    }
 }
