@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
 		if (!ArePlayersAlive())
 		{
 			// TODO switch scene?
+			// TODO Close Game
+			// TODO Uninstall windows
 		}
 	}
 

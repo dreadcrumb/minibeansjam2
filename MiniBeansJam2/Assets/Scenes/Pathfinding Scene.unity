@@ -836,21 +836,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0e46999acf5cc478a54dd366aa015c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 3.31
-  viewAngle: 52
-  maxViewRotation: 81
-  targetMask:
+  ViewRadius: 7.2
+  ViewAngle: 46.17
+  MaxViewRotation: 93
+  TargetMask:
     serializedVersion: 2
     m_Bits: 2048
-  obstacleMask:
+  ObstacleMask:
     serializedVersion: 2
     m_Bits: 1024
-  fovMeshRenderer: {fileID: 866736903}
-  visibleTargets: []
-  meshResolution: 1
-  edgeResolveIterations: 4
-  edgeDstThreshold: 0.5
-  viewMeshFilter: {fileID: 866736902}
+  FovMeshRenderer: {fileID: 866736903}
+  VisibleTargets: []
+  MeshResolution: 1
+  EdgeResolveIterations: 4
+  EdgeDstThreshold: 0.5
+  ViewMeshFilter: {fileID: 866736902}
 --- !u!95 &121286143
 Animator:
   serializedVersion: 3
@@ -940,7 +940,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4057554940787112, guid: 1d56ae0d6b175cc40acc81a2ca89f2ed, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1385988760966522, guid: 1d56ae0d6b175cc40acc81a2ca89f2ed, type: 2}
       propertyPath: m_Name
@@ -2002,6 +2002,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!1 &613354082
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 964086857}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613354083}
+  m_Layer: 0
+  m_Name: Missing Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &613354083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 964086857}
+  m_GameObject: {fileID: 613354082}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623970076
 GameObject:
   m_ObjectHideFlags: 0
@@ -7152,6 +7180,34 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!1 &1800467614
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 217864945}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1800467615}
+  m_Layer: 0
+  m_Name: Missing Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1800467615
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 217864945}
+  m_GameObject: {fileID: 1800467614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1800763257
 GameObject:
   m_ObjectHideFlags: 0
@@ -7611,21 +7667,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed0e46999acf5cc478a54dd366aa015c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 3.6
-  viewAngle: 60
-  maxViewRotation: 0
-  targetMask:
+  ViewRadius: 5.89
+  ViewAngle: 47
+  MaxViewRotation: 55
+  TargetMask:
     serializedVersion: 2
     m_Bits: 2048
-  obstacleMask:
+  ObstacleMask:
     serializedVersion: 2
     m_Bits: 1024
-  fovMeshRenderer: {fileID: 1986884773}
-  visibleTargets: []
-  meshResolution: 1
-  edgeResolveIterations: 4
-  edgeDstThreshold: 0.5
-  viewMeshFilter: {fileID: 1986884774}
+  FovMeshRenderer: {fileID: 1986884773}
+  VisibleTargets: []
+  MeshResolution: 1
+  EdgeResolveIterations: 4
+  EdgeDstThreshold: 0.5
+  ViewMeshFilter: {fileID: 1986884774}
 --- !u!95 &1882700738
 Animator:
   serializedVersion: 3
@@ -7915,7 +7971,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4768985532777340, guid: 5a2033c5ed5faf940877b93fc1091c10, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1830142335231350, guid: 5a2033c5ed5faf940877b93fc1091c10, type: 2}
       propertyPath: m_Name
@@ -8544,3 +8600,31 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2103721568}
   m_CullTransparentMesh: 0
+--- !u!1 &2134697512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1950705865}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2134697513}
+  m_Layer: 0
+  m_Name: Missing Prefab
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2134697513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 1950705865}
+  m_GameObject: {fileID: 2134697512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

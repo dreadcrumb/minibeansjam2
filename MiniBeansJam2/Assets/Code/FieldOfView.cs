@@ -118,11 +118,17 @@ public class FieldOfView : MonoBehaviour
 					}
 					else
 					{
-
 						if (_zombieState == ZombieState.FOLLOWING)
 						{
 							LostSight();
 						}
+					}
+				}
+				else
+				{
+					if (_zombieState == ZombieState.FOLLOWING)
+					{
+						LostSight();
 					}
 				}
 			}
