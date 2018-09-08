@@ -204,6 +204,11 @@ public class Zombie : MonoBehaviour
 
 	private void MoveToNextWayPoint()
 	{
+		if (Waypoints.Count == 0)
+		{
+			return;
+		}
+		
 		CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
 		_currentWaypoint = Waypoints[CurrentWaypointIndex];
 		_agent.SetDestination(_currentWaypoint);
