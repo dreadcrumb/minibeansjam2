@@ -60,17 +60,24 @@ public class Player : MonoBehaviour
                 }
             }
         }
-        else if (Input.GetMouseButton(1) && Items[ItemType.TRAPS] > 0)
+        else if (Input.GetMouseButton(1))
         {
-            clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(clickRay, out hit))
-            {
-                var colliderGameObject = hit.collider.gameObject;
-                if (colliderGameObject.CompareTag(GROUND_TAG))
-                {
-                    PlaceTrapAtIfInRange(hit.point);
-                }
-            }
+	        if (Items[ItemType.TRAPS] > 0)
+	        {
+		        clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+		        if (Physics.Raycast(clickRay, out hit))
+		        {
+			        var colliderGameObject = hit.collider.gameObject;
+			        if (colliderGameObject.CompareTag(GROUND_TAG))
+			        {
+				        PlaceTrapAtIfInRange(hit.point);
+			        }
+		        }
+	        }
+	        else
+	        {
+		        Debug.Log("Not enough traps!"); // TODO maybe some UI indication?
+	        }
         }
 	}
 
@@ -117,7 +124,13 @@ public class Player : MonoBehaviour
 
     public void PlaceTrapAt(Vector3 location)
     {
+	    if (Items[ItemType.TRAPS] <= 0)
+	    {
+		    return;
+	    }
+	    
 	    // TODO place animation
 	    Instantiate(Trap, location, transform.rotation);
+	    Items[ItemType.TRAPS] -= 1;
     }
 }
