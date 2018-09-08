@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
 	    {
 		    Ray clickRay;
 		    RaycastHit hit;
-		    if (Input.GetMouseButtonDown(0))
+		    if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
 		    {
 			    clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 			    if (Physics.Raycast(clickRay, out hit))
@@ -62,33 +63,19 @@ public class Player : MonoBehaviour
 				    }
 				    else if (colliderGameObject.CompareTag(GROUND_TAG))
 				    {
-					    CurrentTarget = hit.point;
-					    _agent.SetDestination(CurrentTarget);
-					    _intention = null;
+					    MoveTo(hit.point);
 				    }
-			    }
-		    }
-		    else if (Input.GetMouseButton(1))
-		    {
-			    if (Items[ItemType.TRAPS] > 0)
-			    {
-				    clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-				    if (Physics.Raycast(clickRay, out hit))
-				    {
-					    var colliderGameObject = hit.collider.gameObject;
-					    if (colliderGameObject.CompareTag(GROUND_TAG))
-					    {
-						    PlaceTrapAtIfInRange(hit.point);
-					    }
-				    }
-			    }
-			    else
-			    {
-				    Debug.Log("Not enough traps!"); // TODO maybe some UI indication?
 			    }
 		    }
 	    }
     }
+
+	public void MoveTo(Vector3 location)
+	{
+		CurrentTarget = location;
+		_agent.SetDestination(CurrentTarget);
+		_intention = null;
+	}
 
 	public void TakeDamage(int amount)
 	{
@@ -99,7 +86,7 @@ public class Player : MonoBehaviour
 		}
 	}
 
-	private void PickUpItemIfInRange(GameObject colliderGameObject)
+	public void PickUpItemIfInRange(GameObject colliderGameObject)
 	{
 		if (IsInRange(colliderGameObject.transform.position))
 		{
@@ -126,7 +113,7 @@ public class Player : MonoBehaviour
 		return Vector3.Distance(transform.position, location) < InteractionRange;
 	}
 
-    private void PlaceTrapAtIfInRange(Vector3 location)
+    public void PlaceTrapAtIfInRange(Vector3 location)
     {
 	    if (IsInRange(location))
 	    {
@@ -134,7 +121,6 @@ public class Player : MonoBehaviour
 	    }
 	    else
 	    {
-		    _agent.SetDestination(location);
 		    _intention = new PlayerPlaceTrapActionIntention(this, location);
 		    _intention.Start();
 	    }
@@ -160,5 +146,16 @@ public class Player : MonoBehaviour
 	public bool IsAlive()
 	{
 		return Health > 0;
+	}
+
+	public bool IsSelected()
+	{
+		return _selected;
+	}
+
+	public void TakePill()
+	{
+		Items[ItemType.PILLS] -= 1;
+		ZombificationLevel = Math.Max(ZombificationLevel - 20, 0);
 	}
 }

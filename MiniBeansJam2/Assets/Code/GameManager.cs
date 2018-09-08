@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+	public GameObject InteractMenu;
+	
 	private GameObject selectedZombie;
 	private GameObject currentPlayer;
 	public const string ZOMBIE_TAG = "Target";
 	public const string PLAYER_TAG = "Player";
+	public const string GROUND_TAG = "Ground";
 
 	private List<GameObject> enemyList;
 	private List<GameObject> players;
@@ -42,6 +45,11 @@ public class GameManager : MonoBehaviour
 				if (colliderGameObject.CompareTag(ZOMBIE_TAG))
 				{
 					colliderGameObject.GetComponent<FieldOfView>().SetSelected(true);
+				}
+				else if (colliderGameObject.CompareTag(GROUND_TAG))
+				{
+					InteractMenu.SetActive(true);
+					InteractMenu.transform.position = hit.point;
 				}
 			}
 		}
