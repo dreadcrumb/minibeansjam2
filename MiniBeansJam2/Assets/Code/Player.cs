@@ -44,8 +44,8 @@ public class Player : MonoBehaviour
 		Items[ItemType.PILLS] = 1;
 		Items[ItemType.TRAPS] = 0;
 		Items[ItemType.STONES] = 3;
-		Items[ItemType.EXPLOSIVE] = 0;
-		Items[ItemType.ARROW] = 0;
+		Items[ItemType.EXPLOSIVE] = 5;
+		Items[ItemType.ARROW] = 5;
 		_agent = GetComponent<NavMeshAgent>();
 		_source = GetComponent<AudioSource>();
 	}
