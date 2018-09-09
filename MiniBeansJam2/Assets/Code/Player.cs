@@ -133,6 +133,8 @@ public class Player : MonoBehaviour
 	{
 		Health -= amount - amount * Armor;
 		GetComponent<Animator>().SetTrigger("Hit");
+		_source.PlayOneShot(_source.clip);
+
 		if (!IsAlive())
 		{
 			// TODO death animation
@@ -230,7 +232,7 @@ public class Player : MonoBehaviour
 
 		Items[ItemType.PILLS] -= 1;
 		ZombificationLevel = Math.Max(ZombificationLevel - 20, 0);
-		_source.PlayOneShot(Resources.Load("miniBeansjam_SFX_DrinkPotion") as AudioClip);
+		_source.PlayOneShot(_source.clip/*Resources.Load("miniBeansjam_SFX_DrinkPotion") as AudioClip*/);
 	}
 
 	public void ThrowStoneIfInRange(Vector3 location)
@@ -296,7 +298,6 @@ public class Player : MonoBehaviour
 		Items[ItemType.ARROW] -= 1;
 		Destroy(target.gameObject);
 		_lastAttackTime = 0;
-		_source.PlayOneShot(_source.clip);
 	}
 
 	public void TryThrowExplosiveAt(Zombie zombie)
