@@ -88,6 +88,9 @@ public class Player : MonoBehaviour
 					}
 				}
 			}
+
+			// Only play for selected player
+			SetZombieVolume();
 		}
 
 		if (Health > 0)
@@ -112,6 +115,11 @@ public class Player : MonoBehaviour
 
 		_lastAttackTime += Time.deltaTime;
 		GetComponent<Animator>().SetBool("Walking", _agent.remainingDistance > _agent.radius);
+	}
+
+	private void SetZombieVolume()
+	{
+		GetComponentInChildren<PlayZombieSound>().SetZombiesVolume();
 	}
 
 	public void MoveTo(Vector3 location)
@@ -222,6 +230,7 @@ public class Player : MonoBehaviour
 
 		Items[ItemType.PILLS] -= 1;
 		ZombificationLevel = Math.Max(ZombificationLevel - 20, 0);
+		_source.PlayOneShot(Resources.Load("miniBeansjam_SFX_DrinkPotion") as AudioClip);
 	}
 
 	public void ThrowStoneIfInRange(Vector3 location)

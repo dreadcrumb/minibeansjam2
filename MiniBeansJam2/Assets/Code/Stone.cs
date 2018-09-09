@@ -4,6 +4,7 @@ public class Stone : MonoBehaviour
 {
     public float Radius;
     public LayerMask TargetMask;
+	private AudioSource _source;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -20,4 +21,14 @@ public class Stone : MonoBehaviour
             Destroy(this);
         }
     }
+
+	void Start()
+	{
+		_source = GetComponent<AudioSource>();
+	}
+
+	void OnCollision(Collision collision)
+	{
+		_source.PlayOneShot(_source.clip);
+	}
 }
