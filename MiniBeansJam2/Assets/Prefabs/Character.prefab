@@ -3228,7 +3228,7 @@ MonoBehaviour:
   ZombificationDamage: 0.1
   ZombiePrefab: {fileID: 1118550606329352, guid: 91b6549716700c44c8601e43f8c34e91,
     type: 2}
-  Armor: 0
+  Armor: 0.5
   Type: 0
 --- !u!136 &136754673254000984
 CapsuleCollider:
