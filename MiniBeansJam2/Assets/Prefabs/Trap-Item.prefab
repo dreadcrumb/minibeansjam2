@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95370709151373960}
   - component: {fileID: 114768280437456298}
   m_Layer: 0
-  m_Name: falle
+  m_Name: Trap-Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
