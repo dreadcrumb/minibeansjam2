@@ -100,7 +100,7 @@ public class FieldOfView : MonoBehaviour
 				Vector3 dirToTarget = (target.position - transform.position).normalized;
 
 				//_lookDir = DirFromAngle(ViewAngle, true);	
-				if (Vector3.Angle(DirFromAngle(ViewAngle, true), dirToTarget) < ViewAngle / 2)
+				if (Vector3.Angle(_lookDir, dirToTarget) < ViewAngle / 2)
 				{
 					float dstToTarget = Vector3.Distance(transform.position, target.position);
 					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, ObstacleMask))
