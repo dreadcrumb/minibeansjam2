@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 95795513582283762}
   - component: {fileID: 114727861554887998}
   m_Layer: 0
-  m_Name: Heiltrank 1
+  m_Name: AoE Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
