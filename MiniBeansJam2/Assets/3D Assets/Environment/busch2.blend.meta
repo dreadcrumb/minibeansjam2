@@ -1,38 +1,16 @@
 fileFormatVersion: 2
-guid: 0b5fc97f25f09714d983fcf145d84090
+guid: 6bb8cad4f79fcdf438cc309f5435b448
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Cube_003
-    100004: Cylinder
-    100006: Cylinder_001
     400000: //RootNode
-    400002: Cube_003
-    400004: Cylinder
-    400006: Cylinder_001
-    2100000: Material_008
-    2100002: Material_011
-    2100004: Material_009
-    2100006: Material_010
-    2100008: Material_012
-    2100010: Material_015
-    2100012: Material_016
-    2100014: Material_004
+    2100000: Material_001
     2300000: //RootNode
-    2300002: Cube_003
-    2300004: Cylinder
-    2300006: Cylinder_001
     3300000: //RootNode
-    3300002: Cube_003
-    3300004: Cylinder
-    3300006: Cylinder_001
-    4300000: Cube_003
-    4300002: Cylinder_001
-    4300004: Cylinder
+    4300000: Cylinder
     7400000: Default Take
     9500000: //RootNode
-    2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -87,10 +65,10 @@ ModelImporter:
     previousCalculatedGlobalScale: 1
     hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
-    normalSmoothAngle: 0
-    normalImportMode: 1
+    normalSmoothAngle: 60
+    normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 3
+    normalCalculationMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
