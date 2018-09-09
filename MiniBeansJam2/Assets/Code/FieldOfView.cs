@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.AccessControl;
@@ -37,8 +38,8 @@ public class FieldOfView : MonoBehaviour
 	private bool _increasing;
 
 	private Vector3 _lookDir;
-
 	private Vector3 _lastPointPlayerSeen;
+	private Zombie _zombie;
 
 	void Start()
 	{
@@ -47,6 +48,7 @@ public class FieldOfView : MonoBehaviour
 
 		_lookDir = transform.forward;
 		StartCoroutine("FindTargetsWithDelay", .2f);
+		_zombie = GetComponentInParent<Zombie>();
 	}
 
 	IEnumerator FindTargetsWithDelay(float delay)
@@ -65,15 +67,14 @@ public class FieldOfView : MonoBehaviour
 
 	void Update()
 	{
-		switch (GetComponentInParent<Zombie>().GetZombieState())
+		switch (_zombie.GetZombieState())
 		{
 			case ZombieState.IDLE:
 				break;
 			case ZombieState.FOLLOWING:
 				if (_enemyTarget != null)
 				{
-					var zombieComponent = GetComponentInParent<Zombie>();
-					zombieComponent.Target = _enemyTarget;
+					_zombie.Target = _enemyTarget;
 				}
 
 				break;
@@ -100,7 +101,7 @@ public class FieldOfView : MonoBehaviour
 				Vector3 dirToTarget = (target.position - transform.position).normalized;
 
 				//_lookDir = DirFromAngle(ViewAngle, true);	
-				if (Vector3.Angle(_lookDir, dirToTarget) < ViewAngle / 2)
+				if (Math.Abs(Vector3.Angle(_lookDir, dirToTarget)) < ViewAngle / 2)
 				{
 					float dstToTarget = Vector3.Distance(transform.position, target.position);
 					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, ObstacleMask))
@@ -108,9 +109,8 @@ public class FieldOfView : MonoBehaviour
 						//_lookDir = dirToTarget;	
 						//_rotationStep = 0;
 
-						GetComponentInParent<Zombie>().SetAgentDestination(target.transform.position); // Does not work properly
-
-						GetComponentInParent<Zombie>().SetZombieState(ZombieState.FOLLOWING);
+						_zombie.SetAgentDestination(target.transform.position); // Does not work properly
+						_zombie.SetZombieState(ZombieState.FOLLOWING);
 						_enemyTarget = target.gameObject;
 
 						Debug.DrawLine(transform.position, target.position, Color.black);
@@ -120,7 +120,7 @@ public class FieldOfView : MonoBehaviour
 					else
 					{
 						//	Player blocked by object
-						if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
+						if (_zombie.GetZombieState() == ZombieState.FOLLOWING)
 						{
 							LostSight();
 						}
@@ -139,7 +139,7 @@ public class FieldOfView : MonoBehaviour
 		else
 		{
 			//Player out of radius
-			if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
+			if (_zombie.GetZombieState() == ZombieState.FOLLOWING)
 			{
 				LostSight();
 			}
@@ -150,14 +150,14 @@ public class FieldOfView : MonoBehaviour
 	private void PingPongViewAngle()
 	{
 		// Rotate FOV if not following
-		if (GetComponentInParent<Zombie>().GetZombieState() != ZombieState.FOLLOWING)
+		if (_zombie.GetZombieState() != ZombieState.FOLLOWING)
 		{
 			if (_increasing)
 			{
 				if (_rotationStep < MaxViewRotation)
 				{
 					_rotationStep += ViewSpeed;
-					_lookDir = DirFromAngle(ViewAngle, true);
+					_lookDir = Quaternion.Euler(0, _rotationStep, 0) * transform.forward;
 				}
 				else
 				{
@@ -169,7 +169,7 @@ public class FieldOfView : MonoBehaviour
 				if (_rotationStep > -MaxViewRotation)
 				{
 					_rotationStep -= ViewSpeed;
-					_lookDir = DirFromAngle(ViewAngle, true);
+					_lookDir = Quaternion.Euler(0, _rotationStep, 0) * transform.forward;
 				}
 				else
 				{
@@ -181,8 +181,8 @@ public class FieldOfView : MonoBehaviour
 
 	private void LostSight()
 	{
-		GetComponentInParent<Zombie>().SetZombieState(ZombieState.ALARMED);
-		GetComponentInParent<Zombie>().SetAgentDestination(_lastPointPlayerSeen);
+		_zombie.SetZombieState(ZombieState.ALARMED);
+		_zombie.SetAgentDestination(_lastPointPlayerSeen);
 		//_lookDir = transform.forward;
 		_enemyTarget = null;
 		//_rotationStep = 0;
@@ -195,18 +195,20 @@ public class FieldOfView : MonoBehaviour
 			int stepCount = Mathf.RoundToInt(ViewAngle * MeshResolution);
 			float stepAngleSize = ViewAngle / stepCount;
 			List<Vector3> viewPoints = new List<Vector3>();
-			ViewCastInfo oldViewCast = new ViewCastInfo();
+			ViewCastInfo previousCastInfo = new ViewCastInfo();
 			for (int i = 0; i <= stepCount; i++)
 			{
 				float angle = transform.eulerAngles.y - ViewAngle / 2 + stepAngleSize * i;
-				ViewCastInfo newViewCast = ViewCast(angle);
+				ViewCastInfo currentCastInfo = ViewCast(angle);
 
 				if (i > 0)
 				{
-					bool edgeDstThresholdExceeded = Mathf.Abs(oldViewCast.Dst - newViewCast.Dst) > EdgeDstThreshold;
-					if (oldViewCast.Hit != newViewCast.Hit || (oldViewCast.Hit && newViewCast.Hit && edgeDstThresholdExceeded))
+					bool edgeDstThresholdExceeded =
+						Mathf.Abs(previousCastInfo.Dst - currentCastInfo.Dst) > EdgeDstThreshold;
+					if (previousCastInfo.Hit != currentCastInfo.Hit ||
+					    (previousCastInfo.Hit && currentCastInfo.Hit && edgeDstThresholdExceeded))
 					{
-						EdgeInfo edge = FindEdge(oldViewCast, newViewCast);
+						EdgeInfo edge = FindEdge(previousCastInfo, currentCastInfo);
 						if (edge.PointA != Vector3.zero)
 						{
 							viewPoints.Add(edge.PointA);
@@ -217,10 +219,10 @@ public class FieldOfView : MonoBehaviour
 							viewPoints.Add(edge.PointB);
 						}
 					}
-
 				}
-				viewPoints.Add(newViewCast.Point);
-				oldViewCast = newViewCast;
+
+				viewPoints.Add(currentCastInfo.Point);
+				previousCastInfo = currentCastInfo;
 			}
 
 			int vertexCount = viewPoints.Count + 1;
@@ -246,7 +248,7 @@ public class FieldOfView : MonoBehaviour
 
 			if (rend != null)
 			{
-				switch (GetComponentInParent<Zombie>().GetZombieState())
+				switch (_zombie.GetZombieState())
 				{
 					case ZombieState.IDLE:
 						rend.material.SetColor("_Color", Color.green);

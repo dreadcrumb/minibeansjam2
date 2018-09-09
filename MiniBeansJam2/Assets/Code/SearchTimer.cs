@@ -31,7 +31,6 @@ public class SearchTimer : MonoBehaviour
 	public void ResetTimer()
 	{
 		time = 0;
-		Debug.Log("Timer Reset");
 	}
 
 	//Stop Timer

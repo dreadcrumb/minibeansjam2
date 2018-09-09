@@ -42,15 +42,19 @@ public class Zombie : MonoBehaviour
 	private NavMeshAgent _agent;
 	private double _attackCooldown;
 
+	private AudioSource _source;
+
 	// Use this for initialization
 	void Start()
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		zombieState = ZombieState.IDLE;
 		_areaCenter = transform.position;
-		//questionMarkTimer = new SearchTimer();
-		//exclamationMarkTimer = new SearchTimer();
 		SetMarkVisibilityAndPosition(false, false);
+
+		_source = GetComponent<AudioSource>();
+		_source.pitch = Random.Range(0.8f, 1.2f);
+		_source.Play();
 	}
 
 	// Update is called once per frame
@@ -90,6 +94,11 @@ public class Zombie : MonoBehaviour
 				_lastTargetUpdateTick += Time.deltaTime;
 				if (_lastTargetUpdateTick > 1.0)
 				{
+					if (Target == null)
+					{
+						zombieState = ZombieState.ALARMED;
+						break;
+					}
 					_agent.SetDestination(Target.transform.position);
 					_lastTargetUpdateTick = 0;
 				}
@@ -114,7 +123,7 @@ public class Zombie : MonoBehaviour
 					GetComponentInParent<FieldOfView>().ViewSpeed = 9;
 					QuestionMarkFill.fillAmount = 1;
 				}
-				
+
 
 
 				if (_lastTargetUpdateTick > 1.0)
@@ -128,7 +137,9 @@ public class Zombie : MonoBehaviour
 		}
 
 		_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
-		GetComponent<Animator>().SetBool("Walking", _agent.remainingDistance > _agent.radius);
+		bool isWalking = _agent.remainingDistance > _agent.radius;
+		GetComponentInChildren<Footsteps>().SetFootstepsPlaying(isWalking);
+		GetComponent<Animator>().SetBool("Walking", isWalking);
 	}
 
 	private void SetMarkVisibilityAndPosition(bool questionMarkVisibility, bool exclamationMarkVisibility)
@@ -194,7 +205,7 @@ public class Zombie : MonoBehaviour
 		{
 			return;
 		}
-		
+
 		CurrentWaypointIndex = (CurrentWaypointIndex + 1) % Waypoints.Count;
 		_currentWaypoint = Waypoints[CurrentWaypointIndex];
 		_agent.SetDestination(_currentWaypoint);
