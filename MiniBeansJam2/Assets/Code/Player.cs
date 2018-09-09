@@ -140,6 +140,7 @@ public class Player : MonoBehaviour
 	{
 		Health -= amount - amount * Armor;
 		GetComponent<Animator>().SetTrigger("Hit");
+		_source.volume = 0.5f;
 		_source.PlayOneShot(_source.clip);
 
 		if (!IsAlive())
