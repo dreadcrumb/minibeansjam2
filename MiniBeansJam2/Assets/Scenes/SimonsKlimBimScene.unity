@@ -8696,6 +8696,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractMenu: {fileID: 1861117933}
+  MenuScene: 1
 --- !u!4 &291223188
 Transform:
   m_ObjectHideFlags: 0
