@@ -3167,7 +3167,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!95 &95614157252080540
 Animator:
@@ -3222,11 +3222,12 @@ MonoBehaviour:
   ZombificationLevel: 0
   Health: 100
   Trap: {fileID: 0}
-  Stone: {fileID: 0}
+  Stone: {fileID: 1592099978979732, guid: 77dcc73ffd67ac849a87e4239e29e833, type: 2}
   ZombificationPassiveIncrement: 0
   ZombificationDamageThreshold: 35
   ZombificationDamage: 0.1
-  ZombiePrefab: {fileID: 0}
+  ZombiePrefab: {fileID: 1118550606329352, guid: 91b6549716700c44c8601e43f8c34e91,
+    type: 2}
   Armor: 0
   Type: 0
 --- !u!136 &136754673254000984
@@ -3238,10 +3239,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.3
-  m_Height: 1.6
+  m_Radius: 0.6
+  m_Height: 2.7
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8, z: 0}
+  m_Center: {x: 0, y: 1.0412083, z: 0}
 --- !u!137 &137225212502185762
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -3476,5 +3477,5 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4
