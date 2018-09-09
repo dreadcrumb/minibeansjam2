@@ -1316,7 +1316,7 @@ MonoBehaviour:
   AttackCooldown: 1
   ZombificationLevel: 0
   Health: 100
-  Trap: {fileID: 1408120137117222, guid: d30e1f906dd0f4240b6d1cd4e43259b0, type: 2}
+  Trap: {fileID: 1081294939795194, guid: 8435349bc637a1645b17e13a8aed1144, type: 2}
   Stone: {fileID: 1592099978979732, guid: 77dcc73ffd67ac849a87e4239e29e833, type: 2}
   Explosive: {fileID: 0}
   ZombificationPassiveIncrement: 0
