@@ -1124,7 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dda1e5f1d39ce3b43b64b534b513f963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WanderMode: 1
+  WanderMode: 0
   MinWaitTime: 5
   MaxWaitTime: 10
   WaitTime: 0
@@ -1132,7 +1132,6 @@ MonoBehaviour:
   CurrentWaypointIndex: 0
   NextWaypointStart: 3
   AreaRange: 5
-  AreaCenter: {x: 0, y: 0, z: 0}
   Target: {fileID: 0}
   AttackSpeed: 1
   ZombificationFactor: 5

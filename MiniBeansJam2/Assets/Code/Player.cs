@@ -97,7 +97,6 @@ public class Player : MonoBehaviour
 		    var createdZombie = Instantiate(ZombiePrefab, position, rotation);
 		    var zombie = createdZombie.GetComponent<Zombie>();
 		    zombie.WanderMode = WanderMode.AREA;
-		    zombie.AreaCenter = transform.position;
 		    zombie.AreaRange = 5;
 		    Destroy(gameObject);
 	    }

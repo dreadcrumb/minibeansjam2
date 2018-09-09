@@ -20,7 +20,6 @@ public class Zombie : MonoBehaviour
 	public double NextWaypointStart = 3.0;
 
 	public float AreaRange = 5;
-	public Vector3 AreaCenter;
 
 	public GameObject Target;
 	public double AttackSpeed = 1;
@@ -34,6 +33,7 @@ public class Zombie : MonoBehaviour
 	public Image ExclamationMOutline;
 	public Image ExclamationMFill;
 
+	private Vector3 _areaCenter;
 	public SearchTimer questionMarkTimer;
 	public SearchTimer exclamationMarkTimer;
 	private ZombieState zombieState;
@@ -47,6 +47,7 @@ public class Zombie : MonoBehaviour
 	{
 		_agent = GetComponent<NavMeshAgent>();
 		zombieState = ZombieState.IDLE;
+		_areaCenter = transform.position;
 		//questionMarkTimer = new SearchTimer();
 		//exclamationMarkTimer = new SearchTimer();
 		SetMarkVisibilityAndPosition(false, false);
@@ -206,7 +207,7 @@ public class Zombie : MonoBehaviour
 		NavMeshHit hit;
 		do
 		{
-			result = AreaCenter + Random.insideUnitSphere * AreaRange;
+			result = _areaCenter + Random.insideUnitSphere * AreaRange;
 		} while (!NavMesh.SamplePosition(result, out hit, 1, NavMesh.AllAreas));
 		_agent.SetDestination(hit.position);
 		ResetWaitTime();

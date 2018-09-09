@@ -693,11 +693,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 224834385406916936, guid: 91b6549716700c44c8601e43f8c34e91,
-        type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4295481818954180, guid: 91b6549716700c44c8601e43f8c34e91, type: 2}
       propertyPath: m_LocalPosition.x
       value: 24.847164
@@ -733,6 +728,11 @@ Prefab:
     - target: {fileID: 1118550606329352, guid: 91b6549716700c44c8601e43f8c34e91, type: 2}
       propertyPath: m_Name
       value: Zombie (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 224834385406916936, guid: 91b6549716700c44c8601e43f8c34e91,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 91b6549716700c44c8601e43f8c34e91, type: 2}
@@ -7985,7 +7985,6 @@ MonoBehaviour:
   CurrentWaypointIndex: 0
   NextWaypointStart: 3
   AreaRange: 5
-  AreaCenter: {x: 0, y: 0, z: 0}
   Target: {fileID: 0}
   AttackSpeed: 1
   ZombificationFactor: 5
