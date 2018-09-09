@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour 
 {
-
 	public Dialogue dialogue;
+	private bool _started = false;
 
 	public void TriggerDialogue ()
 	{
-		FindObjectOfType<DialogueManager> ().StartDialogue (dialogue);
+		FindObjectOfType<DialogueManager>().StartDialogue(dialogue);
 	}
 
-	void Update()
+	private void Update()
 	{
-		if(Input.GetKeyDown(KeyCode.Space))
-			TriggerDialogue ();
+		if (!_started)
+		{
+			TriggerDialogue();
+			_started = true;
+		}
 	}
 }
