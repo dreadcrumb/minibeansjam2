@@ -451,6 +451,7 @@ MonoBehaviour:
   dialogueText: {fileID: 2015995260}
   profilImage: {fileID: 2121946496}
   mainCG: {fileID: 1470262042}
+  DialogFinishedScene: 3
 --- !u!4 &877214314
 Transform:
   m_ObjectHideFlags: 0
