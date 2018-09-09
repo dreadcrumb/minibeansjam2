@@ -104,19 +104,24 @@ public class Player : MonoBehaviour
 
 		if (ZombificationLevel >= 100)
 		{
-			var position = transform.position;
-			var rotation = transform.rotation;
-			var createdZombie = Instantiate(ZombiePrefab, position, rotation);
-			var zombie = createdZombie.GetComponent<Zombie>();
-			zombie.WanderMode = WanderMode.AREA;
-			zombie.AreaRange = 5;
-			Destroy(gameObject);
+			TurnIntoZombie();
 		}
 
 		_lastAttackTime += Time.deltaTime;
 		bool isWalking = _agent.remainingDistance > _agent.radius;
 		GetComponentInChildren<Footsteps>().SetFootstepsPlaying(isWalking);
 		GetComponent<Animator>().SetBool("Walking", isWalking);
+	}
+
+	private void TurnIntoZombie()
+	{
+		var position = transform.position;
+		var rotation = transform.rotation;
+		var createdZombie = Instantiate(ZombiePrefab, position, rotation);
+		var zombie = createdZombie.GetComponent<Zombie>();
+		zombie.WanderMode = WanderMode.AREA;
+		zombie.AreaRange = 5;
+		Destroy(gameObject);
 	}
 
 	private void SetZombieVolume()
@@ -139,7 +144,7 @@ public class Player : MonoBehaviour
 
 		if (!IsAlive())
 		{
-			// TODO death animation
+			TurnIntoZombie();
 		}
 	}
 
