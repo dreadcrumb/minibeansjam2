@@ -132,7 +132,9 @@ public class Zombie : MonoBehaviour
 		}
 
 		_attackCooldown = Math.Max(_attackCooldown - Time.deltaTime, -0.01);
-		GetComponent<Animator>().SetBool("Walking", _agent.remainingDistance > _agent.radius);
+		bool isWalking = _agent.remainingDistance > _agent.radius;
+		GetComponentInChildren<Footsteps>().SetFootstepsPlaying(isWalking);
+		GetComponent<Animator>().SetBool("Walking", isWalking);
 	}
 
 	private void SetMarkVisibilityAndPosition(bool questionMarkVisibility, bool exclamationMarkVisibility)
