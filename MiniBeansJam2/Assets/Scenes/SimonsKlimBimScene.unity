@@ -10707,6 +10707,16 @@ Prefab:
       propertyPath: Trap
       value: 
       objectReference: {fileID: 1673491423}
+    - target: {fileID: 82187794761559628, guid: 50439b2466b42ba47b53b9372cb28e87,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.101
+      objectReference: {fileID: 0}
+    - target: {fileID: 82433613310275410, guid: 50439b2466b42ba47b53b9372cb28e87,
+        type: 2}
+      propertyPath: m_Volume
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50439b2466b42ba47b53b9372cb28e87, type: 2}
   m_IsPrefabAsset: 0
@@ -49785,6 +49795,11 @@ Prefab:
     - target: {fileID: 4855905510205516, guid: fd0efe1dc6f501b4996b246e905117b6, type: 2}
       propertyPath: m_RootOrder
       value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 82731276832633350, guid: fd0efe1dc6f501b4996b246e905117b6,
+        type: 2}
+      propertyPath: m_Volume
+      value: 0.083
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd0efe1dc6f501b4996b246e905117b6, type: 2}

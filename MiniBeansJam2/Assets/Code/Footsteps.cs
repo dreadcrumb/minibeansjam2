@@ -9,6 +9,7 @@ public class Footsteps : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		_source = GetComponent<AudioSource>();
+		_source.volume = 0.3f;
 	}
 
 	public void SetFootstepsPlaying(bool playing)
