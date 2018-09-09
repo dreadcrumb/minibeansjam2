@@ -7290,7 +7290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 0.25
-  EdgeSize: 10
+  EdgeSize: 15
   MaxZoom: 10
   MinZoom: 20
 --- !u!114 &555339037
