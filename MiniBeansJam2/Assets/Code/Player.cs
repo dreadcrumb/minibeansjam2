@@ -212,7 +212,7 @@ public class Player : MonoBehaviour
 		}
 
 		// TODO place animation
-		Instantiate(Trap, location, transform.rotation);
+		Instantiate(Trap, location, Trap.transform.rotation);
 		Items[ItemType.TRAPS] -= 1;
 	}
 
