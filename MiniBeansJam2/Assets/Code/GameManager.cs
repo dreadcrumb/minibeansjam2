@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour
             ClearSelectedEnemies();
         }
 
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            DoAttack();
+        }
+
         var players = GameObject.FindGameObjectsWithTag(PLAYER_TAG).ToList();
         for (int i = 0; i < Math.Min(players.Count, playerKeys.Length); i++)
         {
@@ -78,6 +83,44 @@ public class GameManager : MonoBehaviour
             // TODO switch scene?
             // TODO Close Game
             // TODO Uninstall windows
+        }
+    }
+
+    private void DoAttack()
+    {
+        var player = currentPlayer.GetComponent<Player>();
+        if (player.Type != PlayerType.TANK)
+        {
+            Ray clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(clickRay, out hit))
+            {
+                var colliderGameObject = hit.collider.gameObject;
+                if (colliderGameObject.CompareTag(ZOMBIE_TAG))
+                {
+                    AttackZombie(colliderGameObject);
+                }
+            }
+        }
+        else
+        {
+            player.PushAway();
+        }
+    }
+
+    private void AttackZombie(GameObject zombieObject)
+    {
+        var player = currentPlayer.GetComponent<Player>();
+        var zombie = zombieObject.GetComponent<Zombie>();
+        switch (player.Type)
+        {
+            case PlayerType.ARCHER:
+                player.TryShootArrowAt(zombie);
+                break;
+            case PlayerType.MAGE:
+                player.TryThrowExplosiveAt(zombie);
+                break;
+            
         }
     }
 

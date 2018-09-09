@@ -13,10 +13,13 @@ public class Player : MonoBehaviour
     public Vector3 CurrentTarget;
     public double InteractionRange = 1;
     public double ThrowRange = 4;
+    public float AttackRange = 1;
+    public float AttackCooldown = 1;
     [Range(0, 100)] public double ZombificationLevel = 0;
     [Range(0, 100)] public double Health = 100;
     public GameObject Trap;
     public GameObject Stone;
+    public GameObject Explosive;
     public double ZombificationPassiveIncrement;
     public double ZombificationDamageThreshold = 50;
     public double ZombificationDamage = 0.1;
@@ -28,6 +31,7 @@ public class Player : MonoBehaviour
 	private NavMeshAgent _agent;
     private PlayerActionIntention _intention;
 	private bool _selected;
+    private double _lastAttackTime = 1;
 
 	public Dictionary<ItemType, int> Items = new Dictionary<ItemType, int>();
 
@@ -45,83 +49,88 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-	    if (!IsAlive())
-	    {
-		    return;
-		    // TODO on animation finish delete?
-	    }
-	    
-	    if (_intention != null)
-	    {
-		    if (!_intention.Update())
-		    {
-			    _intention = null;
-		    }
-	    }
+        if (!IsAlive())
+        {
+            return;
+            // TODO on animation finish delete?
+        }
 
-	    if (_selected)
-	    {
-		    Ray clickRay;
-		    RaycastHit hit;
-		    if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-		    {
-			    clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-			    if (Physics.Raycast(clickRay, out hit))
-			    {
-				    var colliderGameObject = hit.collider.gameObject;
-				    if (colliderGameObject.CompareTag(ITEM_TAG))
-				    {
-					    PickUpItemIfInRange(colliderGameObject);
-				    }
-				    else if (colliderGameObject.CompareTag(GROUND_TAG))
-				    {
-					    MoveTo(hit.point);
-				    }
-			    }
-		    }
-	    }
+        if (_intention != null)
+        {
+            if (!_intention.Update())
+            {
+                _intention.Stop();
+                _intention = null;
+            }
+        }
 
-	    if (Health > 0)
-	    {
-		    ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
-		    if (ZombificationLevel > ZombificationDamageThreshold)
-		    {
-			    Health = Math.Max(Health - ZombificationDamage, 0);
-		    }
-	    }
+        if (_selected)
+        {
+            Ray clickRay;
+            RaycastHit hit;
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+            {
+                clickRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(clickRay, out hit))
+                {
+                    var colliderGameObject = hit.collider.gameObject;
+                    if (colliderGameObject.CompareTag(ITEM_TAG))
+                    {
+                        PickUpItemIfInRange(colliderGameObject);
+                    }
+                    else if (colliderGameObject.CompareTag(GROUND_TAG))
+                    {
+                        MoveTo(hit.point);
+                    }
+                }
+            }
+        }
 
-	    if (ZombificationLevel >= 100)
-	    {
-		    var position = transform.position;
-		    var rotation = transform.rotation;
-		    var createdZombie = Instantiate(ZombiePrefab, position, rotation);
-		    var zombie = createdZombie.GetComponent<Zombie>();
-		    zombie.WanderMode = WanderMode.AREA;
-		    zombie.AreaRange = 5;
-		    Destroy(gameObject);
-	    }
+        if (Health > 0)
+        {
+            ZombificationLevel += Math.Min(ZombificationPassiveIncrement, 100);
+            if (ZombificationLevel > ZombificationDamageThreshold)
+            {
+                Health = Math.Max(Health - ZombificationDamage, 0);
+            }
+        }
+
+        if (ZombificationLevel >= 100)
+        {
+            var position = transform.position;
+            var rotation = transform.rotation;
+            var createdZombie = Instantiate(ZombiePrefab, position, rotation);
+            var zombie = createdZombie.GetComponent<Zombie>();
+            zombie.WanderMode = WanderMode.AREA;
+            zombie.AreaRange = 5;
+            Destroy(gameObject);
+        }
+
+        _lastAttackTime += Time.deltaTime;
+        GetComponent<Animator>().SetBool("Walking", _agent.remainingDistance > _agent.radius);
     }
 
-	public void MoveTo(Vector3 location)
-	{
-		CurrentTarget = location;
-		_agent.SetDestination(CurrentTarget);
-		_intention = null;
-	}
+    public void MoveTo(Vector3 location)
+    {
+        CurrentTarget = location;
+        _agent.SetDestination(CurrentTarget);
+        _intention = null;
+    }
 
-	public void TakeDamage(int amount)
-	{
-		Health -= amount - amount * Armor;
-		if (!IsAlive())
-		{
-			// TODO death animation
-		}
-	}
+    public void TakeDamage(int amount)
+    {
+        Health -= amount - amount * Armor;
+        GetComponent<Animator>().SetTrigger("Hit");
+        if (!IsAlive())
+        {
+            // TODO death animation
+        }
+    }
 
-	public void TakeInfection(int amount)
-	{
-		ZombificationLevel += amount - amount * Armor;
-	}
+    public void TakeInfection(int amount)
+    {
+        ZombificationLevel += amount - amount * Armor;
+    }
 
     public void PickUpItemIfInRange(GameObject colliderGameObject)
     {
@@ -248,5 +257,84 @@ public class Player : MonoBehaviour
             default:
                 return true;
         }
+    }
+
+    public void TryShootArrowAt(Zombie zombie)
+    {
+        if (IsInRange(zombie.transform.position, AttackRange))
+        {
+            ShootArrow(zombie);
+        }
+        else
+        {
+            _intention = new PlayerShootArrowActionItention(this, zombie, AttackRange);
+            _intention.Start();
+        }
+    }
+
+    public void ShootArrow(Zombie target)
+    {
+        if (!IsInRange(target.transform.position, AttackRange) || Items[ItemType.ARROW] <= 0 || !CanAttack())
+        {
+            return;
+        }
+        
+        Debug.Log("Attacking!");
+        Items[ItemType.ARROW] -= 1;
+        Destroy(target.gameObject);
+        _lastAttackTime = 0;
+    }
+    
+    public void TryThrowExplosiveAt(Zombie zombie)
+    {
+        if (IsInRange(zombie.transform.position, AttackRange))
+        {
+            ThrowExplosiveAt(zombie);
+        }
+        else
+        {
+            _intention = new PlayerThrowExplosiveActionItention(this, zombie, AttackRange);
+            _intention.Start();
+        }
+    }
+
+    public void ThrowExplosiveAt(Zombie target)
+    {
+        if (!IsInRange(target.transform.position, AttackRange) || Items[ItemType.EXPLOSIVE] <= 0 || !CanAttack())
+        {
+            return;
+        }
+
+        Debug.Log("Attacking!");
+        Items[ItemType.EXPLOSIVE] -= 1;
+        var targetVector = target.transform.position - transform.position;
+        var explosive = Instantiate(Explosive, transform.position + new Vector3(0, 1, 0), transform.rotation);
+        explosive.GetComponent<Rigidbody>().AddForce(targetVector);
+        _lastAttackTime = 0;
+    }
+
+    public void PushAway()
+    {
+        if (!CanAttack())
+        {
+            return;
+        }
+        
+        Debug.Log("Attacking!");
+        GetComponent<Animator>().SetBool("Attack", _agent.remainingDistance > _agent.radius);
+        Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, AttackRange, LayerMask.GetMask("Target"));
+        foreach (var targetCollider in targetsInViewRadius)
+        {
+            var targetZombie = targetCollider.gameObject;
+            var force = targetZombie.transform.position - transform.position;
+            targetZombie.GetComponent<Rigidbody>().AddForce(force.normalized * 5);
+        }
+
+        _lastAttackTime = 0;
+    }
+
+    public bool CanAttack()
+    {
+        return _lastAttackTime >= AttackCooldown;
     }
 }
