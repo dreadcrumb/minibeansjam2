@@ -302,7 +302,7 @@ public class Player : MonoBehaviour
 			return;
 		}
 
-		Debug.Log("Attacking!");
+		GetComponent<Animator>().SetTrigger("Attack");
 		Items[ItemType.ARROW] -= 1;
 		Destroy(target.gameObject);
 		_lastAttackTime = 0;
@@ -328,8 +328,8 @@ public class Player : MonoBehaviour
 			return;
 		}
 
-		Debug.Log("Attacking!");
 		Items[ItemType.EXPLOSIVE] -= 1;
+		GetComponent<Animator>().SetTrigger("Attack");
 		var targetVector = target.transform.position - transform.position;
 		var explosive = Instantiate(Explosive, transform.position + new Vector3(0, 1, 0), transform.rotation);
 		explosive.GetComponent<Rigidbody>().AddForce(targetVector);
@@ -344,7 +344,7 @@ public class Player : MonoBehaviour
 		}
 
 		Debug.Log("Attacking!");
-		GetComponent<Animator>().SetBool("Attack", _agent.remainingDistance > _agent.radius);
+		GetComponent<Animator>().SetTrigger("Attack");
 		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, AttackRange, LayerMask.GetMask("Target"));
 		foreach (var targetCollider in targetsInViewRadius)
 		{
