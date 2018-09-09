@@ -94,6 +94,11 @@ public class Zombie : MonoBehaviour
 				_lastTargetUpdateTick += Time.deltaTime;
 				if (_lastTargetUpdateTick > 1.0)
 				{
+					if (Target == null)
+					{
+						zombieState = ZombieState.ALARMED;
+						break;
+					}
 					_agent.SetDestination(Target.transform.position);
 					_lastTargetUpdateTick = 0;
 				}
