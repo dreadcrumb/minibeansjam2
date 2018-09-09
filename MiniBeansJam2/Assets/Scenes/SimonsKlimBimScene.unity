@@ -4061,6 +4061,11 @@ Prefab:
       propertyPath: Trap
       value: 
       objectReference: {fileID: 1673491423}
+    - target: {fileID: 95617097328423680, guid: 50439b2466b42ba47b53b9372cb28e87,
+        type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 982172c3efbde0844962959e0163377c, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50439b2466b42ba47b53b9372cb28e87, type: 2}
   m_IsPrefabAsset: 0
