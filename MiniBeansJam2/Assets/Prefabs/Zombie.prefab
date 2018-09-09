@@ -296,6 +296,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1358871651814728
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224727849534619444}
+  - component: {fileID: 114127897813384498}
+  m_Layer: 5
+  m_Name: QMTimer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1375009451966080
 GameObject:
   m_ObjectHideFlags: 1
@@ -415,6 +431,22 @@ GameObject:
   - component: {fileID: 4948006110431284}
   m_Layer: 9
   m_Name: Bone_014
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1746608338691370
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224105778104900930}
+  - component: {fileID: 114188942176475998}
+  m_Layer: 5
+  m_Name: EMTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -643,7 +675,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1118550606329352}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.483777, y: 7.330627e-17, z: -8.952922}
+  m_LocalPosition: {x: 13.933119, y: 0.0000031601949, z: 28.133354}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4225970054800388}
@@ -957,6 +989,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &114127897813384498
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358871651814728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ee46620f11d6447b550a8f7588602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114176260677512190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -984,6 +1027,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114188942176475998
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1746608338691370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ee46620f11d6447b550a8f7588602a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114224499326056974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -997,8 +1051,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ViewRadius: 10
   ViewAngle: 60
-  MaxViewRotation: 0
-  ViewSpeed: 0
+  MaxViewRotation: 40
+  ViewSpeed: 9
   TargetMask:
     serializedVersion: 2
     m_Bits: 2048
@@ -1070,7 +1124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dda1e5f1d39ce3b43b64b534b513f963, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WanderMode: 1
+  WanderMode: 0
   MinWaitTime: 5
   MaxWaitTime: 10
   WaitTime: 0
@@ -1078,19 +1132,18 @@ MonoBehaviour:
   CurrentWaypointIndex: 0
   NextWaypointStart: 3
   AreaRange: 5
-  AreaCenter: {x: 0, y: 0, z: 0}
   Target: {fileID: 0}
   AttackSpeed: 1
   ZombificationFactor: 5
   Damage: 10
-  searchTime: 0
-  FollowBuffer: 0
+  searchTime: 10
+  FollowBuffer: 2
   QuestionMarkOutline: {fileID: 114176260677512190}
   QuestionMarkFill: {fileID: 114652357155551064}
   ExclamationMOutline: {fileID: 114245593514644244}
   ExclamationMFill: {fileID: 114762353337462536}
-  questionMarkTimer: {fileID: 0}
-  exclamationMarkTimer: {fileID: 0}
+  questionMarkTimer: {fileID: 114127897813384498}
+  exclamationMarkTimer: {fileID: 114188942176475998}
 --- !u!114 &114530228251535358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1303,6 +1356,24 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!224 &224105778104900930
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1746608338691370}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224320253281203894}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224222519940229570
 RectTransform:
   m_ObjectHideFlags: 1
@@ -1332,6 +1403,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224222519940229570}
+  - {fileID: 224105778104900930}
   m_Father: {fileID: 224834385406916936}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1351,6 +1423,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224512361459129356}
+  - {fileID: 224727849534619444}
   m_Father: {fileID: 224834385406916936}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1376,6 +1449,24 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 40}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!224 &224727849534619444
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1358871651814728}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 224424126699832152}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224834385406916936
 RectTransform:
