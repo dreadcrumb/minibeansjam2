@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class GameManager : MonoBehaviour
 
     private GameObject selectedZombie;
     private GameObject currentPlayer;
+
+    public int MenuScene;
+    
     public const string ZOMBIE_TAG = "Target";
     public const string PLAYER_TAG = "Player";
     public const string GROUND_TAG = "Ground";
@@ -80,9 +84,7 @@ public class GameManager : MonoBehaviour
 
         if (!ArePlayersAlive())
         {
-            // TODO switch scene?
-            // TODO Close Game
-            // TODO Uninstall windows
+            SceneManager.LoadScene(MenuScene);
         }
     }
 
