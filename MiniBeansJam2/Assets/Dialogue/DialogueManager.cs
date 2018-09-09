@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour 
@@ -13,6 +14,7 @@ public class DialogueManager : MonoBehaviour
 	public CanvasGroup mainCG;
 
 	private Queue<string> sentences;
+	public int DialogFinishedScene;
 
 	// Use this for initialization
 	void Start () {
@@ -55,7 +57,7 @@ public class DialogueManager : MonoBehaviour
 	IEnumerator TypeSentence (string sentence)
 	{
 		dialogueText.text = "";
-		foreach (char letter in sentence.ToCharArray()) 
+		foreach (char letter in sentence) 
 		{
 			dialogueText.text += letter;
 			yield return null;
@@ -67,5 +69,6 @@ public class DialogueManager : MonoBehaviour
 		mainCG.alpha = 0F;
 		mainCG.blocksRaycasts = false;
 		mainCG.interactable = false;
+		SceneManager.LoadScene(DialogFinishedScene);
 	}
 }
