@@ -31057,6 +31057,24 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1900695938}
   m_CullTransparentMesh: 0
+--- !u!1 &1909831000 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100000, guid: dd9bbdfb6a086fe469bda74e126a5b5c,
+    type: 3}
+  m_PrefabInternal: {fileID: 1837495174}
+--- !u!114 &1909831001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1909831000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8985eeca98692f4ba4792751484c678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ZombficationIncrementOnTouch: 0.01
+  ReapeatedTouch: 0
 --- !u!1001 &1914643966
 Prefab:
   m_ObjectHideFlags: 0
