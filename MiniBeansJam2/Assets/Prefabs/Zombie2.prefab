@@ -668,7 +668,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1456928890344418}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -7.45222, y: 3.1436797e-17, z: -3.8393881}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4499448530796586}
@@ -1441,6 +1441,8 @@ MonoBehaviour:
   ViewRadius: 10
   ViewAngle: 60
   MaxViewRotation: 120
+  ViewRadiusClose: 4
+  ViewAngleClose: 101
   ViewSpeed: 9
   TargetMask:
     serializedVersion: 2
@@ -1454,6 +1456,7 @@ MonoBehaviour:
   EdgeResolveIterations: 4
   EdgeDstThreshold: 0.5
   ViewMeshFilter: {fileID: 33204994512463486}
+  ViewMeshFilterClose: {fileID: 0}
 --- !u!137 &137845356992404218
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

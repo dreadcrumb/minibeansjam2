@@ -12,6 +12,11 @@ public class FieldOfView : MonoBehaviour
 	public float ViewAngle;
 	[Range(0, 360)]
 	public float MaxViewRotation;
+	[Range(0, 360)]
+	public float ViewRadiusClose;
+	[Range(0, 360)]
+	public float ViewAngleClose;
+
 
 	public float ViewSpeed;
 
@@ -28,8 +33,10 @@ public class FieldOfView : MonoBehaviour
 	public float EdgeDstThreshold;
 
 	public MeshFilter ViewMeshFilter;
+	public MeshFilter ViewMeshFilterClose;
 
 	private Mesh _viewMesh;
+	private Mesh _viewMeshClose;
 
 	private GameObject _enemyTarget;
 	private bool _showFov;
@@ -45,6 +52,8 @@ public class FieldOfView : MonoBehaviour
 	{
 		_viewMesh = new Mesh { name = "View Mesh" };
 		ViewMeshFilter.mesh = _viewMesh;
+		_viewMeshClose =  new Mesh { name = "View Mesh Close" };
+		ViewMeshFilterClose.mesh = _viewMeshClose;
 
 		_lookDir = transform.forward;
 		StartCoroutine("FindTargetsWithDelay", .2f);
@@ -56,12 +65,14 @@ public class FieldOfView : MonoBehaviour
 		while (true)
 		{
 			yield return new WaitForSeconds(delay);
+			FindVisibleTargets2();
 			FindVisibleTargets();
 		}
 	}
 
 	void LateUpdate()
 	{
+		DrawFieldOfView2();
 		DrawFieldOfView();
 	}
 
@@ -80,6 +91,63 @@ public class FieldOfView : MonoBehaviour
 				break;
 			case ZombieState.ALARMED:
 				break;
+		}
+	}
+
+	void FindVisibleTargets2()
+	{
+		Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, ViewRadiusClose, TargetMask);
+		if (targetsInViewRadius.Length > 0)
+		{
+			foreach (var current in targetsInViewRadius)
+			{
+				//if (!current.GetComponent<Player>().IsAlive())
+				//{
+				//	continue;
+				//}
+				Transform target = current.transform;
+				Vector3 dirToTarget = (target.position - transform.position).normalized;
+
+				//_lookDir = DirFromAngle(ViewAngle, true);	
+				if (Math.Abs(Vector3.Angle(_lookDir, dirToTarget)) < ViewAngleClose / 2)
+				{
+					float dstToTarget = Vector3.Distance(transform.position, target.position);
+					if (!Physics.Raycast(transform.position, dirToTarget, dstToTarget, ObstacleMask))
+					{
+						//_lookDir = dirToTarget;	
+						//_rotationStep = 0;
+
+						_zombie.SetAgentDestination(target.transform.position); // Does not work properly
+						_zombie.SetZombieState(ZombieState.FOLLOWING);
+						_enemyTarget = target.gameObject;
+						_lastPointPlayerSeen = target.transform.position;
+					}
+					else
+					{
+						//	Player blocked by object
+						if (_zombie.GetZombieState() == ZombieState.FOLLOWING)
+						{
+							LostSight();
+						}
+					}
+				}
+				else
+				{
+					//// Player not in View
+					//if (GetComponentInParent<Zombie>().GetZombieState() == ZombieState.FOLLOWING)
+					//{
+					//	LostSight();
+					//}
+				}
+			}
+		}
+		else
+		{
+			//Player out of radius
+			if (_zombie.GetZombieState() == ZombieState.FOLLOWING)
+			{
+				LostSight();
+			}
 		}
 	}
 
@@ -112,9 +180,6 @@ public class FieldOfView : MonoBehaviour
 						_zombie.SetAgentDestination(target.transform.position); // Does not work properly
 						_zombie.SetZombieState(ZombieState.FOLLOWING);
 						_enemyTarget = target.gameObject;
-
-						Debug.DrawLine(transform.position, target.position, Color.black);
-
 						_lastPointPlayerSeen = target.transform.position;
 					}
 					else
@@ -199,7 +264,7 @@ public class FieldOfView : MonoBehaviour
 			for (int i = 0; i <= stepCount; i++)
 			{
 				float angle = transform.eulerAngles.y - ViewAngle / 2 + stepAngleSize * i;
-				ViewCastInfo currentCastInfo = ViewCast(angle);
+				ViewCastInfo currentCastInfo = ViewCast(ViewRadius, angle);
 
 				if (i > 0)
 				{
@@ -208,7 +273,7 @@ public class FieldOfView : MonoBehaviour
 					if (previousCastInfo.Hit != currentCastInfo.Hit ||
 					    (previousCastInfo.Hit && currentCastInfo.Hit && edgeDstThresholdExceeded))
 					{
-						EdgeInfo edge = FindEdge(previousCastInfo, currentCastInfo);
+						EdgeInfo edge = FindEdge(ViewRadius, previousCastInfo, currentCastInfo);
 						if (edge.PointA != Vector3.zero)
 						{
 							viewPoints.Add(edge.PointA);
@@ -272,8 +337,92 @@ public class FieldOfView : MonoBehaviour
 		}
 	}
 
+	void DrawFieldOfView2()
+	{
+		if (_showFov)
+		{
+			int stepCount = Mathf.RoundToInt(ViewAngleClose * MeshResolution);
+			float stepAngleSize = ViewAngleClose / stepCount;
+			List<Vector3> viewPoints = new List<Vector3>();
+			ViewCastInfo previousCastInfo = new ViewCastInfo();
+			for (int i = 0; i <= stepCount; i++)
+			{
+				float angle = transform.eulerAngles.y - ViewAngleClose / 2 + stepAngleSize * i;
+				ViewCastInfo currentCastInfo = ViewCast(ViewRadiusClose, angle);
 
-	EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
+				if (i > 0)
+				{
+					bool edgeDstThresholdExceeded =
+						Mathf.Abs(previousCastInfo.Dst - currentCastInfo.Dst) > EdgeDstThreshold;
+					if (previousCastInfo.Hit != currentCastInfo.Hit ||
+							(previousCastInfo.Hit && currentCastInfo.Hit && edgeDstThresholdExceeded))
+					{
+						EdgeInfo edge = FindEdge(ViewRadiusClose, previousCastInfo, currentCastInfo);
+						if (edge.PointA != Vector3.zero)
+						{
+							viewPoints.Add(edge.PointA);
+						}
+
+						if (edge.PointB != Vector3.zero)
+						{
+							viewPoints.Add(edge.PointB);
+						}
+					}
+				}
+
+				viewPoints.Add(currentCastInfo.Point);
+				previousCastInfo = currentCastInfo;
+			}
+
+			int vertexCount = viewPoints.Count + 1;
+			Vector3[] vertices = new Vector3[vertexCount];
+			int[] triangles = new int[(vertexCount - 2) * 3];
+
+			vertices[0] = Vector3.zero;
+			for (int i = 0; i < vertexCount - 1; i++)
+			{
+				vertices[i + 1] = transform.InverseTransformPoint(viewPoints[i]);
+
+				if (i < vertexCount - 2)
+				{
+					triangles[i * 3] = 0;
+					triangles[i * 3 + 1] = i + 1;
+					triangles[i * 3 + 2] = i + 2;
+				}
+			}
+
+			_viewMeshClose.Clear();
+
+			Renderer rend = ViewMeshFilterClose.GetComponent<Renderer>();
+
+			if (rend != null)
+			{
+				switch (_zombie.GetZombieState())
+				{
+					case ZombieState.IDLE:
+						rend.material.SetColor("_Color", Color.green);
+						break;
+					case ZombieState.ALARMED:
+						rend.material.SetColor("_Color", Color.yellow);
+						break;
+					case ZombieState.FOLLOWING:
+						rend.material.SetColor("_Color", Color.red);
+						break;
+				}
+			}
+
+			_viewMeshClose.vertices = vertices;
+			_viewMeshClose.triangles = triangles;
+			_viewMeshClose.RecalculateNormals();
+		}
+		else
+		{
+			_viewMeshClose.Clear();
+		}
+	}
+
+
+	EdgeInfo FindEdge(float radius, ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
 	{
 		float minAngle = minViewCast.Angle;
 		float maxAngle = maxViewCast.Angle;
@@ -283,7 +432,7 @@ public class FieldOfView : MonoBehaviour
 		for (int i = 0; i < EdgeResolveIterations; i++)
 		{
 			float angle = (minAngle + maxAngle) / 2;
-			ViewCastInfo newViewCast = ViewCast(angle);
+			ViewCastInfo newViewCast = ViewCast(radius, angle);
 
 			bool edgeDstThresholdExceeded = Mathf.Abs(minViewCast.Dst - newViewCast.Dst) > EdgeDstThreshold;
 			if (newViewCast.Hit == minViewCast.Hit && !edgeDstThresholdExceeded)
@@ -302,18 +451,18 @@ public class FieldOfView : MonoBehaviour
 	}
 
 
-	ViewCastInfo ViewCast(float globalAngle)
+	ViewCastInfo ViewCast(float radius, float globalAngle)
 	{
 		Vector3 dir = DirFromAngle(globalAngle, true);
 		RaycastHit hit;
 
-		if (Physics.Raycast(transform.position, dir, out hit, ViewRadius, ObstacleMask))
+		if (Physics.Raycast(transform.position, dir, out hit, radius, ObstacleMask))
 		{
 			return new ViewCastInfo(true, hit.point, hit.distance, globalAngle);
 		}
 		else
 		{
-			return new ViewCastInfo(false, transform.position + dir * ViewRadius, ViewRadius, globalAngle);
+			return new ViewCastInfo(false, transform.position + dir * radius, radius, globalAngle);
 		}
 	}
 

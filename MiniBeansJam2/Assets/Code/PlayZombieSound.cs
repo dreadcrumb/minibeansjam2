@@ -7,7 +7,7 @@ public class PlayZombieSound : MonoBehaviour
 
 	public float MaxHearingDistance = 25;
 	private AudioSource _source;
-	private float _startVolume = 0.5f;
+	private float _startVolume = 0.4f;
 
 	// Use this for initialization
 	void Start()
