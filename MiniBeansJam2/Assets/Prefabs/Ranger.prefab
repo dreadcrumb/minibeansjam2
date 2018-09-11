@@ -811,8 +811,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1648989416652788}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.84, y: 0.0000028498434, z: 32.56}
+  m_LocalRotation: {x: -0, y: -0.77848226, z: -0, w: 0.6276667}
+  m_LocalPosition: {x: 230.27428, y: 1, z: 138.95326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4110416087590986}
@@ -823,7 +823,7 @@ Transform:
   - {fileID: 4053320648816754}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -102.244, z: 0}
 --- !u!4 &4908891506774218
 Transform:
   m_ObjectHideFlags: 1
@@ -960,7 +960,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 243764662051523444, guid: 9a3d58163396dc4488ed404554fb2954,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 86a1bed3dcb0d164397ced8f9c9958ca, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1231,9 +1231,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2.451808
+  m_Height: 2.1196222
   m_Direction: 1
-  m_Center: {x: 0, y: 0.8758874, z: 0}
+  m_Center: {x: 0, y: 0.95571756, z: 0}
 --- !u!137 &137375568864552418
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -1396,5 +1396,5 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4

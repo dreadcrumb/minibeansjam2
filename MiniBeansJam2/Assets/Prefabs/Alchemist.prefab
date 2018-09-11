@@ -323,9 +323,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4199235556658656}
   - component: {fileID: 95839599461632472}
+  - component: {fileID: 54981585573102070}
   - component: {fileID: 114155029331629354}
   - component: {fileID: 195714804988849542}
-  - component: {fileID: 54981585573102070}
   - component: {fileID: 136719952209535666}
   m_Layer: 11
   m_Name: Alchemist
@@ -589,8 +589,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1816886730752728}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.861849, y: 0.000003041163, z: 29.131865}
+  m_LocalRotation: {x: -0, y: 0.858528, z: -0, w: 0.5127667}
+  m_LocalPosition: {x: 225.1727, y: 1, z: 140.23973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4052101939301966}
@@ -601,7 +601,7 @@ Transform:
   - {fileID: 4304210980762792}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 118.30301, z: 0}
 --- !u!4 &4251818170674142
 Transform:
   m_ObjectHideFlags: 1
@@ -960,7 +960,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 243764662051523444, guid: 9a3d58163396dc4488ed404554fb2954,
     type: 2}
   m_audioClip: {fileID: 8300000, guid: 86a1bed3dcb0d164397ced8f9c9958ca, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -1400,5 +1400,5 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 5
   m_ObstacleAvoidanceType: 4
