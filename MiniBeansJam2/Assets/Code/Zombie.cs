@@ -42,8 +42,6 @@ public class Zombie : MonoBehaviour
 	private NavMeshAgent _agent;
 	private double _attackCooldown;
 
-	private AudioSource _source;
-
 	// Use this for initialization
 	void Start()
 	{
@@ -51,10 +49,6 @@ public class Zombie : MonoBehaviour
 		zombieState = ZombieState.IDLE;
 		_areaCenter = transform.position;
 		SetMarkVisibilityAndPosition(false, false);
-
-		_source = GetComponent<AudioSource>();
-		_source.pitch = Random.Range(0.8f, 1.2f);
-		_source.Play();
 	}
 
 	// Update is called once per frame
