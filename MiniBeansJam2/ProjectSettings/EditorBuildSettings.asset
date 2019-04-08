@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Intro.unity
-    guid: ebd680beed0b1c14aaa829039ebd64fb
+    path: Assets/Scenes/DinoAltar.unity
+    guid: bbe8783ae21527540b77bddaca5ca6fb
   - enabled: 1
-    path: Assets/UI/Menu.unity
-    guid: ac84384be3210a34b87555ef356ded2c
+    path: Assets/Scenes/LESimonScene.unity
+    guid: 8f794619c76bc474d98ba25550efda6d
   - enabled: 1
-    path: Assets/Dialogue/Dialogue System.unity
-    guid: 6b7ac2edca335364db4bf0beb8fb7066
+    path: Assets/Scenes/GameOverScene.unity
+    guid: 2a275f0df1c590d459216a6bc45bbe90
   - enabled: 1
-    path: Assets/Scenes/SimonsKlimBimScene.unity
-    guid: d5664eef2b5acb242844df6f5f77e1c0
+    path: Assets/Scenes/GameWon.unity
+    guid: ef6705e5ad823d54aa7a8f0e644f2eef
   m_configObjects: {}

@@ -4,9 +4,20 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Item
-  - Ground
-  - Target
+  - Spawn
+  - Meatbag
+  - Killbox
+  - GameOverPanel
+  - Note
+  - GameOverText
+  - NoteHitArea
+  - UIController
+  - Head
+  - EnergyBar
+  - BluesBar
+  - BarContainer
+  - NoteBackground
+  - MidiPlayer
   layers:
   - Default
   - TransparentFX
@@ -17,9 +28,9 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - Target
-  - Obstacle
-  - Player
+  - 
+  - 
+  - 
   - 
   - 
   - 
@@ -43,4 +54,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Front
+    uniqueID: 2724489145
     locked: 0
