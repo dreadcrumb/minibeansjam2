@@ -1778,6 +1778,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 259253215}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &291994987 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4314086310842868, guid: 32a8d8859acf18d4ba134834a876d5ea,
+    type: 2}
+  m_PrefabInternal: {fileID: 1582444335}
 --- !u!1 &310452868
 GameObject:
   m_ObjectHideFlags: 0
@@ -5305,7 +5310,7 @@ Prefab:
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea,
         type: 2}
       propertyPath: OnEventNotesMidi.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4314086310842868, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 2}
       propertyPath: m_LocalPosition.x
@@ -5372,8 +5377,7 @@ Prefab:
         type: 2}
       propertyPath: OnEventNotesMidi.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 11500000, guid: 7dcfe8e1236cd3f4ebc00206a169fe19,
-        type: 3}
+      objectReference: {fileID: 1646708524}
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea,
         type: 2}
       propertyPath: OnEventNotesMidi.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -5390,9 +5394,75 @@ Prefab:
       value: 
       objectReference: {fileID: 11500000, guid: 7dcfe8e1236cd3f4ebc00206a169fe19,
         type: 3}
+    - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea,
+        type: 2}
+      propertyPath: OnEventNotesMidi.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SpawnNote
+      objectReference: {fileID: 0}
+    - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea,
+        type: 2}
+      propertyPath: OnEventNotesMidi.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &1646708523
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1646708525}
+  - component: {fileID: 1646708524}
+  m_Layer: 0
+  m_Name: UIScriptHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1646708524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1646708523}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dcfe8e1236cd3f4ebc00206a169fe19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyBar: {fileID: 0}
+  bluesBar: {fileID: 0}
+  barContainer: {fileID: 0}
+  noteAcceptanceArea: {fileID: 0}
+  noteBackgroundArea: {fileID: 0}
+  notePrefab: {fileID: 0}
+  notePrefab1: {fileID: 0}
+  notePrefab2: {fileID: 0}
+  notePrefab3: {fileID: 0}
+  notePrefab4: {fileID: 0}
+  noteList: []
+  SetEnergyBarFillPercentage: 0
+  SetBluesBarFillPercentage: 0
+  noteSpeed: 20
+  startPlaying: 0
+  isClicked: 0
+--- !u!4 &1646708525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1646708523}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 291994987}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1728965319
 GameObject:
   m_ObjectHideFlags: 0
