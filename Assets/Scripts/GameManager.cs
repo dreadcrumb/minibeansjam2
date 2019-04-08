@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour
 	}
 
 	private void SetAllSounds()
-	{T
+	{
 		_sounds = gameObject.GetComponentsInChildren<AudioSource>();
 
 		_eatingSounds = _sounds.Where(x => x.clip.name.Contains("fressen")).ToList();
