@@ -116,22 +116,22 @@ public class GameManager : MonoBehaviour
 			case 0:
 				script.TriggerUiScript(LevelSave.Level);
 				_curTrack = _dinoBluesInst;
-				_dinoBluesNoInst.Play();
+				//_dinoBluesNoInst.Play();
 				break;
 			case 1:
 				script.TriggerUiScript(LevelSave.Level);
 				_curTrack = _dinoFairInst;
-				_dinoFairNoInst.Play();
+				//_dinoFairNoInst.Play();
 				break;
 			default:
 				script.TriggerUiScript(2);
 				_curTrack = _fressAtackeInst;
-				_fressAtackeNoInst.Play();
+				//_fressAtackeNoInst.Play();
 				break;
 		}
 
 		_curTrack.volume = 0.5f;
-		_curTrack.Play();
+		//_curTrack.Play();
 	}
 
 	// Update is called once per frame

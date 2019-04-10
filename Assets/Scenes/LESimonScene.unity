@@ -5310,7 +5310,7 @@ Prefab:
     - target: {fileID: 114662785300262660, guid: 32a8d8859acf18d4ba134834a876d5ea,
         type: 2}
       propertyPath: OnEventNotesMidi.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4314086310842868, guid: 32a8d8859acf18d4ba134834a876d5ea, type: 2}
       propertyPath: m_LocalPosition.x

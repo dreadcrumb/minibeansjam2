@@ -42,7 +42,7 @@ public class GameUiScript : MonoBehaviour
 
 	private float startTime;
 
-	public float noteSpeed = 20;
+	public double noteSpeed = 20;
 
 	public bool startPlaying = false;
 
@@ -209,11 +209,21 @@ public class GameUiScript : MonoBehaviour
 		var MIDIPlayerGameObject = GameObject.FindGameObjectWithTag("MidiPlayer");
 		midiPlayer = MIDIPlayerGameObject.GetComponent<MidiFilePlayer>();
 
-		//midiPlayer.Midi
+		midiPlayer.OnEventNotesMidi = new MidiFilePlayer.ListNotesEvent();
+		midiPlayer.OnEventNotesMidi.AddListener(NotesToPlay);
+
 		var notes = midiPlayer.MPTK_MidiEvents;
-		eventQueue = new Queue<TrackMidiEvent>(notes);
+		//eventQueue = new Queue<TrackMidiEvent>(notes);
+
 
 		midiPlayer.MPTK_Play();
+		midiPlayer.MPTK_LogEvents = true;
+
+		noteSpeed = midiPlayer.MPTK_Tempo / 15;
+
+		var name = midiPlayer.MPTK_MidiName;
+
+		var instrumentName = midiPlayer.MPTK_TrackInstrumentName;
 
 		watch = new Stopwatch();
 		watch.Start();
@@ -277,24 +287,38 @@ public class GameUiScript : MonoBehaviour
 	//	startPlaying = true;
 	//}
 
-	public void SpawnNote(/*TrackMidiEvent noteEvent*/)
+
+	public void NotesToPlay(List<MidiNote> notes)
+	{
+
+		foreach (var note in notes)
+		{
+			SpawnNote(note);
+		}
+
+		midiPlayer.MPTK_PlayNotes(notes);
+	}
+
+	public void SpawnNote(MidiNote note)
 	{
 		var vec = new Vector3(-6.38f, 2f, -1.05f);
 		float timeOffset;
 
-		GameObject newNote = Instantiate(GetRandomNoteSprite(), vec, Quaternion.Euler(0, 90, 0));
+		GameObject newNote = Instantiate(GetRandomNoteSprite(), vec, Quaternion.Euler(90, 0, 0));
+
+		note.Delay = (float) (Math.Abs(vec.x / noteSpeed * 1000));
 
 		var dist = /*noteEvent.Event.DeltaTime * */(noteSpeed * Time.deltaTime);
-		timeOffset = dist / (noteSpeed * Time.deltaTime);
+		timeOffset = (float)(dist / (noteSpeed * Time.deltaTime));
 
 		newNote.GetComponent<NoteBehavior>().InitNoteSpeed(noteSpeed, timeOffset);
 
-		GameObject thatNoteTrail = Instantiate(noteTrailPrefab, vec, Quaternion.identity, newNote.transform);
-		//hatNoteTrail.GetComponent<RectTransform>().position = new Vector3(xpos, ypos, zpos);
-		//thatNoteTrail.GetComponent<NoteBehavior>().InitNoteSpeed(speed);
-		float size = /*noteEvent.Event.DeltaTime **/ (noteSpeed * Time.deltaTime); // adjust note trail size
-		thatNoteTrail.GetComponent<RectTransform>().sizeDelta =
-			new Vector2(size, thatNoteTrail.GetComponent<RectTransform>().sizeDelta.y);
+		//GameObject thatNoteTrail = Instantiate(noteTrailPrefab, vec, Quaternion.identity, newNote.transform);
+		////hatNoteTrail.GetComponent<RectTransform>().position = new Vector3(xpos, ypos, zpos);
+		////thatNoteTrail.GetComponent<NoteBehavior>().InitNoteSpeed(speed);
+		//double size = /*noteEvent.Event.DeltaTime **/ (noteSpeed * Time.deltaTime); // adjust note trail size
+		//thatNoteTrail.GetComponent<RectTransform>().sizeDelta =
+		//	new Vector2((float)size, thatNoteTrail.GetComponent<RectTransform>().sizeDelta.y);
 	}
 
 

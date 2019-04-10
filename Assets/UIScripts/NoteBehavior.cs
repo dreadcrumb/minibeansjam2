@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class NoteBehavior : MonoBehaviour
 {
 
-	private float noteSpeed;
+	private double noteSpeed;
 	private Transform tf;
 	bool registeredForDelete = false;
 	float _despawntimeOffset;
@@ -20,7 +20,7 @@ public class NoteBehavior : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		tf.position = new Vector3(tf.position.x + (noteSpeed * Time.deltaTime), tf.position.y, tf.position.z);
+		tf.position = new Vector3((float)(tf.position.x + (noteSpeed * Time.deltaTime)), tf.position.y, tf.position.z);
 		if (registeredForDelete && noteSpeed > 0)
 		{
 			_despawntimeOffset -= Time.deltaTime;
@@ -31,7 +31,7 @@ public class NoteBehavior : MonoBehaviour
 		}
 	}
 
-	public void InitNoteSpeed(float speed, float despawntimeOffset)
+	public void InitNoteSpeed(double speed, float despawntimeOffset)
 	{
 		noteSpeed = speed;
 		_despawntimeOffset = despawntimeOffset / 1000;
