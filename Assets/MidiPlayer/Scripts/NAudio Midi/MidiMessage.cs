@@ -1,6 +1,6 @@
 using System;
 
-namespace NAudio.Midi
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi
 {
     /// <summary>
     /// Represents a MIDI message

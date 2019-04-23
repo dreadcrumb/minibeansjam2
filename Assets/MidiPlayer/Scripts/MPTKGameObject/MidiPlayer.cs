@@ -1,13 +1,12 @@
-﻿
-using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
-using System.IO;
-using System;
-using UnityEngine.Events;
+using Assets.MidiPlayer.Scripts.MPTKMidi;
+using Assets.MidiPlayer.Scripts.MPTKSoundFont;
+using Assets.MidiPlayer.Scripts.MPTKUtil;
+using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKGameObject
 {
     /// <summary>
     /// Play a list of notes according the preset

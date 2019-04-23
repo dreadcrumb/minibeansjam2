@@ -1,12 +1,7 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using UnityEditor;
+using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
 
     public class TextArea

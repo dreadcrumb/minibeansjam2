@@ -1,12 +1,8 @@
-﻿using UnityEngine;
-using UnityEditor;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using UnityEditor;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
 
     public class MessagesEditor

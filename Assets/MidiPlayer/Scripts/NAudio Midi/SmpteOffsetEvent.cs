@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
-namespace NAudio.Midi
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi
 {
     class SmpteOffsetEvent : MetaEvent
     {

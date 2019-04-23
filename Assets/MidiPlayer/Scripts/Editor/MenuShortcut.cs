@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using NAudio.Midi;
-namespace MidiPlayerTK
+﻿using UnityEditor;
+using UnityEngine;
+using Object = UnityEngine.Object;
+
+namespace Assets.MidiPlayer.Scripts.Editor
 {
     //using MonoProjectOptim;
-    using UnityEditor;
-    using UnityEngine;
-
     /// <summary>
     /// Window editor for the setup of MPTK
     /// </summary>

@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using Assets.MidiPlayer.Scripts.MPTKMidi;
 using UnityEngine;
-using MidiPlayerTK;
-using System;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scenes_For_Demo.Others_Demos.Script
 {
     public class TestMidiFilePlayerScripting : MonoBehaviour
     {

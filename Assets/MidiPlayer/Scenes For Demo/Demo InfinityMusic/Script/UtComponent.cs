@@ -1,11 +1,6 @@
-﻿
-using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
+﻿using UnityEngine;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script
 {
     abstract public class UtComponent : MonoBehaviour
     {

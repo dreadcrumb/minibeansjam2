@@ -4,22 +4,18 @@
 // 5735e6de5e1de44fcb265a9cc917c518
 // CBAEURHCWSKTDO
 
-using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditor.SceneManagement;
-#endif
-using UnityEngine.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using MidiPlayerTK;
-using System.Reflection;
+using Assets.MidiPlayer.Scenes_For_Demo.Others_Demos.Script;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using UnityEditor;
+using UnityEngine;
+#if UNITY_EDITOR
+#endif
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script
 {
     public class InfinityMusic : MonoBehaviour
     {

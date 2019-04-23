@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
+
 //using NAudio.Utils;
 
-namespace NAudio.Midi
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi
 {
     /// <summary>
     /// A helper class to manage collection of MIDI events

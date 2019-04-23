@@ -1,21 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
+using UnityEngine;
 
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using MidiPlayerTK;
-
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scripts.Editor.Scripts_For_Demo.UtEditor
 {
     /// <summary>
     /// Inspector for the midi global player component
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UtMathMotif))]
-    public class MathMotifEditor : Editor
+    public class MathMotifEditor : UnityEditor.Editor
     {
         private static UtMathMotif instance;
         private string[] list;

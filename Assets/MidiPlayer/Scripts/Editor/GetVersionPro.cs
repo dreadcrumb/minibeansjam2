@@ -1,13 +1,8 @@
-﻿
-using UnityEngine;
+﻿using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
+using UnityEngine;
 
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
-
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
     public class GetVersionPro : PopupWindowContent
     {

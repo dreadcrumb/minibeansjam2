@@ -1,14 +1,10 @@
-﻿using MidiPlayerTK;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
-using UnityEngine;
-using UnityEngine.Events;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKSoundFont
 {
     /// <summary>
     /// SoundFont adapted to Unity

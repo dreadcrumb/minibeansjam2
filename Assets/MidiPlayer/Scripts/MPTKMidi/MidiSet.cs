@@ -1,13 +1,10 @@
-﻿using MidiPlayerTK;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKMidi
 {
     public class SoundFontInfo
     {

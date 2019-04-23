@@ -1,10 +1,9 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKUtil
 {
     /// <summary>
     /// Build log to be displayed to user

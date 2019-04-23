@@ -1,8 +1,9 @@
 using System;
 using System.IO;
 using System.Text;
+using Assets.MidiPlayer.Scripts.NAudio_Utils;
 
-namespace NAudio.Midi 
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi 
 {
     /// <summary>
     /// Represents a MIDI text event
@@ -18,7 +19,7 @@ namespace NAudio.Midi
         /// <param name="length">The data length</param>
         public TextEvent(BinaryReader br,int length) 
         {
-            Encoding byteEncoding = NAudio.Utils.ByteEncoding.Instance;
+            Encoding byteEncoding = ByteEncoding.Instance;
             text = byteEncoding.GetString(br.ReadBytes(length));
         }
 
@@ -76,7 +77,7 @@ namespace NAudio.Midi
         public override void Export(ref long absoluteTime, BinaryWriter writer)
         {
             base.Export(ref absoluteTime, writer);
-            Encoding byteEncoding = NAudio.Utils.ByteEncoding.Instance;
+            Encoding byteEncoding = ByteEncoding.Instance;
             byte[] encoded = byteEncoding.GetBytes(text);
             writer.Write(encoded);
         }

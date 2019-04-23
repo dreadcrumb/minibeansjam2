@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using UnityEngine.Events;
-using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using Assets.MidiPlayer.Scripts.MPTKMidi;
+using Assets.MidiPlayer.Scripts.MPTKSoundFont;
+using Assets.MidiPlayer.Scripts.MPTKUtil;
+using UnityEngine;
+using UnityEngine.Events;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKGameObject
 {
     /// <summary>
     /// Singleton class to manage all features of MPTK

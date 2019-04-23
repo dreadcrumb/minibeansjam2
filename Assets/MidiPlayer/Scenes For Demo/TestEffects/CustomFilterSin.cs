@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scenes_For_Demo.TestEffects
 {
     public class CustomFilterSin : MonoBehaviour
     {

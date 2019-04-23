@@ -1,21 +1,17 @@
-﻿using UnityEngine;
-using UnityEditor;
-
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using MidiPlayerTK;
-using System.Reflection;
+using Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using UnityEditor;
+using UnityEngine;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scripts.Editor.Scripts_For_Demo.UtEditor
 {
     /// <summary>
     /// Inspector for the midi global player component
     /// </summary>
     [CustomEditor(typeof(InfinityMusic))]
-    public class InfinityMusicEditor : Editor
+    public class InfinityMusicEditor : UnityEditor.Editor
     {
         private static InfinityMusic instance;
         private GUIStyle styleBold;

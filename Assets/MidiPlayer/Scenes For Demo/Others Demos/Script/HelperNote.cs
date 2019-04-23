@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scenes_For_Demo.Others_Demos.Script
 {
     public class HelperNoteLabel
     {

@@ -1,13 +1,13 @@
 ﻿//#define MPTK_PRO
-using UnityEngine;
-using UnityEditor;
-using System;
-using System.Collections;
+
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using Assets.MidiPlayer.Scripts.MPTKMidi;
+using Assets.MidiPlayer.Scripts.MPTKSoundFont;
+using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
 
     public class ToolsEditor

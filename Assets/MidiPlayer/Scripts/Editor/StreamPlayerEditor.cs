@@ -1,19 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
+using UnityEngine;
 
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
     /// <summary>
     /// Inspector for the midi global player component
     /// </summary>
     [CustomEditor(typeof(MidiStreamPlayer))]
-    public class StreamPlayerEditor : Editor
+    public class StreamPlayerEditor : UnityEditor.Editor
     {
         private static MidiStreamPlayer instance;
 

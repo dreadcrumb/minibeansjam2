@@ -1,8 +1,7 @@
 using System;
 using System.IO;
-using System.Text;
 
-namespace NAudio.Midi 
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi 
 {
     /// <summary>
     /// Represents a MIDI meta event

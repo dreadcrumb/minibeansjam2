@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
+﻿using Assets.MidiPlayer.Scripts.MPTKMidi;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKGameObject
 {
 
     public class MPTKNote

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-
-namespace MidiPlayerTK
+﻿namespace Assets.MidiPlayer.Scripts.MPTKMidi
 {
     public class MidiNote
     {

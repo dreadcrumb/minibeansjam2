@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
 using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
     // The position of the window is displayed when it is
     // external from Unity.
-
-    using UnityEngine;
-    using UnityEditor;
-
     public class MenuSelectMidi : EditorWindow
     {
         public static Rect Position;

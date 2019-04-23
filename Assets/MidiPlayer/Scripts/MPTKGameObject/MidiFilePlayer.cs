@@ -1,13 +1,12 @@
-﻿
-using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using System.IO;
-using System;
+using Assets.MidiPlayer.Scripts.MPTKMidi;
+using UnityEngine;
 using UnityEngine.Events;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKGameObject
 {
     /// <summary>
     /// Script for the prefab MidiFilePlayer. 

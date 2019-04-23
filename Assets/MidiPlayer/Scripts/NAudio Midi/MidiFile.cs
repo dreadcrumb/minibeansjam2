@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Collections.Generic;
+
 //using NAudio.Utils;
 
-namespace NAudio.Midi 
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi 
 {
     /// <summary>
     /// Class able to read a MIDI file

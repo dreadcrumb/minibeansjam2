@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace NAudio.Midi
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi
 {
     class MergeSort
     {

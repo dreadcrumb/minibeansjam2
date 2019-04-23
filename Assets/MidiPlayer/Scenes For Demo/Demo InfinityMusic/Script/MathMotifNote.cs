@@ -1,12 +1,6 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using MidiPlayerTK;
-using System.IO;
-using System.Xml.Serialization;
-using System;
+﻿using Assets.MidiPlayer.Scripts.MPTKGameObject;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script
 {
     public class MathMotifNote : MPTKNote
     {

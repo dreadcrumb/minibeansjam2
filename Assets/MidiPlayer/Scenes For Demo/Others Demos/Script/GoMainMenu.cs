@@ -1,11 +1,7 @@
-﻿using MidiPlayerTK;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scenes_For_Demo.Others_Demos.Script
 {
     public class GoMainMenu : MonoBehaviour
     {

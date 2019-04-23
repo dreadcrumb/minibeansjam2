@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace InfinityMusic
+﻿namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script
 {
     public class Cadence
     {

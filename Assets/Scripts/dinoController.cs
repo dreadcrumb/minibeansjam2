@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class dinoController : MonoBehaviour
+namespace Assets.Scripts
 {
-	public Animator Anim;
-	int TriggerHash = Animator.StringToHash("buttonclick");
-
-	public void EatTrigger()
+	public class dinoController : MonoBehaviour
 	{
-		Anim.SetTrigger(TriggerHash);
+		public Animator Anim;
+		int TriggerHash = Animator.StringToHash("buttonclick");
+
+		public void EatTrigger()
+		{
+			Anim.SetTrigger(TriggerHash);
+		}
 	}
 }

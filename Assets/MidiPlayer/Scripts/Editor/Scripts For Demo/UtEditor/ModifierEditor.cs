@@ -1,15 +1,9 @@
-﻿using UnityEngine;
+﻿using Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
+using UnityEngine;
 
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using InfinityMusic;
-using MidiPlayerTK;
-
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scripts.Editor.Scripts_For_Demo.UtEditor
 {
     /// <summary>
     /// Useful to change on live some parameters of others components
@@ -17,7 +11,7 @@ namespace InfinityMusic
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor(typeof(UtModifier))]
-    public class ModifierEditor : Editor
+    public class ModifierEditor : UnityEditor.Editor
     {
         private static UtModifier instance;
         private GUIStyle styleBold;

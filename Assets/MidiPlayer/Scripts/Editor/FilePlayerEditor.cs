@@ -1,20 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
+using UnityEngine;
 
-using System;
-
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
     /// <summary>
     /// Inspector for the midi global player component
     /// </summary>
     [CanEditMultipleObjects]
     [CustomEditor(typeof(MidiFilePlayer))]
-    public class FilePlayerEditor : Editor
+    public class FilePlayerEditor : UnityEditor.Editor
     {
         private SerializedProperty CustomEventListNotesEvent;
         private SerializedProperty CustomEventStartPlayMidi;

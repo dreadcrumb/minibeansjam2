@@ -1,8 +1,6 @@
-using System;
 using UnityEngine;
 
-
-namespace UnityStandardAssets.Effects
+namespace Assets.Scripts
 {
     public class Hose : MonoBehaviour
     {

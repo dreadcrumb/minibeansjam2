@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scripts.Editor.Scripts_For_Demo.UtEditor
 {
     class UtToolsEditor
     {

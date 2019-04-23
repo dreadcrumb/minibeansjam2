@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scenes_For_Demo.TestEffects
 {
     public class CustomFilterWhite : MonoBehaviour
     {

@@ -1,14 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+﻿using System;
 using System.Collections.Generic;
-using NAudio.Midi;
-using System;
 using System.IO;
 using System.Linq;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using Assets.MidiPlayer.Scripts.NAudio_Midi;
+using UnityEngine;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.MPTKMidi
 {
     public class TrackMidiEvent
     {

@@ -1,9 +1,7 @@
 using System;
-using System.IO;
-using System.Text;
 using System.Collections.Generic;
 
-namespace NAudio.Midi
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi
 {
     /// <summary>
     /// Utility class for comparing MidiEvent objects

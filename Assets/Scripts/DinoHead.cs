@@ -1,28 +1,31 @@
 ﻿using UnityEngine;
 
-public class DragHead : MonoBehaviour
+namespace Assets.Scripts
 {
-	#region Members
-
-	private GameObject _dinoHead;
-
-	#endregion Members
-
-	#region Properties
-
-	public int Hunger;
-
-	public int Blues;
-
-	#endregion Properties
-
-	// Use this for initialization
-	void Start()
+	public class DragHead : MonoBehaviour
 	{
-		// TODO: Get dinosaur reference
-	}
+		#region Members
 
-	void OnCollision(Collider c)
-	{
+		private GameObject _dinoHead;
+
+		#endregion Members
+
+		#region Properties
+
+		public int Hunger;
+
+		public int Blues;
+
+		#endregion Properties
+
+		// Use this for initialization
+		void Start()
+		{
+			// TODO: Get dinosaur reference
+		}
+
+		void OnCollision(Collider c)
+		{
+		}
 	}
 }

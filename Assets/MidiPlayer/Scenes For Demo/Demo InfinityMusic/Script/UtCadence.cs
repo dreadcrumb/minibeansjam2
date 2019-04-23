@@ -1,12 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System;
-using System.Xml.Serialization;
-using System.IO;
-using MidiPlayerTK;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using UnityEngine;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script
 {
      public class UtCadence : UtComponent
     {

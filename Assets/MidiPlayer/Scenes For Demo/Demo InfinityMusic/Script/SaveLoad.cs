@@ -1,16 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 using System.Text;
-using MidiPlayerTK;
-#if UNITY_EDITOR
+using System.Xml.Serialization;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
 using UnityEditor;
+using UnityEngine;
+#if UNITY_EDITOR
+
 #endif
 //using System.Text;
 
-namespace InfinityMusic
+namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_InfinityMusic.Script
 {
 
     public class SaveLoad

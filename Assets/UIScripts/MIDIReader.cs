@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
-using UnityEditor;
 
-public class MIDIReader : MonoBehaviour
+namespace Assets.UIScripts
 {
+	public class MIDIReader : MonoBehaviour
+	{
 	
+	}
 }

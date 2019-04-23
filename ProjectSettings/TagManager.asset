@@ -18,6 +18,7 @@ TagManager:
   - BarContainer
   - NoteBackground
   - MidiPlayer
+  - NoteSpawn
   layers:
   - Default
   - TransparentFX

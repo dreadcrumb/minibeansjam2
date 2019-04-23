@@ -1,15 +1,8 @@
-﻿using UnityEngine;
-using System.Collections;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using System.Linq;
-using NAudio.Midi;
-using System;
-using System.IO;
-using MidiPlayerTK;
+﻿using System.Collections.Generic;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using Assets.MidiPlayer.Scripts.MPTKSoundFont;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scripts.Editor
 {
     /// <summary>
     /// Scan a midifile to returns patchs used

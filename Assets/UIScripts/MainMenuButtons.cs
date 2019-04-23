@@ -1,34 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenuButtons : MonoBehaviour
+namespace Assets.UIScripts
 {
-    public Transform levelPanel;
+	public class MainMenuButtons : MonoBehaviour
+	{
+		public Transform levelPanel;
 
-	// Use this for initialization
-	void Start () {
+		// Use this for initialization
+		void Start () {
 		
-	}
+		}
 	
-	// Update is called once per frame
-	void Update () {
+		// Update is called once per frame
+		void Update () {
 		
-	}
+		}
 
-    public void PlayGame()
-    {
-        SceneManager.LoadScene(2);
-    }
+		public void PlayGame()
+		{
+			SceneManager.LoadScene(2);
+		}
 
-    public void QuitGame()
-    {
-        Application.Quit();
-    }
+		public void QuitGame()
+		{
+			Application.Quit();
+		}
 
-    public void SelectLevel()
-    {
+		public void SelectLevel()
+		{
         
-    }
+		}
+	}
 }

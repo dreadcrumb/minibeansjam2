@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using Assets.MidiPlayer.Scripts.MPTKGameObject;
+using Assets.MidiPlayer.Scripts.MPTKMidi;
 using UnityEngine;
-using MidiPlayerTK;
-using System;
-using UnityEngine.Events;
 
-namespace MidiPlayerTK
+namespace Assets.MidiPlayer.Scenes_For_Demo.Demo_CatchMusic.Script
 {
     public class MusicView : MonoBehaviour
     {

@@ -1,4 +1,4 @@
-namespace NAudio.Midi 
+namespace Assets.MidiPlayer.Scripts.NAudio_Midi 
 {
     /// <summary>
     /// MIDI command codes
