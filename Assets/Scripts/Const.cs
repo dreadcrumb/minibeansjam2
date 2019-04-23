@@ -14,12 +14,6 @@ namespace Assets.Scripts
 		{
 			public const string Eating = "fressen";
 			public const string Bite = "schnapp";
-			//public const string Eating = "fressen";
-			//public const string Eating = "fressen";
-			//public const string Eating = "fressen";
-			//public const string Eating = "fressen";
-			//public const string Eating = "fressen";
-			//public const string Eating = "fressen";
 		}
 
 		public static class Coroutine
