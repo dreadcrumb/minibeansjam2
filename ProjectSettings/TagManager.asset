@@ -19,6 +19,8 @@ TagManager:
   - NoteBackground
   - MidiPlayer
   - NoteSpawn
+  - LevelPanel
+  - StartButton
   layers:
   - Default
   - TransparentFX

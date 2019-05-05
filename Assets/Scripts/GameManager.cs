@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Assets.UIScripts;
 using UnityEngine;
@@ -66,7 +67,6 @@ namespace Assets.Scripts
 
 		public float MinSpawnTime;
 
-
 		int _eatAnimHash = Animator.StringToHash(Const.Animations.DinoEating);
 		private AudioSource _dinoBluesInst;
 		private AudioSource _fressAtackeInst;
@@ -99,6 +99,7 @@ namespace Assets.Scripts
 
 		private void SetAllSounds()
 		{
+
 			_sounds = gameObject.GetComponentsInChildren<AudioSource>();
 
 			_eatingSounds = _sounds.Where(x => x.clip.name.Contains(Const.AudioSources.Eating)).ToList();
