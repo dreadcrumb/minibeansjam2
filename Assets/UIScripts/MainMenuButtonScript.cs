@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Assets.Scripts;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,26 +16,9 @@ namespace Assets.UIScripts
 		private readonly int TriggerHash = Animator.StringToHash(Const.UI.MenuReset);
 		private int numLevels = 0;
 
-		public void Start()
-		{
-			//	var levelButtonPrefab = Resources.Load(Const.File.LevelButtonPrefab);
-		}
-
-		public void PlayGame()
-		{
-			LevelSave.Level = 0;
-			SceneManager.LoadScene(1);
-		}
-
 		public void QuitGame()
 		{
 			Application.Quit();
-		}
-
-		public void PlayLevel(int scene)
-		{
-			LevelSave.Level = scene;
-			SceneManager.LoadScene(1);
 		}
 
 		public void TriggerMenuBack()
@@ -65,16 +49,26 @@ namespace Assets.UIScripts
 
 					var newLevelButton = newLevelButtonGameObject.GetComponent<Button>() as Button;
 					var buttonText = newLevelButton.GetComponentInChildren<Text>();
-					buttonText.text = Const.Tags.Level + levelNumber;
+					buttonText.text = midiFiles[levelNumber - 1].Name;
 
 					newLevelButton.image.rectTransform.localScale = new Vector3(1, 1, 1);
 					newLevelButton.image.rectTransform.Translate(new Vector3(0,
 						-newLevelButton.image.rectTransform.sizeDelta.y / 4 * (levelNumber - 1))); //All hail the magic 4
+
+					var number = levelNumber;
+					newLevelButton.onClick.AddListener(() => LoadLevel(midiFiles[number - 1].Name));
+
 					levelNumber++;
 				}
 
 				numLevels = midiFiles.Count;
 			}
+		}
+
+		public void LoadLevel(string levelName)
+		{
+			LevelSave.Level = levelName;
+			SceneManager.LoadScene(Const.Scenes.PlayScene);
 		}
 	}
 }

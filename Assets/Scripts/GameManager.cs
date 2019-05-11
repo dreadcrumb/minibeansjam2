@@ -105,36 +105,38 @@ namespace Assets.Scripts
 			_eatingSounds = _sounds.Where(x => x.clip.name.Contains(Const.AudioSources.Eating)).ToList();
 			_schnappSounds = _sounds.Where(x => x.clip.name.Contains(Const.AudioSources.Bite)).ToList();
 
-			_dinoBluesNoInst = _sounds.Where(x => x.clip.name.Contains("DinoBlues_ohne")).ToList()[0];
-			_dinoFairNoInst = _sounds.Where(x => x.clip.name.Contains("Dinofair_ohne")).ToList()[0];
-			_fressAtackeNoInst = _sounds.Where(x => x.clip.name.Contains("Fressattacke_ohne")).ToList()[0];
+			//_dinoBluesNoInst = _sounds.Where(x => x.clip.name.Contains("DinoBlues_ohne")).ToList()[0];
+			//_dinoFairNoInst = _sounds.Where(x => x.clip.name.Contains("Dinofair_ohne")).ToList()[0];
+			//_fressAtackeNoInst = _sounds.Where(x => x.clip.name.Contains("Fressattacke_ohne")).ToList()[0];
 
-			_dinoBluesInst = _sounds.Where(x => x.clip.name.Contains("DinoBlues_nur")).ToList()[0];
-			_dinoFairInst = _sounds.Where(x => x.clip.name.Contains("Dinofair_nur")).ToList()[0];
-			_fressAtackeInst = _sounds.Where(x => x.clip.name.Contains("Fressattacke_nur")).ToList()[0];
+			//_dinoBluesInst = _sounds.Where(x => x.clip.name.Contains("DinoBlues_nur")).ToList()[0];
+			//_dinoFairInst = _sounds.Where(x => x.clip.name.Contains("Dinofair_nur")).ToList()[0];
+			//_fressAtackeInst = _sounds.Where(x => x.clip.name.Contains("Fressattacke_nur")).ToList()[0];
 
 
 			var script = GetComponentInChildren<GameUiScript>();
-			switch (LevelSave.Level)
-			{
-				case 0:
-					script.TriggerUiScript(LevelSave.Level);
-					_curTrack = _dinoBluesInst;
-					//_dinoBluesNoInst.Play();
-					break;
-				case 1:
-					script.TriggerUiScript(LevelSave.Level);
-					_curTrack = _dinoFairInst;
-					//_dinoFairNoInst.Play();
-					break;
-				default:
-					script.TriggerUiScript(2);
-					_curTrack = _fressAtackeInst;
-					//_fressAtackeNoInst.Play();
-					break;
-			}
+			script.TriggerUiScript(LevelSave.Level);
 
-			_curTrack.volume = 0.5f;
+			//switch (LevelSave.Level)
+			//{
+			//	case 0:
+			//		script.TriggerUiScript(LevelSave.Level);
+			//		_curTrack = _dinoBluesInst;
+			//		//_dinoBluesNoInst.Play();
+			//		break;
+			//	case 1:
+			//		script.TriggerUiScript(LevelSave.Level);
+			//		_curTrack = _dinoFairInst;
+			//		//_dinoFairNoInst.Play();
+			//		break;
+			//	default:
+			//		script.TriggerUiScript(2);
+			//		_curTrack = _fressAtackeInst;
+			//		//_fressAtackeNoInst.Play();
+			//		break;
+			//}
+
+			//_curTrack.volume = 0.5f;
 			//_curTrack.Play();
 		}
 
@@ -158,7 +160,7 @@ namespace Assets.Scripts
 				_meatBags.Add(meatBag);
 			}
 
-			#endregion
+			#endregion Meatbag creation
 
 
 			#region InputHandling
@@ -177,7 +179,6 @@ namespace Assets.Scripts
 						{
 							_animCrowd = meatBag.GetComponentInChildren<Animator>();
 							_animCrowd.Play(Animator.StringToHash(Const.Animations.MeatbagEaten));
-
 						}
 
 						int rand = Random.Range(0, _schnappSounds.Count());
@@ -213,6 +214,11 @@ namespace Assets.Scripts
 				}
 			}
 			#endregion InputHandling
+		}
+
+		void OnCollision(Collider col)
+		{
+			var x = 5;
 		}
 
 		//Method to Return Clicked Object

@@ -3,7 +3,7 @@ using UnityEngine.AI;
 
 namespace Assets.Scripts
 {
-	public class MeatbahBehavior : MonoBehaviour
+	public class MeatbagBehavior : MonoBehaviour
 	{
 
 		#region Members
@@ -25,7 +25,7 @@ namespace Assets.Scripts
 		// Use this for initialization
 		void Start()
 		{
-			_walkSpace = GameObject.FindGameObjectWithTag("Spawn");
+			_walkSpace = GameObject.FindGameObjectWithTag(Const.Tags.Spawn);
 			_navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
 			_navMeshAgent.autoRepath = true;
 			_navMeshAgent.destination = _walkSpace.transform.position +
@@ -48,7 +48,7 @@ namespace Assets.Scripts
 				else
 				{
 					// Small chance that meatbag leaves
-					_navMeshAgent.destination = GameObject.FindGameObjectWithTag("Killbox").transform.position;
+					_navMeshAgent.destination = GameObject.FindGameObjectWithTag(Const.Tags.Killbox).transform.position;
 				}
 
 			}
@@ -69,21 +69,21 @@ namespace Assets.Scripts
 
 		void OnTriggerEnter(Collider other)
 		{
-			if (_hastLeftSpawn && other.CompareTag("Killbox"))
+			if (_hastLeftSpawn && other.CompareTag(Const.Tags.Killbox))
 			{
-				GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().RemoveMeatbag(gameObject);
+				GameObject.FindGameObjectWithTag(Const.Tags.GameController).GetComponent<GameManager>().RemoveMeatbag(gameObject);
 				Destroy(gameObject);
 			}
-			else if (other.CompareTag("Head"))
+			else if (other.CompareTag(Const.Tags.Head))
 			{
-				GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>().Eat(gameObject);
+				GameObject.FindGameObjectWithTag(Const.Tags.GameController).GetComponent<GameManager>().Eat(gameObject);
 				Destroy(gameObject);
 			}
 		}
 
 		void OnTriggerExit(Collider other)
 		{
-			if (other.CompareTag("Killbox"))
+			if (other.CompareTag(Const.Tags.Killbox))
 			{
 				_hastLeftSpawn = true;
 			}

@@ -30,10 +30,16 @@ namespace Assets.Scripts
 			public const string Instrument = "Instrument";
 		}
 
+		public static class Scenes
+		{
+			public static int PlayScene = 1;
+		}
+
 		public static class Tags
 		{
 			public const string GameController = "GameController";
 			public const string Head = "Head";
+			public const string Killbox = "Killbox";
 			public const string Level = "Level";
 			public const string LevelPanel = "LevelPanel";
 			public const string MidiPlayer = "MidiPlayer";

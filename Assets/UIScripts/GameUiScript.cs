@@ -31,6 +31,7 @@ namespace Assets.UIScripts
 		public GameObject notePrefab4;
 		GameObject noteTrailPrefab;
 		public List<GameObject> noteList;
+		private int noteCount;
 
 		public int SetEnergyBarFillPercentage;
 		public int SetBluesBarFillPercentage;
@@ -201,12 +202,14 @@ namespace Assets.UIScripts
 				notePrefab3,
 				notePrefab4,
 			};
+			noteCount = noteList.Count;
 		}
 
-		public void TriggerUiScript(int levelInteger)
+		public void TriggerUiScript(string songName)
 		{
 			var MIDIPlayerGameObject = GameObject.FindGameObjectWithTag(Const.Tags.MidiPlayer);
 			midiPlayer = MIDIPlayerGameObject.GetComponent<MidiFilePlayer>();
+			midiPlayer.MPTK_MidiName = songName;
 
 			midiPlayer.OnEventNotesMidi = new MidiFilePlayer.ListNotesEvent();
 			midiPlayer.OnEventNotesMidi.AddListener(NotesToPlay);
@@ -215,6 +218,7 @@ namespace Assets.UIScripts
 			//eventQueue = new Queue<TrackMidiEvent>(notes);
 
 
+			//midiPlayer.MPTK_Play();
 			midiPlayer.MPTK_Play();
 			midiPlayer.MPTK_LogEvents = true;
 
@@ -354,7 +358,7 @@ namespace Assets.UIScripts
 		private GameObject GetRandomNoteSprite()
 		{
 
-			int rand = Random.Range(0, noteList.Count);
+			int rand = Random.Range(0, noteCount);
 			return noteList[rand];
 		}
 

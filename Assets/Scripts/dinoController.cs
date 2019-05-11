@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts
 {
-	public class dinoController : MonoBehaviour
+	public class DinoController : MonoBehaviour
 	{
 		public Animator Anim;
 		int TriggerHash = Animator.StringToHash("buttonclick");

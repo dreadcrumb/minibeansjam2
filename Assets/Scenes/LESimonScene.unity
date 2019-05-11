@@ -2635,7 +2635,8 @@ MonoBehaviour:
   Running: 1
   missedNotePenalty: 1000
   MeatbagSpawnProbability: 0.8
-  MeatbagPrefab: {fileID: 0}
+  MeatbagPrefab: {fileID: 1961015615366542, guid: bbe3f21495552a24bb1386418b7de7a7,
+    type: 2}
   MinSpawnTime: 5
 --- !u!4 &440939028
 Transform:

@@ -344,8 +344,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795d6521b42b66c4ab59f36764348829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
-  LevelButtonPrefab: {fileID: 0}
+  anim: {fileID: 2001877445}
+  LevelButtonPrefab: {fileID: 1746944438956606, guid: 28a1765c8fa7eaa439f5659050c000db,
+    type: 2}
 --- !u!4 &189714929
 Transform:
   m_ObjectHideFlags: 0
