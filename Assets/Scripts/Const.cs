@@ -27,7 +27,13 @@ namespace Assets.Scripts
 		public static class Coroutine
 		{
 			public const string ApplyHunger = "ApplyHunger";
+			public const string FadeNote = "FadeNote";
 			public const string Instrument = "Instrument";
+		}
+
+		public static class Duration
+		{
+			public const int NoteFade = 1;
 		}
 
 		public static class Scenes

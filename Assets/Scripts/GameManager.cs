@@ -187,7 +187,7 @@ namespace Assets.Scripts
 					}
 					else if (touchedObj.CompareTag(Const.Tags.Note))
 					{
-						StartCoroutine(Const.Coroutine.Instrument);
+						StartCoroutine(Const.Coroutine.FadeNote);
 						float points;
 						float x = System.Math.Abs(touchedObj.transform.position.x);
 						if (_noteHitArea.GetComponent<RectTransform>().sizeDelta.x / 2 < x)
@@ -315,6 +315,16 @@ namespace Assets.Scripts
 		public void SetGameActive(bool b)
 		{
 			Running = false;
+		}
+
+		public void FadeNote(GameObject note)
+		{
+			//for (float i = Const.Duration.NoteFade; i >= 0; i -= Time.deltaTime)
+			//{
+			//note.GetComponent<Imgae>().CrossFadeAlpha
+			//}
+			note.GetComponent<Image>().CrossFadeAlpha(0, 0.5f, true);
+			note.GetComponent<Image>().CrossFadeColor(Color.green, 0.5f, true, false, true);
 		}
 	}
 }
