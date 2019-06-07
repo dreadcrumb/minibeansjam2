@@ -40,10 +40,5 @@ namespace Assets.UIScripts
 		{
 			registeredForDelete = true;
 		}
-
-		private void OnTriggerEnter(Collider other)
-		{
-			var x = 5;
-		}
 	}
 }

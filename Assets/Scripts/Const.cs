@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Assets.Scripts
+﻿namespace Assets.Scripts
 {
 	public static class Const
 	{
