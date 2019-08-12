@@ -98,48 +98,15 @@ namespace Assets.Scripts
 
 		private void SetAllSounds()
 		{
-
 			_sounds = gameObject.GetComponentsInChildren<AudioSource>();
 
 			_eatingSounds = _sounds.Where(x => x.clip.name.Contains(Const.AudioSources.Eating)).ToList();
 			_schnappSounds = _sounds.Where(x => x.clip.name.Contains(Const.AudioSources.Bite)).ToList();
 
-			//_dinoBluesNoInst = _sounds.Where(x => x.clip.name.Contains("DinoBlues_ohne")).ToList()[0];
-			//_dinoFairNoInst = _sounds.Where(x => x.clip.name.Contains("Dinofair_ohne")).ToList()[0];
-			//_fressAtackeNoInst = _sounds.Where(x => x.clip.name.Contains("Fressattacke_ohne")).ToList()[0];
-
-			//_dinoBluesInst = _sounds.Where(x => x.clip.name.Contains("DinoBlues_nur")).ToList()[0];
-			//_dinoFairInst = _sounds.Where(x => x.clip.name.Contains("Dinofair_nur")).ToList()[0];
-			//_fressAtackeInst = _sounds.Where(x => x.clip.name.Contains("Fressattacke_nur")).ToList()[0];
-
-
 			var script = GetComponentInChildren<GameUiScript>();
 			script.TriggerUiScript(LevelSave.Level);
-
-			//switch (LevelSave.Level)
-			//{
-			//	case 0:
-			//		script.TriggerUiScript(LevelSave.Level);
-			//		_curTrack = _dinoBluesInst;
-			//		//_dinoBluesNoInst.Play();
-			//		break;
-			//	case 1:
-			//		script.TriggerUiScript(LevelSave.Level);
-			//		_curTrack = _dinoFairInst;
-			//		//_dinoFairNoInst.Play();
-			//		break;
-			//	default:
-			//		script.TriggerUiScript(2);
-			//		_curTrack = _fressAtackeInst;
-			//		//_fressAtackeNoInst.Play();
-			//		break;
-			//}
-
-			//_curTrack.volume = 0.5f;
-			//_curTrack.Play();
 		}
 
-		// Update is called once per frame
 		void Update()
 		{
 			if (!Running || Saturation <= 0)
@@ -318,10 +285,6 @@ namespace Assets.Scripts
 
 		public void FadeNote(GameObject note)
 		{
-			//for (float i = Const.Duration.NoteFade; i >= 0; i -= Time.deltaTime)
-			//{
-			//note.GetComponent<Imgae>().CrossFadeAlpha
-			//}
 			note.GetComponent<Image>().CrossFadeAlpha(0, 0.5f, true);
 			note.GetComponent<Image>().CrossFadeColor(Color.green, 0.5f, true, false, true);
 		}

@@ -29,8 +29,8 @@ namespace Assets.Scripts
 			_navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
 			_navMeshAgent.autoRepath = true;
 			_navMeshAgent.destination = _walkSpace.transform.position +
-			                            _walkSpace.transform.forward * Random.Range(-1f, 1f) +
-			                            _walkSpace.transform.right * Random.Range(-1f, 1f);
+																	_walkSpace.transform.forward * Random.Range(-1f, 1f) +
+																	_walkSpace.transform.right * Random.Range(-1f, 1f);
 		}
 
 		// Update is called once per frame
@@ -42,8 +42,8 @@ namespace Assets.Scripts
 				if (Random.value < 0.97f)
 				{
 					_navMeshAgent.destination = _walkSpace.transform.position +
-					                            _walkSpace.transform.forward * Random.Range(-1f, 1f) +
-					                            _walkSpace.transform.right * Random.Range(-1f, 1f); //RandomNavSphere(transform.position, Random.Range(0.5f, 1.5f), -1);
+																			_walkSpace.transform.forward * Random.Range(-1f, 1f) +
+																			_walkSpace.transform.right * Random.Range(-1f, 1f); //RandomNavSphere(transform.position, Random.Range(0.5f, 1.5f), -1);
 				}
 				else
 				{

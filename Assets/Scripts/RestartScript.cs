@@ -3,16 +3,19 @@ using UnityEngine.SceneManagement;
 
 namespace Assets
 {
-	public class RestartScript : MonoBehaviour {
+	public class RestartScript : MonoBehaviour
+	{
 
 		// Use this for initialization
-		void Start () {
-		
+		void Start()
+		{
+
 		}
-	
+
 		// Update is called once per frame
-		void Update () {
-		
+		void Update()
+		{
+
 		}
 
 		public void Restart()

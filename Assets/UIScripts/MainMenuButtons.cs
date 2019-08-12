@@ -7,16 +7,6 @@ namespace Assets.UIScripts
 	{
 		public Transform levelPanel;
 
-		// Use this for initialization
-		void Start () {
-		
-		}
-	
-		// Update is called once per frame
-		void Update () {
-		
-		}
-
 		public void PlayGame()
 		{
 			SceneManager.LoadScene(2);
@@ -29,7 +19,6 @@ namespace Assets.UIScripts
 
 		public void SelectLevel()
 		{
-        
 		}
 	}
 }
